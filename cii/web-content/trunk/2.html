@@ -30,6 +30,9 @@ else
 
 <p>The errors below also appear in the first printing.</p>
 
+<p><strong>Page 48, line 5:</strong> <code>char *reason;</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+<code>const char *reason;</code></p>
+
 <p><strong>Page 49, line -11..-10:</strong> Change &quot;next EXCEPT, ELSE, FINALLY or
 END_TRY&quot; to &quot;corresponding END_TRY&quot;.</p>
 
@@ -49,15 +52,28 @@ memcpy(copy-&gt;array, array-&gt;array, copy-&gt;length*array-&gt;size);</pre>
 
 <p><strong>Page 241, line -8:</strong> Incidently <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> Incidentally</p>
 
+<p><strong>Page 249, line 1:</strong> <code>char *suffix</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+<code>const char *suffix</code></p>
+
 <p><strong>Page 274, line 12:</strong> 127 <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
 128</p>
 
 <p><strong>Page 277, line -2:</strong> <code>127</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
 <code>128</code></p>
 
+<p><strong>Page 285, lines 5 and -7:</strong> Change to</p>
+
+<blockquote>
+  <pre>map[(unsigned char)from-&gt;str[k]] = to-&gt;str[k];
+*p++ = map[(unsigned char)s.str[i]];</pre>
+</blockquote>
+
 <p><strong>Page 352, line -11:</strong> <code>x-&gt;sign == 1</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> <code>x-&gt;sign == -1</code></p>
 
 <p><strong>Page 358, line -2:</strong> initalized <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> initialized</p>
+
+<p><strong>Page 370, line -11:</strong>  <code>char *fmt;</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+ <code>const char *fmt;</code></p>
 
 <p><a HREF="1.html">First printing corrections.</a></p>
 
@@ -65,7 +81,7 @@ memcpy(copy-&gt;array, array-&gt;array, copy-&gt;length*array-&gt;size);</pre>
 
 <address>
   <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
-  $Revision: 1.13 $ $Date: 1999/05/22 00:19:42 $ 
+  $Revision: 1.14 $ $Date: 1999/10/29 21:05:59 $ 
 </address>
 </body>
 </html>
