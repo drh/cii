@@ -1,130 +1,110 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
 <html>
 
-<head>
-<link HREF="http://www.research.microsoft.com/~drh/" REV="made" TITLE="David R. Hanson">
-<title>Contents for C Interfaces and Implementations</title>
-</head>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<link title="David R. Hanson" href="http://www.research.microsoft.com/~drh/" rev="made">
+		<link href="style.css" rel="stylesheet" type="text/css" media="all">
+		<title>Contents for C Interfaces and Implementations</title>
+	</head>
 
-<body>
+	<body>
+		<h1>Contents</h1>
+		<p>Click on the parenthesized links to browse the named source files. (These files have no comments, because the book explains them.)</p>
+		<ol>
+			<li><b>Introduction</b><br>
+				Literate Programs (<a href="http://www.cs.princeton.edu/software/lcc/cii/http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/double.c">double.c</a>)<br>
+				Programming Style<br>
+				Efficiency
+			<li><b>Interfaces and Implementations</b><br>
+				Interfaces (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/arith.h">arith.h</a>)<br>
+				Implementations (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/arith.c">arith.c</a>)
+			<li><b>Atoms</b> <em><a href="doc/atom.pdf">Download/view this chapter</a> </em><font size="-1">(PDF, 52K)</font><br>
+				
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/atom.h">atom.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/atom.c">atom.c</a>)
+			<li><b>Exceptions and Assertions</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/except.h">except.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/except.c">except.c</a>)<br>
+				Assertions (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/assert.h">assert.h</a>)
+			<li><b>Memory Management</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/mem.h">mem.h</a>)<br>
+				Production Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/mem.c">mem.c</a>)<br>
+				Checking Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/memchk.c">memchk.c</a>)
+			<li><b>More Memory Management</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/arena.h">arena.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/arena.c">arena.c</a>)
+			<li><b>Lists</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/list.h">list.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/list.c">list.c</a>)
+			<li><b>Tables</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/table.h">table.h</a>)<br>
+				Example: Word Frequencies (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/wf.c">wf.c</a>, <a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/getword.h">getword.h</a>, <a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/getword.c">getword.c</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/table.c">table.c</a>)
+			<li><b>Sets</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/set.h">set.h</a>)<br>
+				Example: Cross-Reference Listings (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/xref.c">xref.c</a>, <a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/getword.h">getword.h</a>, <a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/getword.c">getword.c</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/set.c">set.c</a>)<br>
+				<small>Member Operations &middot; Set Operations</small>
+			<li><b>Dynamic Arrays</b><br>
+				Interfaces (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/array.h">array.h</a>, <a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/arrayrep.h">arrayrep.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/array.c">array.c</a>)
+			<li><b>Sequences</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/seq.h">seq.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/seq.c">seq.c</a>)
+			<li><b>Rings</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/ring.h">ring.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/ring.c">ring.c</a>)
+			<li><b>Bit Vectors</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/bit.h">bit.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/bit.c">bit.c</a>)<br>
+				<small>Member Operations &middot; Comparisons &middot; Set Operations</small>
+			<li><b>Formatting</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/fmt.h">fmt.h</a>)<br>
+				<small>Formatting Functions &middot; Conversion Functions</small><br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/fmt.c">fmt.c</a>)<br>
+				<small>Formatting Functions &middot; Conversion Functions</small>
+			<li><b>Low-Level Strings</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/str.h">str.h</a>)<br>
+				Example: Printing Identifiers (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/ids/ids.c">ids.c</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/str.c">str.c</a>)<br>
+				<small>String Operations &middot; Searching Strings &middot; Conversion Functions</small>
+			<li><b>High-Level Strings</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/text.h">text.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/text.c">text.c</a>)<br>
+				<small>String Operations &middot; Memory Management &middot; Searching Strings &middot; Conversion Functions</small>
+			<li><b>Extended-Precision Arithmetic</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/xp.h">xp.h</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/xp.c">xp.c</a>)<br>
+				<small>Addition and Subtraction &middot; Multiplication &middot; Division and Comparison &middot; Shifting &middot; String Conversions</small>
+			<li><b>Arbitrary-Precision Arithmetic</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/ap.h">ap.h</a>)<br>
+				Example: A Calculator (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/calc.c">calc.c</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/ap.c">ap.c</a>)<br>
+				<small>Negation and Multiplication &middot; Addition and Subtraction &middot; Division &middot; Exponentiation &middot; Comparisons &middot; Convenience Functions &middot; Shifting &middot; String and Integer Conversions</small>
+			<li><b>Multiple-Precision Arithmetic</b><br>
+				Interface (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/mp.h">mp.h</a>)<br>
+				Example: Another Calculator (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/mpcalc.c">mpcalc.c</a>)<br>
+				Implementation (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/mp.c">mp.c</a>)<br>
+				<small>Conversions &middot; Unsigned Arithmetic &middot; Signed Arithmetic &middot; Convenience Functions &middot; Comparisons and Logical Operations &middot; String Conversions</small>
+			<li><b>Threads</b><br>
+				Interfaces<br>
+				<small>Threads (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/thread.h">thread.h</a>) &middot; General Semaphores (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/sem.h">sem.h</a>) &middot; Synchronous Communication Channels (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/include/chan.h">chan.h</a>)</small><br>
+				Examples<br>
+				<small>Sorting Concurrently (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/sort.c">sort.c</a>) &middot; Critical Regions (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/spin.c">spin.c</a>) &middot; Generating Primes (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/examples/sieve.c">sieve.c</a>)</small><br>
+				Implementations<br>
+				<small>Synchronous Communication Channels (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/chan.c">chan.c</a>) &middot; Threads (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/thread.c">thread.c</a>) &middot; Thread Creation and Context-Switching (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/thread.c">thread.c</a>, <a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/swtch.s">swtch.s</a>) &middot; Preemption &middot; General Semaphores (<a href="http://www.cs.princeton.edu/software/lcc/cii/pkg/src/thread.c">thread.c</a>) &middot; Context-Switching on the MIPS and ALPHA</small>
+		</ol>
+		<dl>
+			<dd><b>Interface Summary</b><br>
+				<b>Bibliography</b><br>
+				<b>Index</b>
+		</dl>
+		<p><a href="./">Back to the CII home page</a>.</p>
+		<hr>
+		<address><a href="http://www.research.microsoft.com/~drh/">David Hanson</a><br>
+			$Revision: 1.18 $ $Date: 2004/07/31 18:05:19 $</address>
+	</body>
 
-<h1>Contents</h1>
-
-<p>Click on the parenthesized links to browse the named source files. (These files have no
-comments, because the book explains them.) 
-
-<ol>
-  <li><b>Introduction</b><br>
-    Literate Programs (<a HREF="pkg/examples/double.c">double.c</a>)<br>
-    Programming Style<br>
-    Efficiency</li>
-  <li><b>Interfaces and Implementations</b><br>
-    Interfaces (<a HREF="pkg/include/arith.h">arith.h</a>)<br>
-    Implementations (<a HREF="pkg/src/arith.c">arith.c</a>)</li>
-  <li><b>Atoms</b> <em><a HREF="doc/atom.pdf">Download/view this chapter</a> (an Adobe Acrobat
-    PDF file, 52K)</em><br>
-    Interface (<a HREF="pkg/include/atom.h">atom.h</a>)<br>
-    Implementation (<a HREF="pkg/src/atom.c">atom.c</a>)</li>
-  <li><b>Exceptions and Assertions</b><br>
-    Interface (<a HREF="pkg/include/except.h">except.h</a>)<br>
-    Implementation (<a HREF="pkg/src/except.c">except.c</a>)<br>
-    Assertions (<a HREF="pkg/include/assert.h">assert.h</a>)</li>
-  <li><b>Memory Management</b><br>
-    Interface (<a HREF="pkg/include/mem.h">mem.h</a>)<br>
-    Production Implementation (<a HREF="pkg/src/mem.c">mem.c</a>)<br>
-    Checking Implementation (<a HREF="pkg/src/memchk.c">memchk.c</a>)</li>
-  <li><b>More Memory Management</b><br>
-    Interface (<a HREF="pkg/include/arena.h">arena.h</a>)<br>
-    Implementation (<a HREF="pkg/src/arena.c">arena.c</a>)</li>
-  <li><b>Lists</b><br>
-    Interface (<a HREF="pkg/include/list.h">list.h</a>)<br>
-    Implementation (<a HREF="pkg/src/list.c">list.c</a>)</li>
-  <li><b>Tables</b><br>
-    Interface (<a HREF="pkg/include/table.h">table.h</a>)<br>
-    Example: Word Frequencies (<a HREF="pkg/examples/wf.c">wf.c</a>, <a
-    HREF="pkg/examples/getword.h">getword.h</a>, <a HREF="pkg/examples/getword.c">getword.c</a>)<br>
-    Implementation (<a HREF="pkg/src/table.c">table.c</a>)</li>
-  <li><b>Sets</b><br>
-    Interface (<a HREF="pkg/include/set.h">set.h</a>)<br>
-    Example: Cross-Reference Listings (<a HREF="pkg/examples/xref.c">xref.c</a>, <a
-    HREF="pkg/examples/getword.h">getword.h</a>, <a HREF="pkg/examples/getword.c">getword.c</a>)<br>
-    Implementation (<a HREF="pkg/src/set.c">set.c</a>)<br>
-    <small>Member Operations · Set Operations</small></li>
-  <li><b>Dynamic Arrays</b><br>
-    Interfaces (<a HREF="pkg/include/array.h">array.h</a>, <a HREF="pkg/include/arrayrep.h">arrayrep.h</a>)<br>
-    Implementation (<a HREF="pkg/src/array.c">array.c</a>)</li>
-  <li><b>Sequences</b><br>
-    Interface (<a HREF="pkg/include/seq.h">seq.h</a>)<br>
-    Implementation (<a HREF="pkg/src/seq.c">seq.c</a>)</li>
-  <li><b>Rings</b><br>
-    Interface (<a HREF="pkg/include/ring.h">ring.h</a>)<br>
-    Implementation (<a HREF="pkg/src/ring.c">ring.c</a>)</li>
-  <li><b>Bit Vectors</b><br>
-    Interface (<a HREF="pkg/include/bit.h">bit.h</a>)<br>
-    Implementation (<a HREF="pkg/src/bit.c">bit.c</a>)<br>
-    <small>Member Operations · Comparisons · Set Operations</small></li>
-  <li><b>Formatting</b><br>
-    Interface (<a HREF="pkg/include/fmt.h">fmt.h</a>)<br>
-    <small>Formatting Functions · Conversion Functions</small><br>
-    Implementation (<a HREF="pkg/src/fmt.c">fmt.c</a>)<br>
-    <small>Formatting Functions · Conversion Functions</small></li>
-  <li><b>Low-Level Strings</b><br>
-    Interface (<a HREF="pkg/include/str.h">str.h</a>)<br>
-    Example: Printing Identifiers (<a HREF="pkg/ids/ids.c">ids.c</a>)<br>
-    Implementation (<a HREF="pkg/src/str.c">str.c</a>)<br>
-    <small>String Operations · Searching Strings · Conversion Functions</small></li>
-  <li><b>High-Level Strings</b><br>
-    Interface (<a HREF="pkg/include/text.h">text.h</a>)<br>
-    Implementation (<a HREF="pkg/src/text.c">text.c</a>)<br>
-    <small>String Operations · Memory Management · Searching Strings · Conversion Functions</small></li>
-  <li><b>Extended-Precision Arithmetic</b><br>
-    Interface (<a HREF="pkg/include/xp.h">xp.h</a>)<br>
-    Implementation (<a HREF="pkg/src/xp.c">xp.c</a>)<br>
-    <small>Addition and Subtraction · Multiplication · Division and Comparison · Shifting
-    · String Conversions</small></li>
-  <li><b>Arbitrary-Precision Arithmetic</b><br>
-    Interface (<a HREF="pkg/include/ap.h">ap.h</a>)<br>
-    Example: A Calculator (<a HREF="pkg/examples/calc.c">calc.c</a>)<br>
-    Implementation (<a HREF="pkg/src/ap.c">ap.c</a>)<br>
-    <small>Negation and Multiplication · Addition and Subtraction · Division ·
-    Exponentiation · Comparisons · Convenience Functions · Shifting · String and Integer
-    Conversions</small></li>
-  <li><b>Multiple-Precision Arithmetic</b><br>
-    Interface (<a HREF="pkg/include/mp.h">mp.h</a>)<br>
-    Example: Another Calculator (<a HREF="pkg/examples/mpcalc.c">mpcalc.c</a>)<br>
-    Implementation (<a HREF="pkg/src/mp.c">mp.c</a>)<br>
-    <small>Conversions · Unsigned Arithmetic · Signed Arithmetic · Convenience Functions ·
-    Comparisons and Logical Operations · String Conversions</small></li>
-  <li><b>Threads</b><br>
-    Interfaces<br>
-    <small>Threads (<a HREF="pkg/include/thread.h">thread.h</a>) · General Semaphores (<a
-    HREF="pkg/include/sem.h">sem.h</a>) · Synchronous Communication Channels (<a
-    HREF="pkg/include/chan.h">chan.h</a>)</small><br>
-    Examples<br>
-    <small>Sorting Concurrently (<a HREF="pkg/examples/sort.c">sort.c</a>) · Critical Regions
-    (<a HREF="pkg/examples/spin.c">spin.c</a>) · Generating Primes (<a
-    HREF="pkg/examples/sieve.c">sieve.c</a>)</small><br>
-    Implementations<br>
-    <small>Synchronous Communication Channels (<a HREF="pkg/src/chan.c">chan.c</a>) · Threads
-    (<a HREF="pkg/src/thread.c">thread.c</a>) · Thread Creation and Context-Switching (<a
-    HREF="pkg/src/thread.c">thread.c</a>, <a HREF="pkg/src/swtch.s">swtch.s</a>) · Preemption
-    · General Semaphores (<a HREF="pkg/src/thread.c">thread.c</a>) · Context-Switching on
-    the MIPS and ALPHA</small></li>
-</ol>
-
-<dl>
-  <dd><b>Interface Summary</b><br>
-    <b>Bibliography</b><br>
-    <b>Index</b></dd>
-</dl>
-
-<p><a HREF="./">Back to the CII home page</a>.</p>
-
-<hr>
-
-<address>
-  <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a><br>
-  $Revision: 1.17 $ $Date: 2002/10/07 20:45:55 $ 
-</address>
-</body>
 </html>
