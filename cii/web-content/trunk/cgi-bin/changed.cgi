@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: changed.cgi,v 1.2 1999/02/10 21:48:23 drh Exp $
+# $Id: changed.cgi,v 1.3 1999/02/10 22:41:43 drh Exp $
 
 set -f
 echo Content-type: text/html
@@ -13,7 +13,7 @@ END
 cd ../pkg
 ver=`pwd`; ver=`basename $ver`
 suffix=`echo $ver|tr -d .`
-files=`find . -type f -newer /ftp/pub/packages/cii/cii$suffix.tar.gz -print | sed -e /-/d -e '/\.mk/d' -e 's/\.\///g'`
+files=`find . -type f -newer /ftp/pub/packages/cii/cii$suffix.tar.gz -print | sed -e '/\.mk/d' -e 's/\.\///g'`
 if [ -n "$files" ]; then
 	cat <<End
 <P>The files below have been updated since the $ver release.
