@@ -37,11 +37,23 @@ END_TRY&quot; to &quot;corresponding END_TRY&quot;.</p>
 
 <blockquote>
   <pre>#define NALLOC ((4096 + sizeof (union align) - 1)/ \
-	(sizeof (union align)))*(sizeof (union align))
-</pre>
+	(sizeof (union align)))*(sizeof (union align))</pre>
+</blockquote>
+
+<p><strong>Page 169, lines 9 and 12:</strong> Change to</p>
+
+<blockquote>
+  <pre>memcpy(copy-&gt;array, array-&gt;array, array-&gt;length*array-&gt;size);
+memcpy(copy-&gt;array, array-&gt;array, copy-&gt;length*array-&gt;size);</pre>
 </blockquote>
 
 <p><strong>Page 241, line -8:</strong> Incidently <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> Incidentally</p>
+
+<p><strong>Page 274, line 12:</strong> 127 <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+128</p>
+
+<p><strong>Page 277, line -2:</strong> <code>127</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+<code>128</code></p>
 
 <p><strong>Page 352, line -11:</strong> <code>x-&gt;sign == 1</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> <code>x-&gt;sign == -1</code></p>
 
@@ -53,7 +65,7 @@ END_TRY&quot; to &quot;corresponding END_TRY&quot;.</p>
 
 <address>
   <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
-  $Revision: 1.12 $ $Date: 1999/01/04 22:32:55 $ 
+  $Revision: 1.13 $ $Date: 1999/05/22 00:19:42 $ 
 </address>
 </body>
 </html>
