@@ -72,7 +72,7 @@
 			</item>
 			<item>
 				<attribute name="folderType" value="2"/>
-				<attribute name="unfolded" value="no"/>
+				<attribute name="unfolded" value="yes"/>
 				<attribute name="url" value="siteEntry://externals/Home%2520Pages/"/>
 			</item>
 			<item>
@@ -121,7 +121,7 @@
 				<attribute name="urlParams" value=""/>
 			</item>
 			<item>
-				<attribute name="externalUrl" value="http://www.research.microsoft.com/%257edrh/"/>
+				<attribute name="externalUrl" value="http://drh.home.dyndns.org"/>
 				<attribute name="url" value="siteEntry://externals/Home%2520Pages/drh"/>
 				<attribute name="urlParams" value=""/>
 			</item>
@@ -152,8 +152,63 @@
 			</item>
 			<item>
 				<attribute name="folderType" value="7"/>
-				<attribute name="unfolded" value="no"/>
+				<attribute name="unfolded" value="yes"/>
 				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/"/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://rcm-images.amazon.com/images/G/01/associates/remote-buy-box/buy6.gif"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-buy6.gif"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/013089592X/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-20"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/0131774298/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-21"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/020161586X/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-22"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/0201657880/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-23"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/0201756080/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-24"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/0201896834/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-25"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/0521431085/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-26"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/0596003943/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-27"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://www.amazon.com/exec/obidos/ASIN/1556155514/lccaretargcco-20"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/amazon-lccaretargcco-28"/>
+				<attribute name="urlParams" value=""/>
+			</item>
+			<item>
+				<attribute name="externalUrl" value="http://pagead2.googlesyndication.com/pagead/show_ads.js"/>
+				<attribute name="url" value="siteEntry://externals/Scanned%2520URLs/googlesyndication-show_ads.js"/>
+				<attribute name="urlParams" value=""/>
 			</item>
 			<item>
 				<attribute name="externalUrl" value="http://www.cs.princeton.edu/software/cii/pkg/src/ap.c"/>
