@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: changed.cgi,v 1.1 1999/02/10 21:36:00 drh Exp $
+# $Id: changed.cgi,v 1.2 1999/02/10 21:48:23 drh Exp $
 
 set -f
 echo Content-type: text/html
@@ -12,7 +12,8 @@ cat <<\END
 END
 cd ../pkg
 ver=`pwd`; ver=`basename $ver`
-files=`find . -type f -newer /ftp/pub/packages/lcc/$ver.tar.gz -print | sed -e /-/d -e 's/\.\///g'`
+suffix=`echo $ver|tr -d .`
+files=`find . -type f -newer /ftp/pub/packages/cii/cii$suffix.tar.gz -print | sed -e /-/d -e '/\.mk/d' -e 's/\.\///g'`
 if [ -n "$files" ]; then
 	cat <<End
 <P>The files below have been updated since the $ver release.
@@ -23,7 +24,7 @@ End
 	echo '<TABLE BORDER="0" CELLPADDING="0">'
 	for f in `ls -t $files`; do
 		/usr/ucb/echo -n '<TR>'
-		ls -l $f|nawk ' { printf "<TD>%s %s %s</TD><TD></TD><TD><A HREF=\"../pkg/'$f'\">", $6, $7, $8 }'
+		ls -l $f|nawk ' { printf "<TD>%s %s %s</TD><TD>&nbsp;</TD><TD><A HREF=\"../pkg/'$f'\">", $6, $7, $8 }'
 		case $f in
 		*.html)	nawk '/<title>/	{ i=match($0, /<title>.*<\/title>/)
 			if (i>0) { printf "%s", substr($0, i+7, RLENGTH-15); exit }
