@@ -98,11 +98,27 @@ volatile MP_T</code></p>
 <p><strong>Page 372, line 3:</strong> <code>--n &gt; 0</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" width="17" height="11"> 
  <code>--n &gt;= 0</code></p>
 
-<p><strong>Page 420, lines  -7:</strong> Change to</p>
+<p><strong>Page 416, lines  15 and 16:</strong> Change to</p>
+
+<blockquote>
+  <pre>Sem_wait(&amp;mutex);
+  TRY</pre>
+</blockquote>
+
+<p><strong>Page 417, lines  11 and 12:</strong> Change to</p>
+
+<blockquote>
+  <pre>Sem_wait(&amp;tab.mutex);
+  TRY</pre>
+</blockquote>
+
+<p><strong>Page 420, line -7:</strong> Change to</p>
 
 <blockquote>
   <pre>i++; while (i &lt; j &amp;&amp; a[i] &lt; v) i++;</pre>
 </blockquote>
+
+<p><strong>Page 493, line -11:</strong> returns <code>preempt</code> or zero <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" width="17" height="11"> returns one or zero</p>
 
 <p><a HREF="1.html">First printing corrections.</a></p>
 
@@ -110,7 +126,7 @@ volatile MP_T</code></p>
 
 <address>
   <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
-  $Revision: 1.19 $ $Date: 2001/12/07 00:04:43 $ 
+  $Revision: 1.20 $ $Date: 2001/12/22 00:31:23 $ 
 </address>
 </body>
 </html>
