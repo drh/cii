@@ -4,7 +4,7 @@
 HREF="mailto:drh@cs.princeton.edu" REV="made" TITLE="David R. Hanson">
 <TITLE>Preface for C Interfaces and Implementations</TITLE></HEAD>
 <BODY>
-<H1>Preface</H1> 
+<H1>Preface</H1>
 <P>Programmers are inundated with information about application programming
 interfaces, or APIs. Yet, while most programmers use APIs and the libraries that
 implement them in almost every application they write, relatively few create and
@@ -14,13 +14,12 @@ their needs, perhaps because it is easier to write application-specific code
 than to craft well-designed APIs.</P>
 <P>I'm as guilty as the next programmer:
 <A HREF="http://www.cs.princeton.edu/software/lcc/">lcc</A>, a compiler for
-ANSI/ISO C written by <A HREF="http://cm.bell-labs.com/who/cwf/">Chris Fraser</A>
-and myself, was built from the ground up. (<TT>lcc</TT> is described in C.W.
-Fraser and D. R. Hanson, <CITE>A Retargetable C Compiler: Design and
-Implementation</CITE>, Addison-Wesley, 1995.) A compiler exemplifies the kind of
-application for which it possible to use standard interfaces and to create
-interfaces that are useful elsewhere. Examples include interfaces for memory
-management, string and symbol tables, and list manipulation. But <TT>lcc</TT>
+ANSI/ISO C written by Chris Fraser and myself, was built from the ground up. (<TT>lcc</TT>
+is described in C.W. Fraser and D. R. Hanson, <CITE>A Retargetable C Compiler:
+Design and Implementation</CITE>, Addison-Wesley, 1995.) A compiler exemplifies
+the kind of application for which it possible to use standard interfaces and to
+create interfaces that are useful elsewhere. Examples include interfaces for
+memory management, string and symbol tables, and list manipulation. But <TT>lcc</TT>
 uses only a few routines from the standard C library, and almost none of its
 code can be used directly in other applications.</P>
 <P>This book advocates a design methodology based on interfaces and their
@@ -84,20 +83,27 @@ Stanford GraphBase: A Platform for Combinatorial Computing</CITE> by D.E. Knuth
 (Addison-Wesley, 1993).</P>
 <H2>Organization</H2>
 <P>The material in this book falls into the following broad categories:</P>
-<BLOCKQUOTE><TABLE CELLPADDING="12"><TR ALIGN="LEFT" VALIGN="TOP"><TD
-COLSTART="1"><I>Foundations</I></TD>
-<TD COLSTART="2">1. Introduction<BR>2. Interfaces and Implementations<BR>4.
-Exceptions and Assertions<BR>5. Memory Management<BR>6. More Memory Management</TD></TR>
-<TR ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1"><I>Data Structures</I></TD><TD
-COLSTART="2">7. Lists<BR>8. Tables<BR>9. Sets<BR>10. Arrays<BR>11.
-Sequences<BR>12. Rings<BR>13. Bit Vectors</TD></TR><TR
-ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1"><I>Strings</I></TD><TD
-COLSTART="2">3. Atoms<BR>14. Formatting<BR>15. Low-Level Strings<BR>16.
-High-Level Strings</TD></TR><TR ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1"><I>Arithmetic</I></TD>
-<TD COLSTART="2">17. Extended-Precision Arithmetic<BR>18. Arbitrary-Precision
-Arithmetic<BR>19. Multiple-Precision Arithmetic</TD></TR><TR
-ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1"><I>Threads</I></TD><TD
-COLSTART="2">20. Threads</TD></TR></TABLE></BLOCKQUOTE>
+<BLOCKQUOTE>
+<TABLE CELLPADDING="12">
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Foundations</I></TD>
+<TD>1. Introduction<BR>2. Interfaces and Implementations<BR>4. Exceptions and
+Assertions<BR>5. Memory Management<BR>6. More Memory Management</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Data Structures</I></TD>
+<TD>7. Lists<BR>8. Tables<BR>9. Sets<BR>10. Arrays<BR>11. Sequences<BR>12.
+Rings<BR>13. Bit Vectors</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Strings</I></TD>
+<TD>3. Atoms<BR>14. Formatting<BR>15. Low-Level Strings<BR>16. High-Level
+Strings</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Arithmetic</I></TD>
+<TD>17. Extended-Precision Arithmetic<BR>18. Arbitrary-Precision Arithmetic<BR>19.
+Multiple-Precision Arithmetic</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Threads</I></TD>
+<TD>20. Threads</TD></TR></TABLE></BLOCKQUOTE>
 <P>Most readers will benefit from reading all of Chapters 1 through 4, because
 these chapters form the framework for the rest of the book. The remaining
 chapters can be read in any order, although some of the later chapters refer to
@@ -180,20 +186,32 @@ interfaces is hard, but worth the effort, and they almost always become converts
 to interface-based design.</P>
 <H2>How to Get the Software</H2>
 <P>The software in this book has been tested on the following platforms.</P>
-<BLOCKQUOTE><TABLE CELLPADDING="12"><TR ALIGN="LEFT" VALIGN="TOP"><TH
-COLSTART="1"><I>Processor</I></TH>
-<TH COLSTART="2"><I>Operating Systems</I></TH><TH COLSTART="3"><I>Compilers</I></TH></TR>
-<TR ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1" ALIGN="LEFT">SPARC</TD><TD
-COLSTART="2">SunOS 4.1</TD><TD COLSTART="3">lcc 3.5<BR>gcc 2.7.2</TD></TR><TR
-ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1">Alpha</TD><TD COLSTART="2">OSF/1
-3.2A</TD><TD COLSTART="3">lcc 4.0<BR>gcc 2.6.3<BR>cc</TD></TR>
-<TR ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1">MIPS R3000</TD><TD COLSTART="2">IRIX
-5.3</TD><TD COLSTART="3">lcc 3.5<BR>gcc 2.6.3<BR>cc</TD></TR><TR
-ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1">MIPS R3000</TD><TD COLSTART="2">Ultrix
-4.3</TD><TD COLSTART="3">lcc 3.5<BR>gcc 2.5.7</TD></TR><TR
-ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1">Pentium</TD><TD COLSTART="2">Windows
-95<BR>Windows NT 3.51<BR><SMALL>(except for Threads)</SMALL></TD><TD
-COLSTART="3">Microsoft Visual C/C++ 4.0</TD></TR></TABLE></BLOCKQUOTE>
+<BLOCKQUOTE>
+<TABLE CELLPADDING="12">
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TH><I>Processor</I></TH>
+<TH><I>Operating Systems</I></TH>
+<TH><I>Compilers</I></TH></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD ALIGN="LEFT">SPARC</TD>
+<TD>SunOS 4.1</TD>
+<TD>lcc 3.5<BR>gcc 2.7.2</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>Alpha</TD>
+<TD>OSF/1 3.2A</TD>
+<TD>lcc 4.0<BR>gcc 2.6.3<BR>cc</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>MIPS R3000</TD>
+<TD>IRIX 5.3</TD>
+<TD>lcc 3.5<BR>gcc 2.6.3<BR>cc</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>MIPS R3000</TD>
+<TD>Ultrix 4.3</TD>
+<TD>lcc 3.5<BR>gcc 2.5.7</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>Pentium</TD>
+<TD>Windows 95<BR>Windows NT 3.51<BR><SMALL>(except for Threads)</SMALL></TD>
+<TD>Microsoft Visual C/C++ 4.0</TD></TR></TABLE></BLOCKQUOTE>
 <P>A few of the implementations are machine-specific; they assume that the
 machine has two's-complement integer and IEEE floating-point arithmetic, and
 that unsigned longs can hold object pointers.</P>
@@ -240,13 +258,10 @@ improvements in my code and in its explanation.  Thanks to Andrew Appel, Greg
 Astfalk, Jack Davidson, John Ellis, Mary Fern&aacute;ndez, Chris Fraser, Alex
 Gounares, Kai Li, Jacob Navia, Maylee Noah, Rob Pike, Bill Plauger, John Reppy,
 Anne Rogers, and Richard Stevens. Careful readings of my code and prose by Rex
-Jaeschke, Brian Kernighan, Taj Khattra, Richard O&#146;Keefe, Norman Ramsey, and
+Jaeschke, Brian Kernighan, Taj Khattra, Richard O'Keefe, Norman Ramsey, and
 David Spuler made a significant contribution to the quality of both.</P>
 <P><A HREF="./">Back to the CII home page</A>.</P>
-<HR> 
-<ADDRESS>
-<A HREF="http://www.cs.princeton.edu/~drh/">David Hanson</A> /
-<A HREF="mailto:drh@cs.princeton.edu">drh@cs.princeton.edu</A><BR>$Revision: 1.7 $ $Date: 1996/06/21 11:25:05 $
-</ADDRESS>
-</BODY>
-</HTML>
+<HR>
+<ADDRESS><A HREF="http://www.cs.princeton.edu/~drh/">David Hanson</A> /
+<A HREF="mailto:drh@cs.princeton.edu">drh@cs.princeton.edu</A><BR>$Revision: 1.8 $ $Date: 1996/08/07 17:49:10 $
+</ADDRESS></BODY></HTML>
