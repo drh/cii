@@ -9,10 +9,10 @@ HREF="mailto:drh@cs.princeton.edu" REV="made" TITLE="David R. Hanson">
 interfaces, or APIs. Yet, while most programmers use APIs and the libraries that
 implement them in almost every application they write, relatively few create and
 disemminate new, widely applicable, APIs. Indeed, programmers seem to prefer to
-&#147;roll their own&#148; instead of searching for a library that might meet
+&quot;roll their own&quot; instead of searching for a library that might meet
 their needs, perhaps because it is easier to write application-specific code
 than to craft well-designed APIs.</P>
-<P>I&#146;m as guilty as the next programmer:
+<P>I'm as guilty as the next programmer:
 <A HREF="http://www.cs.princeton.edu/software/lcc/">lcc</A>, a compiler for
 ANSI/ISO C written by <A HREF="http://cm.bell-labs.com/who/cwf/">Chris Fraser</A>
 and myself, was built from the ground up. (<TT>lcc</TT> is described in C.W.
@@ -27,16 +27,16 @@ code can be used directly in other applications.</P>
 implementations, and it illustrates this methodology by describing 24 interfaces
 and their implementations in detail. These interfaces span a large part of the
 computing spectrum and include data structures, arithmetic, string processing,
-and concurrent programming. The implementations aren&#146;t toys &#151; they&#146;re
+and concurrent programming. The implementations aren't toys &#151; they're
 designed for use in production code. As described below, the source code is
 freely available.</P>
-<P>There&#146;s little support in the C programming language for the
-interface-based design methodology. Object-oriented languages, like C++ and
-Modula-3, have language features that encourage the separation of an interface
-from its implementation. Interface-based design is independent of any particular
+<P>There's little support in the C programming language for the interface-based
+design methodology. Object-oriented languages, like C++ and Modula-3, have
+language features that encourage the separation of an interface from its
+implementation. Interface-based design is independent of any particular
 language, but it does require more programmer willpower and vigilance in
-languages like C, because it&#146;s too easy to pollute an interface with
-implicit knowledge of its implementation and vice versa.</P>
+languages like C, because it's too easy to pollute an interface with implicit
+knowledge of its implementation and vice versa.</P>
 <P>Once mastered, however, interface-based design can speed development time by
 building upon a foundation of general-purpose interfaces that can serve many
 applications. The foundation class libraries in some C++ environments are
@@ -50,7 +50,7 @@ this book. Some of the interfaces for data structures &#151; abstract data types
 <A HREF="http://www.cs.arizona.edu/icon/www/">Icon programming language</A>
 done in the late 1970s and early 1980s (see R. E. Griswold and M. T. Griswold,
 <CITE>The Icon Programming Language</CITE>, Prentice Hall, 1990). Others come
-from the published work of other programmers; the &#147;Further Reading&#148;
+from the published work of other programmers; the &quot;Further Reading&quot;
 sections at the end of each chapter give the details.</P>
 <P>Some of the interfaces are for data structures, but this is not a data
 structures book, per se. The emphasis is more on algorithm engineering &#151;
@@ -58,21 +58,21 @@ packaging data structures for general use in applications &#151; than on
 data-structure algorithms. Good interface design does rely on appropriate data
 structures and efficient algorithms, however, so this book complements
 traditional data structure and algorithms texts like
-<A HREF="http://www.cs.princeton.edu/~rs/">Robert Sedgewick&#146;s</A> <CITE>Algorithms
+<A HREF="http://www.cs.princeton.edu/~rs/">Robert Sedgewick's</A> <CITE>Algorithms
 in C</CITE> (Addison-Wesley, 1990).</P>
 <P>Most chapters describe one interface and its implementation; a few describe
-related interfaces. The &#147;Interface&#148; section in each chapter gives a
+related interfaces. The &quot;Interface&quot; section in each chapter gives a
 concise, detailed description of the interface alone. For programmers interested
 only in the interfaces, these sections form a reference manual. A few chapters
-include &#147;Example&#148; sections, which illustrate the use of one or more
+include &quot;Example&quot; sections, which illustrate the use of one or more
 interfaces in simple applications.</P>
-<P>The &#147;Implementation&#148; section in each chapter is a detailed tour of
-the code that implements the chapter&#146;s interface. In a few cases, more than
-one implementation for the same interface is described, which illustrates an
+<P>The &quot;Implementation&quot; section in each chapter is a detailed tour of
+the code that implements the chapter's interface. In a few cases, more than one
+implementation for the same interface is described, which illustrates an
 advantage of interface-based design. These sections are most useful for those
 modifying or extending an interface or designing related interfaces. Many of the
 exercises explore design and implementation alternatives. It should not be
-necessary to read an &#147;Implementation&#148; section in order to understand
+necessary to read an &quot;Implementation&quot; section in order to understand
 how to use an interface.</P>
 <P>The interfaces, examples, and implementations are presented as <EM>literate
 programs</EM>; that is, the source code is interleaved with its explanation in
@@ -129,39 +129,39 @@ of courses by eliminating some of the grunt programming needed to get such
 projects off the ground. This usage helps students realize the enormous savings
 that reuse can bring to a project, and it often induces them to try
 interface-based design for their own parts of the project. This latter effect is
-particularly valuable in team projects, because that&#146;s a way of life in the
-&#147;real world.&#148;</P>
-<P>Interfaces and implementations are the focus of Princeton&#146;s
-sophomore-level systems programming course. Assignments require students to be
-interface clients, implementors, and designers. In one assignment, for example,
-I distribute Section 8.1&#146;s <CODE>Table</CODE> interface, the object code
-for its implementation, and the specifications for Section 8.2&#146;s word
-frequency program, <CODE>wf</CODE>. The students must implement <CODE>wf</CODE>
-using only my object code for <CODE>Table</CODE>. In the next assignment, they
-get the object code for <CODE>wf</CODE>, and they must implement <CODE>Table</CODE>.
+particularly valuable in team projects, because that's a way of life in the &quot;real
+world.&quot;</P>
+<P>Interfaces and implementations are the focus of Princeton's sophomore-level
+systems programming course. Assignments require students to be interface
+clients, implementors, and designers. In one assignment, for example, I
+distribute Section 8.1's <CODE>Table</CODE> interface, the object code for its
+implementation, and the specifications for Section 8.2's word frequency program,
+<CODE>wf</CODE>. The students must implement <CODE>wf</CODE> using only my
+object code for <CODE>Table</CODE>. In the next assignment, they get the object
+code for <CODE>wf</CODE>, and they must implement <CODE>Table</CODE>.
 Sometimes, I reverse these assignments, but both orders are eye-openers for most
 students. They are unaccustomed to having only object code for major parts of
 their program, and these assignments are usually their first exposure to the
 semiformal notation used in interfaces and program specification.</P>
 <P>Initial assignments also introduce checked runtime errors and assertions as
 integral parts of interface specifications. Again, it takes a few assignments
-before students begin to appreciate the value of these concepts. I forbid &#147;unannounced&#148;
+before students begin to appreciate the value of these concepts. I forbid &quot;unannounced&quot;
 crashes; that is, crashes that are not announced by an assertion failure
 diagnostic. Programs that crash get a grade of zero. This penalty may seem
-unduly harsh, but it gets the students&#146; attention. They also gain an
+unduly harsh, but it gets the students' attention. They also gain an
 appreciation of the advantages of safe languages, like ML and Modula-3, in which
 unannounced crashes are impossible. <SMALL>(This grading policy is less harsh
 than it sounds, because in multipart assignments, only the offending part is
-penalized, and different assignments have different weights. I&#146;ve given
-many zeros, but none has ever caused a course grade to shift by a whole point.)</SMALL></P>
+penalized, and different assignments have different weights. I've given many
+zeros, but none has ever caused a course grade to shift by a whole point.)</SMALL></P>
 <P>Once students have a few interfaces under their belts, later assignments ask
 them to design new interfaces and to live with their design choices. For
-example, one of <A HREF="http://www.cs.princeton.edu/~appel/">Andrew Appel</A>&#146;s
+example, one of <A HREF="http://www.cs.princeton.edu/~appel/">Andrew Appel</A>'s
 favorite assignments is a primality testing program. Students work in groups to
 design the interfaces for the arbitrary-precision arithmetic that is needed for
 this assignment. The results are similar to the interfaces described in Chapters
 17 through 19. Different groups design interfaces, and a postassignment
-comparison of these interfaces, in which the groups critique on one anothers&#146;
+comparison of these interfaces, in which the groups critique on one anothers'
 work, is always quite revealing. <A HREF="http://www.cs.princeton.edu/~li/">Kai
 Li</A> accomplishes similar goals with a semester-long project that builds an
 X-based editor using the <A HREF="http://www.sunlabs.com/research/tcl/">Tcl/Tk
@@ -195,8 +195,8 @@ ALIGN="LEFT" VALIGN="TOP"><TD COLSTART="1">Pentium</TD><TD COLSTART="2">Windows
 95<BR>Windows NT 3.51<BR><SMALL>(except for Threads)</SMALL></TD><TD
 COLSTART="3">Microsoft Visual C/C++ 4.0</TD></TR></TABLE></BLOCKQUOTE>
 <P>A few of the implementations are machine-specific; they assume that the
-machine has two&#146;s-complement integer and IEEE floating-point arithmetic,
-and that unsigned longs can hold object pointers.</P>
+machine has two's-complement integer and IEEE floating-point arithmetic, and
+that unsigned longs can hold object pointers.</P>
 <P>The source code for everything in this book is available for
 <A HREF="ftp://ftp.cs.princeton.edu/pub/packages/cii">anonymous ftp</A> at
 <TT>ftp.cs.princeton.edu</TT> in <TT>pub/packages/cii</TT>. Use an <TT>ftp</TT>
@@ -223,29 +223,30 @@ since the late 1970s. Students in these courses have been guinea pigs for my
 drafts of these interfaces. Their feedback over the years has been an important
 contribution to both the code in this book and its explanation. The Princeton
 students in several offerings of COS 217 and COS 596 deserve special thanks,
-because they suffered unknowingly through the drafts of most of what&#146;s in
-this book.</P>
-<P>Interfaces are a way of life at Digital&#146;s System Research Center (SRC),
-and my 1992 and 1993 summers at SRC working on the Modula-3 project erased any
+because they suffered unknowingly through the drafts of most of what's in this
+book.</P>
+<P>Interfaces are a way of life at Digital's System Research Center (SRC), and
+my 1992 and 1993 summers at SRC working on the Modula-3 project erased any
 doubts I may have harbored about the efficacy of this approach. My thanks to SRC
 for supporting my visits, and to Bill Kalsow, Eric Muller, and Greg Nelson for
 many illuminating discussions.</P>
-<P>My thanks to IDA&#146;s Centers for Communications Research in Princeton and
-La Jolla for their support during the summer of 1994 and during my 1995&#150;96
+<P>My thanks to IDA's Centers for Communications Research in Princeton and La
+Jolla for their support during the summer of 1994 and during my 1995&#150;96
 sabbatical. The CCRs provided ideal hideouts at which to plan and complete this
 book.</P>
 <P>Technical interactions with colleagues and students have contributed to this
 book in many ways. Even seemingly unrelated discussions have provoked
-improvements in my code and in its explanation. Those who deserve explicit
-thanks include Andrew Appel, Greg Astfalk, Jack Davidson, John Ellis, Mary Fern&aacute;ndez,
-Chris Fraser, Alex Gounares, Rex Jaeschke, Brian Kernighan, Taj Khattra, Kai Li,
-Jacob Navia, Maylee Noah, Rob Pike, Bill Plauger, Norman Ramsey, John Reppy,
-Anne Rogers, David Spuler, and Richard Stevens.</P>
+improvements in my code and in its explanation.  Thanks to Andrew Appel, Greg
+Astfalk, Jack Davidson, John Ellis, Mary Fern&aacute;ndez, Chris Fraser, Alex
+Gounares, Kai Li, Jacob Navia, Maylee Noah, Rob Pike, Bill Plauger, John Reppy,
+Anne Rogers, and Richard Stevens. Careful readings of my code and prose by Rex
+Jaeschke, Brian Kernighan, Taj Khattra, Richard O&#146;Keefe, Norman Ramsey, and
+David Spuler made a significant contribution to the quality of both.</P>
 <P><A HREF="./">Back to the CII home page</A>.</P>
 <HR> 
 <ADDRESS>
 <A HREF="http://www.cs.princeton.edu/~drh/">David Hanson</A> /
-<A HREF="mailto:drh@cs.princeton.edu">drh@cs.princeton.edu</A><BR>$Revision: 1.6 $ $Date: 1996/06/16 21:17:34 $
+<A HREF="mailto:drh@cs.princeton.edu">drh@cs.princeton.edu</A><BR>$Revision: 1.7 $ $Date: 1996/06/21 11:25:05 $
 </ADDRESS>
 </BODY>
 </HTML>
