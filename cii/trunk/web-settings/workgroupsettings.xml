@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sitesettings SYSTEM "sitesettings.dtd">
+<!--Adobe GoLive settings file-->
+<sitesettings section="workgroup" version="1.0">
+	<attributes>
+		<attribute name="password" value=""/>
+		<attribute name="port" value="3703"/>
+		<attribute name="refresh" value="0"/>
+		<attribute name="rememberPassword" value="no"/>
+		<attribute name="server" value=""/>
+		<attribute name="site" value=""/>
+		<attribute name="site_id" value="0"/>
+		<attribute name="uid" value=""/>
+		<attribute name="useSiteSettings" value="yes"/>
+		<attribute name="user" value=""/>
+	</attributes>
+</sitesettings>

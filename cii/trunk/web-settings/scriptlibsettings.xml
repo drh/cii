@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sitesettings SYSTEM "sitesettings.dtd">
+<!--Adobe GoLive settings file-->
+<sitesettings section="scriptlib" version="1.0">
+	<attributes>
+		<attribute name="filename" value="CSScriptLib.js"/>
+		<attribute name="foldername" value="GeneratedItems"/>
+		<attribute name="importgolivelib" value="yes"/>
+		<attribute name="usesitesettings" value="no"/>
+		<attribute name="version" value="0"/>
+	</attributes>
+</sitesettings>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sitesettings SYSTEM "sitesettings.dtd">
+<!--Adobe GoLive settings file-->
+<sitesettings section="specialfolders" version="1.0">
+	<attributes>
+		<attribute name="IFPPackagesFolder" value="InDesignPackages"/>
+		<attribute name="SiteComponentsFolder" value="Components"/>
+		<attribute name="SiteDesignsFolder" value="Diagrams"/>
+		<attribute name="SiteQueriesFolder" value="Queries"/>
+		<attribute name="SiteSnippetsFolder" value="Snippets"/>
+		<attribute name="SiteStationeriesFolder" value="Stationery"/>
+		<attribute name="SiteTemplatesFolder" value="Templates"/>
+		<attribute name="SiteTrashFolder" value="SiteTrash"/>
+		<attribute name="SmartObjectsFolder" value="SmartObjects"/>
+	</attributes>
+</sitesettings>

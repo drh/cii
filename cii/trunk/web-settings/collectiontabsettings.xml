@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sitesettings SYSTEM "sitesettings.dtd">
+<!--Adobe GoLive settings file-->
+<sitesettings section="collectiontab" version="1.0">
+	<attributes>
+		<attribute name="dataVersion" value="1"/>
+		<list name="entries">
+			<item>
+				<attribute name="collectionType" value="3"/>
+				<attribute name="collectionUrl" value="siteEntry://collections/published-files/"/>
+				<attribute name="query" value=""/>
+				<attribute name="queryName" value=""/>
+				<attribute name="timeRun" value="2040-02-05%2022:28:16"/>
+				<attribute name="unfolded" value="no"/>
+			</item>
+		</list>
+	</attributes>
+</sitesettings>

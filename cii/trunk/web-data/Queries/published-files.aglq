@@ -1,0 +1,10 @@
+<query description='This query finds all files within a site that have a publish state of "Always" or "If Referenced".' unloced-filename="published-files.aglq">
+	<or>
+		<fileinfo useall="no">
+			<publish server="Any Server" state="2"/>
+		</fileinfo>
+		<fileinfo useall="no" selected="selected">
+			<publish server="Any Server" state="1"/>
+		</fileinfo>
+	</or>
+</query>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sitesettings SYSTEM "sitesettings.dtd">
+<!--Adobe GoLive settings file-->
+<sitesettings section="fonttab" version="1.0">
+	<attributes>
+		<attribute name="dataVersion" value="1"/>
+		<list name="entries">
+			<item>
+				<attribute name="unfolded" value="yes"/>
+				<attribute name="url" value="siteEntry://fonts/Scanned%2520Font%2520Sets/"/>
+			</item>
+			<item>
+				<attribute name="fontSet" value="monospace"/>
+				<attribute name="url" value="siteEntry://fonts/Scanned%2520Font%2520Sets/untitled%2520font%2520set"/>
+			</item>
+			<item>
+				<attribute name="fontSet" value="sans-serif"/>
+				<attribute name="url" value="siteEntry://fonts/Scanned%2520Font%2520Sets/untitled%2520font%2520set1"/>
+			</item>
+			<item>
+				<attribute name="fontSet" value="serif"/>
+				<attribute name="url" value="siteEntry://fonts/Scanned%2520Font%2520Sets/untitled%2520font%2520set2"/>
+			</item>
+		</list>
+	</attributes>
+</sitesettings>
