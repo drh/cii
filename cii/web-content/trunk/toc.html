@@ -9,73 +9,114 @@
 Click on the parenthesized links to browse the named source files. (These files
 have no comments, because the book explains them.)</P>
 <OL>
-<LI><B>Introduction</B><BR> Literate Programs (<A HREF="pkg/double/double.c">double.c</A>),
-Programming Style, Efficiency</LI>
-<LI><B>Interfaces and Implementations</B><BR> Interfaces (<A
-HREF="pkg/src/arith.h">arith.h</A>), Implementations (<A HREF="pkg/src/arith.c">arith.c</A>),
-Abstract Data Types (<A HREF="pkg/src/stack.h">stack.h</A>), Client
-Responsibilities (<A HREF="pkg/src/stack.c">stack.c</A>), Efficiency</LI>
+<LI><B>Introduction</B><DL>
+<DD>Literate Programs (<A HREF="pkg/double/double.c">double.c</A>)</DD>
+<DD>Programming Style</DD>
+<DD>Efficiency</DD></DL></LI>
+<LI><B>Interfaces and Implementations</B><DL>
+<DD>Interfaces (<A HREF="pkg/src/arith.h">arith.h</A>)</DD>
+<DD>Implementations (<A HREF="pkg/src/arith.c">arith.c</A>)</DD>
+<DD>Abstract Data Types (<A HREF="pkg/src/stack.h">stack.h</A>)</DD>
+<DD>Client Responsibilities (<A HREF="pkg/src/stack.c">stack.c</A>)</DD>
+<DD>Efficiency</DD></DL></LI>
 <LI><B>Atoms</B> <EM><A HREF="atom.pdf">Download/view this chapter</A> (An
-Adobe Acrobat PDF file, 57008 bytes)</EM><BR>Interface (<A
-HREF="pkg/src/atom.h">atom.h</A>), Implementation (<A HREF="pkg/src/atom.c">atom.c</A>)</LI>
-<LI><B>Exceptions and Assertions</B><BR> Interface (<A
-HREF="pkg/src/except.h">except.h</A>), Implementation (<A
-HREF="pkg/src/except.c">except.c</A>), Assertions (<A HREF="pkg/src/assert.h">assert.h</A>)</LI>
-<LI><B>Memory Management</B><BR> Interface (<A HREF="pkg/src/mem.h">mem.h</A>),
-Production Implementation (<A HREF="pkg/src/mem.c">mem.c</A>), Checking
-Implementation (<A HREF="pkg/src/memchk.c">memchk.c</A>)</LI>
-<LI><B>More Memory Management</B><BR> Interface (<A HREF="pkg/src/arena.h">arena.h</A>),
-Implementation (<A HREF="pkg/src/arena.c">arena.c</A>)</LI>
-<LI><B>Lists</B><BR>Interface (<A HREF="pkg/src/list.h">list.h</A>),
-Implementation (<A HREF="pkg/src/list.c">list.c</A>)</LI>
-<LI><B>Tables</B><BR> Interface (<A HREF="pkg/src/table.h">table.h</A>),
-Example: Word Frequencies (<A HREF="pkg/wf/wf.c">wf.c</A>,
+Adobe Acrobat PDF file, 57008 bytes)</EM><DL>
+<DD>Interface (<A HREF="pkg/src/atom.h">atom.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/atom.c">atom.c</A>)</DD></DL></LI>
+<LI><B>Exceptions and Assertions</B><DL>
+<DD>Interface (<A HREF="pkg/src/except.h">except.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/except.c">except.c</A>)</DD>
+<DD>Assertions (<A HREF="pkg/src/assert.h">assert.h</A>)</DD></DL></LI>
+<LI><B>Memory Management</B><DL>
+<DD>Interface (<A HREF="pkg/src/mem.h">mem.h</A>)</DD>
+<DD>Production Implementation (<A HREF="pkg/src/mem.c">mem.c</A>)</DD>
+<DD>Checking Implementation (<A HREF="pkg/src/memchk.c">memchk.c</A>)</DD></DL></LI>
+<LI><B>More Memory Management</B><DL>
+<DD>Interface (<A HREF="pkg/src/arena.h">arena.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/arena.c">arena.c</A>)</DD></DL></LI>
+<LI><B>Lists</B><DL>
+<DD>Interface (<A HREF="pkg/src/list.h">list.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/list.c">list.c</A>)</DD></DL></LI>
+<LI><B>Tables</B><DL>
+<DD>Interface (<A HREF="pkg/src/table.h">table.h</A>)</DD>
+<DD>Example: Word Frequencies (<A HREF="pkg/wf/wf.c">wf.c</A>,
 <A HREF="pkg/wf/getword.h">getword.h</A>,
-<A HREF="pkg/wf/getword.c">getword.c</A>), Implementation (<A
-HREF="pkg/src/table.c">table.c</A>)</LI>
-<LI><B>Sets</B><BR> Interface (<A HREF="pkg/src/set.h">set.h</A>), Example:
-Cross-Reference Listings (<A HREF="pkg/xref/xref.c">xref.c</A>,
+<A HREF="pkg/wf/getword.c">getword.c</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/table.c">table.c</A>)</DD></DL></LI>
+<LI><B>Sets</B><DL>
+<DD>Interface (<A HREF="pkg/src/set.h">set.h</A>)</DD>
+<DD>Example: Cross-Reference Listings (<A HREF="pkg/xref/xref.c">xref.c</A>,
 <A HREF="pkg/xref/getword.h">getword.h</A>,
-<A HREF="pkg/xref/getword.c">getword.c</A>), Implementation (<A
-HREF="pkg/src/set.c">set.c</A>)</LI>
-<LI><B>Arrays</B><BR> Interfaces (<A HREF="pkg/src/array.h">array.h</A>,
-<A HREF="pkg/src/arrayrep.h">arrayrep.h</A>), Implementation (<A
-HREF="pkg/src/array.c">array.c</A>)</LI>
-<LI><B>Sequences</B><BR> Interface (<A HREF="pkg/src/seq.h">seq.h</A>),
-Implementation (<A HREF="pkg/src/seq.c">seq.c</A>)</LI>
-<LI><B>Rings</B><BR> Interface (<A HREF="pkg/src/ring.h">ring.h</A>),
-Implementation (<A HREF="pkg/src/ring.c">ring.c</A>)</LI>
-<LI><B>Bit Vectors</B><BR> Interface (<A HREF="pkg/src/bit.h">bit.h</A>),
-Implementation (<A HREF="pkg/src/bit.c">bit.c</A>)</LI>
-<LI><B>Formatting</B><BR> Interface (<A HREF="pkg/src/fmt.h">fmt.h</A>),
-Implementation (<A HREF="pkg/src/fmt.c">fmt.c</A>)</LI>
-<LI><B>Low-Level Strings</B><BR> Interface (<A HREF="pkg/src/str.h">str.h</A>),
-Example: Printing Identifiers (<A HREF="pkg/ids/ids.c">ids.c</A>),
-Implementation (<A HREF="pkg/src/str.c">str.c</A>)</LI>
-<LI><B>High-Level Strings</B><BR> Interface (<A HREF="pkg/src/text.h">text.h</A>),
-Implementation (<A HREF="pkg/src/text.c">text.c</A>)</LI>
-<LI><B>Extended Precision Arithmetic</B><BR> Interface (<A
-HREF="pkg/src/xp.h">xp.h</A>), Implementation (<A HREF="pkg/src/xp.c">xp.c</A>)</LI>
-<LI><B>Arbitrary Precision Arithmetic</B><BR> Interface (<A
-HREF="pkg/src/ap.h">ap.h</A>), Example: A Calculator (<A HREF="pkg/calc/calc.c">calc.c</A>),
-Implementation (<A HREF="pkg/src/ap.c">ap.c</A>)</LI>
-<LI><B>Multiple Precision Arithmetic</B><BR> Interface (<A
-HREF="pkg/src/mp.h">mp.h</A>), Example: Another Calculator (<A
-HREF="pkg/mpcalc/mpcalc.c">mpcalc.c</A>), Implementation (<A
-HREF="pkg/src/mp.c">mp.c</A>)</LI>
-<LI><B>Threads</B><BR> Interfaces (<A HREF="pkg/src/thread.h">thread.h</A>,
-<A HREF="pkg/src/sem.h">sem.h</A>,
-<A HREF="pkg/src/chan.h">chan.h</A>), Examples (<A HREF="pkg/sort/sort.c">sort.c</A>,
-<A HREF="pkg/spin/spin.c">spin.c</A>, <A HREF="pkg/sieve/sieve.c">sieve.c</A>),
-Implementations (<A HREF="pkg/src/chan.c">chan.c</A>,
-<A HREF="pkg/src/thread.c">thread.c</A>,
-<A HREF="pkg/src/swtch.s">swtch.s</A>)</LI>
+<A HREF="pkg/xref/getword.c">getword.c</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/set.c">set.c</A>)<DL>
+<DD><SMALL>Member Operations, Set Operations</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Arrays</B><DL>
+<DD>Interfaces (<A HREF="pkg/src/array.h">array.h</A>,
+<A HREF="pkg/src/arrayrep.h">arrayrep.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/array.c">array.c</A>)</DD></DL></LI>
+<LI><B>Sequences</B><DL>
+<DD>Interface (<A HREF="pkg/src/seq.h">seq.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/seq.c">seq.c</A>)</DD></DL></LI>
+<LI><B>Rings</B><DL>
+<DD>Interface (<A HREF="pkg/src/ring.h">ring.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/ring.c">ring.c</A>)</DD></DL></LI>
+<LI><B>Bit Vectors</B><DL>
+<DD>Interface (<A HREF="pkg/src/bit.h">bit.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/bit.c">bit.c</A>)<DL>
+<DD><SMALL>Member Operations, Comparisons, Set Operations</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Formatting</B><DL>
+<DD>Interface (<A HREF="pkg/src/fmt.h">fmt.h</A>)<DL>
+<DD><SMALL>Formatting Functions, Conversion Functions</SMALL></DD></DL></DD>
+<DD>Implementation (<A HREF="pkg/src/fmt.c">fmt.c</A>)<DL>
+<DD><SMALL>Formatting Functions, Conversion Functions</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Low-Level Strings</B><DL>
+<DD>Interface (<A HREF="pkg/src/str.h">str.h</A>)</DD>
+<DD>Example: Printing Identifiers (<A HREF="pkg/ids/ids.c">ids.c</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/str.c">str.c</A>)<DL>
+<DD><SMALL>String Operations, Searching Strings, Conversion Functions</SMALL></DD></DL></DD></DL></LI>
+<LI><B>High-Level Strings</B><DL>
+<DD>Interface (<A HREF="pkg/src/text.h">text.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/text.c">text.c</A>)<DL>
+<DD><SMALL>String Operations, Memory Management, Searching Strings, Conversion
+Functions</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Extended Precision Arithmetic</B><DL>
+<DD>Interface (<A HREF="pkg/src/xp.h">xp.h</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/xp.c">xp.c</A>)<DL>
+<DD><SMALL>Addition and Subtraction, Multiplication, Division and Comparison,
+Shifting, String Conversions</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Arbitrary Precision Arithmetic</B><DL>
+<DD>Interface (<A HREF="pkg/src/ap.h">ap.h</A>)</DD>
+<DD>Example: A Calculator (<A HREF="pkg/calc/calc.c">calc.c</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/ap.c">ap.c</A>)<DL>
+<DD><SMALL>Negation and Multiplication, Addition and Subtraction, Division,
+Exponentiation, Comparisons, Convenience Functions, Shifting, String and Integer
+Conversions</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Multiple Precision Arithmetic</B><DL>
+<DD>Interface (<A HREF="pkg/src/mp.h">mp.h</A>)</DD>
+<DD>Example: Another Calculator (<A HREF="pkg/mpcalc/mpcalc.c">mpcalc.c</A>)</DD>
+<DD>Implementation (<A HREF="pkg/src/mp.c">mp.c</A>)<DL>
+<DD><SMALL>Conversions, Unsigned Arithmetic, Signed Arithmetic, Convenience
+Functions, Comparisons and Logical Operations, String Conversions</SMALL></DD></DL></DD></DL></LI>
+<LI><B>Threads</B><DL>
+<DD>Interfaces<DL>
+<DD><SMALL>Threads (<A HREF="pkg/src/thread.h">thread.h</A>), General
+Semaphores (<A HREF="pkg/src/sem.h">sem.h</A>), Synchronous Communication
+Channels (<A HREF="pkg/src/chan.h">chan.h</A>)</SMALL></DD></DL></DD>
+<DD>Examples<DL>
+<DD><SMALL>Sorting Concurrently (<A HREF="pkg/sort/sort.c">sort.c</A>),
+Critical Regions (<A HREF="pkg/spin/spin.c">spin.c</A>), Generating Primes (<A
+HREF="pkg/sieve/sieve.c">sieve.c</A>)</SMALL></DD></DL></DD>
+<DD>Implementations<DL>
+<DD><SMALL>Synchronous Communication Channels (<A HREF="pkg/src/chan.c">chan.c</A>),
+Threads (<A HREF="pkg/src/thread.c">thread.c</A>), Thread Creation and Context
+Switching (<A HREF="pkg/src/thread.c">thread.c</A>, <A HREF="pkg/src/swtch.s">swtch.s</A>),
+General Semaphores (<A HREF="pkg/src/thread.c">thread.c</A>)</SMALL></DD></DL></DD></DL></LI>
 </OL>
 <P><B>Bibliography</B></P>
 <P><A HREF="./">Back to the CII home page</A>.</P>
 <HR> 
 <ADDRESS><A HREF="http://www.cs.princeton.edu/~drh/">David Hanson</A> /
 <A HREF="mailto:drh@cs.princeton.edu">drh@cs.princeton.edu</A></ADDRESS>
-<ADDRESS>$Revision: 1.2 $ $Date: 1996/02/14 09:21:25 $</ADDRESS>
+<ADDRESS>$Revision: 1.3 $ $Date: 1996/02/16 00:29:45 $</ADDRESS>
 </BODY>
 </HTML>
