@@ -9,6 +9,16 @@ Techniques for Creating Reusable Software</CITE> (Addison-Wesley Professional
 Computing Series, 1997, ISBN 0-201-49841-3). In the list below, line +<EM>n</EM>
 and line -<EM>n</EM> refer to the <EM>n</EM>th line from the top and bottom of
 the indicated page.</P>
+<P><STRONG>Page 168, lines -13..-8:</STRONG> Change to</P>
+<BLOCKQUOTE>
+<PRE>if (length == 0)
+	FREE(array-&gt;array);
+else if (array-&gt;length == 0)
+	array-&gt;array = ALLOC(length*array-&gt;size);
+else
+	RESIZE(array-&gt;array, length*array-&gt;size);</PRE></BLOCKQUOTE>
+<P>(This change should also be applied to page 168, lines -11..-8 in the first
+printing.)</P>
 <P>The errors below also appear in the first printing.</P>
 <P><STRONG>Page 84, line -10:</STRONG> Change to</P>
 <BLOCKQUOTE>
@@ -18,4 +28,4 @@ the indicated page.</P>
 <P><A HREF="1.html">First printing corrections.</A></P>
 <HR>
 <ADDRESS><A HREF="http://www.research.microsoft.com/~drh/">David Hanson</A> /
-<A HREF="mailto:drh@microsoft.com">drh@microsoft.com</A><BR>$Revision: 1.5 $ $Date: 1997/06/06 20:54:13 $ </ADDRESS></BODY></HTML>
+<A HREF="mailto:drh@microsoft.com">drh@microsoft.com</A><BR>$Revision: 1.6 $ $Date: 1997/11/04 23:46:22 $ </ADDRESS></BODY></HTML>
