@@ -77,6 +77,12 @@ memcpy(copy-&gt;array, array-&gt;array, copy-&gt;length*array-&gt;size);</pre>
 *p++ = map[(unsigned char)s.str[i]];</pre>
 </blockquote>
 
+<p><strong>Page 320, lines  -7:</strong> Change to</p>
+
+<blockquote>
+  <pre>i++; while (i &lt; j &amp;&amp; a[i] &lt; v) i++;</pre>
+</blockquote>
+
 <p><strong>Page 352, line -11:</strong> <code>x-&gt;sign == 1</code> 
 <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" width="17" height="11"> <code>x-&gt;sign == -1</code></p>
 
@@ -104,7 +110,7 @@ volatile MP_T</code></p>
 
 <address>
   <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
-  $Revision: 1.17 $ $Date: 2001/07/11 18:31:48 $ 
+  $Revision: 1.18 $ $Date: 2001/12/07 00:01:35 $ 
 </address>
 </body>
 </html>
