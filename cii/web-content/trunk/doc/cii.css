@@ -1,6 +1,6 @@
 /*
 Partial style sheet for "C Interfaces and Implementations"
-$Id: cii.css,v 1.1 1998/04/02 23:54:20 drh Exp $
+$Id: cii.css,v 1.2 1998/04/03 18:53:46 drh Exp $
 */
 A:link {
 	color: blue;
@@ -16,7 +16,6 @@ A:active {
 }
 Body {
 	background: rgb(255,255,255);
-	font-size: medium;
 	font-weight: medium;
 	font-family: serif;
 }
@@ -29,7 +28,7 @@ P {
 P.Colophon {
 	text-align: left;
 	text-indent: 0pt;
-	font-size: small;
+	font-size: smaller;
 	margin-right: 10%;
 	margin-top: 0pt;
 	margin-bottom: 36pt;
@@ -56,7 +55,6 @@ P.Exercise {
 	margin-bottom: 1em;
 }
 PRE.ExerciseCode {
-	font-size: medium;
 	text-align: left;
 	text-indent: 0pt;
 	margin-top: 1em;
