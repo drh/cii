@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<link HREF="mailto:drh@microsoft.com" REV="made" TITLE="David R. Hanson">
+<title>Errata for C Interfaces and Implementations, 2/p</title>
+</head>
+
+<body>
+
+<h1>Errata: Second Printing</h1>
+
+<p>Corrections to second printing <cite>C Interfaces and Implementations: Techniques for
+Creating Reusable Software</cite> (Addison-Wesley Professional Computing Series, 1997,
+ISBN 0-201-49841-3). In the list below, line +<em>n</em> and line -<em>n</em> refer to the
+<em>n</em>th line from the top and bottom of the indicated page.</p>
+
+<p><strong>Page 168, lines -13..-8:</strong> Change to</p>
+
+<blockquote>
+  <pre>if (length == 0)
+	FREE(array-&gt;array);
+else if (array-&gt;length == 0)
+	array-&gt;array = ALLOC(length*array-&gt;size);
+else
+	RESIZE(array-&gt;array, length*array-&gt;size);</pre>
+</blockquote>
+
+<p>(This change should also be applied to page 168, lines -11..-8 in the first printing.)</p>
+
+<p>The errors below also appear in the first printing.</p>
+
+<p><strong>Page 48, line 5:</strong> <code>char *reason;</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" width="17" height="11"> 
+<code>const char *reason;</code></p>
+
+<p><strong>Page 49, line -11..-10:</strong> Change &quot;next EXCEPT, ELSE, FINALLY or
+END_TRY&quot; to &quot;corresponding END_TRY&quot;.</p>
+
+<p><strong>Page 61, line 6:</strong> <u>=</u> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" width="17" height="11"> 
+ +<u>=</u></p>
+
+<p><strong>Page 84, line -10:</strong> Change to</p>
+
+<blockquote>
+  <pre>#define NALLOC ((4096 + sizeof (union align) - 1)/ \
+	(sizeof (union align)))*(sizeof (union align))</pre>
+</blockquote>
+
+<p><strong>Page 169, lines 9 and 12:</strong> Change to</p>
+
+<blockquote>
+  <pre>memcpy(copy-&gt;array, array-&gt;array, array-&gt;length*array-&gt;size);
+memcpy(copy-&gt;array, array-&gt;array, copy-&gt;length*array-&gt;size);</pre>
+</blockquote>
+
+<p><strong>Page 241, line -8:</strong> Incidently <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> Incidentally</p>
+
+<p><strong>Page 249, line 1:</strong> <code>char *suffix</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+<code>const char *suffix</code></p>
+
+<p><strong>Page 274, line 12:</strong> 127 <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+128</p>
+
+<p><strong>Page 277, line -2:</strong> <code>127</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+<code>128</code></p>
+
+<p><strong>Page 284, lines 5 and -7:</strong> Change to</p>
+
+<blockquote>
+  <pre>map[(unsigned char)from-&gt;str[k]] = to-&gt;str[k];
+*p++ = map[(unsigned char)s.str[i]];</pre>
+</blockquote>
+
+<p><strong>Page 352, line -11:</strong> <code>x-&gt;sign == 1</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> <code>x-&gt;sign == -1</code></p>
+
+<p><strong>Page 358, line -2:</strong> initalized <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> initialized</p>
+
+<p><strong>Page 370, line -11:</strong>  <code>char *fmt;</code> <img SRC="images/rightarrow.gif" ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> 
+ <code>const char *fmt;</code></p>
+
+<p><a HREF="1.html">First printing corrections.</a></p>
+
+<hr>
+
+<address>
+  <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
+  $Revision: 1.15 $ $Date$ 
+</address>
+</body>
+</html>

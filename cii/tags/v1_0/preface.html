@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD><LINK
+HREF="mailto:drh@cs.princeton.edu" REV="made" TITLE="David R. Hanson">
+<TITLE>Preface for C Interfaces and Implementations</TITLE></HEAD>
+<BODY>
+<H1>Preface</H1>
+<P>Programmers are inundated with information about application programming
+interfaces, or APIs. Yet, while most programmers use APIs and the libraries that
+implement them in almost every application they write, relatively few create and
+disemminate new, widely applicable, APIs. Indeed, programmers seem to prefer to
+&quot;roll their own&quot; instead of searching for a library that might meet
+their needs, perhaps because it is easier to write application-specific code
+than to craft well-designed APIs.</P>
+<P>I'm as guilty as the next programmer:
+<A HREF="http://www.cs.princeton.edu/software/lcc/">lcc</A>, a compiler for
+ANSI/ISO C written by Chris Fraser and myself, was built from the ground up. (<TT>lcc</TT>
+is described in C.W. Fraser and D. R. Hanson, <CITE>A Retargetable C Compiler:
+Design and Implementation</CITE>, Addison-Wesley, 1995.) A compiler exemplifies
+the kind of application for which it possible to use standard interfaces and to
+create interfaces that are useful elsewhere. Examples include interfaces for
+memory management, string and symbol tables, and list manipulation. But <TT>lcc</TT>
+uses only a few routines from the standard C library, and almost none of its
+code can be used directly in other applications.</P>
+<P>This book advocates a design methodology based on interfaces and their
+implementations, and it illustrates this methodology by describing 24 interfaces
+and their implementations in detail. These interfaces span a large part of the
+computing spectrum and include data structures, arithmetic, string processing,
+and concurrent programming. The implementations aren't toys &#151; they're
+designed for use in production code. As described below, the source code is
+freely available.</P>
+<P>There's little support in the C programming language for the interface-based
+design methodology. Object-oriented languages, like C++ and Modula-3, have
+language features that encourage the separation of an interface from its
+implementation. Interface-based design is independent of any particular
+language, but it does require more programmer willpower and vigilance in
+languages like C, because it's too easy to pollute an interface with implicit
+knowledge of its implementation and vice versa.</P>
+<P>Once mastered, however, interface-based design can speed development time by
+building upon a foundation of general-purpose interfaces that can serve many
+applications. The foundation class libraries in some C++ environments are
+examples of this effect. Increased reuse of existing software &#151; libraries
+of interface implementations &#151; reduces initial development costs. It also
+reduces maintenance costs, because more of an application rests on well-tested
+implementations of general-purpose interfaces.</P>
+<P>The 24 interfaces come from several sources, and all have been revised for
+this book. Some of the interfaces for data structures &#151; abstract data types
+&#151; originated in <CODE>lcc</CODE> code, and in implementations of the
+<A HREF="http://www.cs.arizona.edu/icon/www/">Icon programming language</A>
+done in the late 1970s and early 1980s (see R. E. Griswold and M. T. Griswold,
+<CITE>The Icon Programming Language</CITE>, Prentice Hall, 1990). Others come
+from the published work of other programmers; the &quot;Further Reading&quot;
+sections at the end of each chapter give the details.</P>
+<P>Some of the interfaces are for data structures, but this is not a data
+structures book, per se. The emphasis is more on algorithm engineering &#151;
+packaging data structures for general use in applications &#151; than on
+data-structure algorithms. Good interface design does rely on appropriate data
+structures and efficient algorithms, however, so this book complements
+traditional data structure and algorithms texts like
+<A HREF="http://www.cs.princeton.edu/~rs/">Robert Sedgewick's</A> <CITE>Algorithms
+in C</CITE> (Addison-Wesley, 1990).</P>
+<P>Most chapters describe one interface and its implementation; a few describe
+related interfaces. The &quot;Interface&quot; section in each chapter gives a
+concise, detailed description of the interface alone. For programmers interested
+only in the interfaces, these sections form a reference manual. A few chapters
+include &quot;Example&quot; sections, which illustrate the use of one or more
+interfaces in simple applications.</P>
+<P>The &quot;Implementation&quot; section in each chapter is a detailed tour of
+the code that implements the chapter's interface. In a few cases, more than one
+implementation for the same interface is described, which illustrates an
+advantage of interface-based design. These sections are most useful for those
+modifying or extending an interface or designing related interfaces. Many of the
+exercises explore design and implementation alternatives. It should not be
+necessary to read an &quot;Implementation&quot; section in order to understand
+how to use an interface.</P>
+<P>The interfaces, examples, and implementations are presented as <EM>literate
+programs</EM>; that is, the source code is interleaved with its explanation in
+an order that best suits understanding the code. The code is extracted
+automatically from the text files for this book and assembled into the order
+dictated by the C programming language. Other book-length examples of literate
+programming in C include <CITE>A Retargetable C Compiler</CITE> and <CITE>The
+Stanford GraphBase: A Platform for Combinatorial Computing</CITE> by D.E. Knuth
+(Addison-Wesley, 1993).</P>
+<H2>Organization</H2>
+<P>The material in this book falls into the following broad categories:</P>
+<BLOCKQUOTE>
+<TABLE CELLPADDING="12">
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Foundations</I></TD>
+<TD>1. Introduction<BR>2. Interfaces and Implementations<BR>4. Exceptions and
+Assertions<BR>5. Memory Management<BR>6. More Memory Management</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Data Structures</I></TD>
+<TD>7. Lists<BR>8. Tables<BR>9. Sets<BR>10. Arrays<BR>11. Sequences<BR>12.
+Rings<BR>13. Bit Vectors</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Strings</I></TD>
+<TD>3. Atoms<BR>14. Formatting<BR>15. Low-Level Strings<BR>16. High-Level
+Strings</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Arithmetic</I></TD>
+<TD>17. Extended-Precision Arithmetic<BR>18. Arbitrary-Precision Arithmetic<BR>19.
+Multiple-Precision Arithmetic</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD><I>Threads</I></TD>
+<TD>20. Threads</TD></TR></TABLE></BLOCKQUOTE>
+<P>Most readers will benefit from reading all of Chapters 1 through 4, because
+these chapters form the framework for the rest of the book. The remaining
+chapters can be read in any order, although some of the later chapters refer to
+their predecessors.</P>
+<P>Chapter 1 covers literate programming and issues of programming style and
+efficiency. Chapter 2 motivates and describes the interface-based design
+methodology, defines the relevant terminology, and tours two simple interfaces
+and their implementations. Chapter 3 describes the prototypical <TT>Atom</TT>
+interface, which is the simplest production-quality interface in this book. [<A
+HREF="atom.pdf">Download/view Chapter 3</A>, an Adobe Acrobat PDF file (52K).]
+Chapter 4 introduces exceptions and assertions, which are used in every
+interface. Chapters 5 and 6 describe the memory management interfaces used by
+almost all the implementations. The rest of the chapters each describe an
+interface and its implementation.</P>
+<H2>Instructional Use</H2>
+<P>I assume that readers understand C at the level covered in undergraduate
+introductory programming courses, and have a working understanding of
+fundamental data structures at the level presented in texts like <CITE>Algorithms
+in C</CITE>. At Princeton, the material in this book is used in systems
+programming courses from the sophomore to first-year graduate levels. Many of
+the interfaces use advanced C programming techniques, such as opaque pointers
+and pointers to pointers, and thus serve as nontrivial examples of those
+techniques, which are useful in systems programming and data structure courses.</P>
+<P>This book can be used for courses in several ways, the simplest being in
+project-oriented courses. In a compiler course, for example, students often
+build a compiler for a toy language. Substantial projects are common in graphics
+courses as well. Many of the interfaces can simplify the projects in these kinds
+of courses by eliminating some of the grunt programming needed to get such
+projects off the ground. This usage helps students realize the enormous savings
+that reuse can bring to a project, and it often induces them to try
+interface-based design for their own parts of the project. This latter effect is
+particularly valuable in team projects, because that's a way of life in the &quot;real
+world.&quot;</P>
+<P>Interfaces and implementations are the focus of Princeton's sophomore-level
+systems programming course. Assignments require students to be interface
+clients, implementors, and designers. In one assignment, for example, I
+distribute Section 8.1's <CODE>Table</CODE> interface, the object code for its
+implementation, and the specifications for Section 8.2's word frequency program,
+<CODE>wf</CODE>. The students must implement <CODE>wf</CODE> using only my
+object code for <CODE>Table</CODE>. In the next assignment, they get the object
+code for <CODE>wf</CODE>, and they must implement <CODE>Table</CODE>.
+Sometimes, I reverse these assignments, but both orders are eye-openers for most
+students. They are unaccustomed to having only object code for major parts of
+their program, and these assignments are usually their first exposure to the
+semiformal notation used in interfaces and program specification.</P>
+<P>Initial assignments also introduce checked runtime errors and assertions as
+integral parts of interface specifications. Again, it takes a few assignments
+before students begin to appreciate the value of these concepts. I forbid &quot;unannounced&quot;
+crashes; that is, crashes that are not announced by an assertion failure
+diagnostic. Programs that crash get a grade of zero. This penalty may seem
+unduly harsh, but it gets the students' attention. They also gain an
+appreciation of the advantages of safe languages, like ML and Modula-3, in which
+unannounced crashes are impossible. <SMALL>(This grading policy is less harsh
+than it sounds, because in multipart assignments, only the offending part is
+penalized, and different assignments have different weights. I've given many
+zeros, but none has ever caused a course grade to shift by a whole point.)</SMALL></P>
+<P>Once students have a few interfaces under their belts, later assignments ask
+them to design new interfaces and to live with their design choices. For
+example, one of <A HREF="http://www.cs.princeton.edu/~appel/">Andrew Appel</A>'s
+favorite assignments is a primality testing program. Students work in groups to
+design the interfaces for the arbitrary-precision arithmetic that is needed for
+this assignment. The results are similar to the interfaces described in Chapters
+17 through 19. Different groups design interfaces, and a postassignment
+comparison of these interfaces, in which the groups critique on one anothers'
+work, is always quite revealing. <A HREF="http://www.cs.princeton.edu/~li/">Kai
+Li</A> accomplishes similar goals with a semester-long project that builds an
+X-based editor using the <A HREF="http://www.sunlabs.com/research/tcl/">Tcl/Tk
+system</A> (J.K. Ousterhout, <CITE>Tcl and the Tk Toolkit</CITE>,
+Addison-Wesley, 1994) and editor-specific interfaces designed and implemented by
+the students. Tk itself provides another good example of interface-based design.</P>
+<P>In advanced courses, I usually package assignments as interfaces and give
+the students free rein to revise and improve on them, and even to change the
+goals of the assignment. Giving them a starting point reduces the time required
+for assignment, and allowing substantial changes encourages creative students to
+explore alternatives. The unsuccessful alternatives are often more educational
+than the successful ones. Students invariably go down the wrong road, and they
+pay for it with greatly increased development time. When, in hindsight, they
+understand their mistakes, they come to appreciate that designing good
+interfaces is hard, but worth the effort, and they almost always become converts
+to interface-based design.</P>
+<H2>How to Get the Software</H2>
+<P>The software in this book has been tested on the following platforms.</P>
+<BLOCKQUOTE>
+<TABLE CELLPADDING="12">
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TH><I>Processor</I></TH>
+<TH><I>Operating Systems</I></TH>
+<TH><I>Compilers</I></TH></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD ALIGN="LEFT">SPARC</TD>
+<TD>SunOS 4.1</TD>
+<TD>lcc 3.5<BR>gcc 2.7.2</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>Alpha</TD>
+<TD>OSF/1 3.2A</TD>
+<TD>lcc 4.0<BR>gcc 2.6.3<BR>cc</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>MIPS R3000</TD>
+<TD>IRIX 5.3</TD>
+<TD>lcc 3.5<BR>gcc 2.6.3<BR>cc</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>MIPS R3000</TD>
+<TD>Ultrix 4.3</TD>
+<TD>lcc 3.5<BR>gcc 2.5.7</TD></TR>
+<TR ALIGN="LEFT" VALIGN="TOP">
+<TD>Pentium</TD>
+<TD>Windows 95<BR>Windows NT 3.51<BR><SMALL>(except for Threads)</SMALL></TD>
+<TD>Microsoft Visual C/C++ 4.0</TD></TR></TABLE></BLOCKQUOTE>
+<P>A few of the implementations are machine-specific; they assume that the
+machine has two's-complement integer and IEEE floating-point arithmetic, and
+that unsigned longs can hold object pointers.</P>
+<P>The source code for everything in this book is available for
+<A HREF="ftp://ftp.cs.princeton.edu/pub/packages/cii">anonymous ftp</A> at
+<TT>ftp.cs.princeton.edu</TT> in <TT>pub/packages/cii</TT>. Use an <TT>ftp</TT>
+client to connect to <TT>ftp.cs.princeton.edu</TT>, change to the directory
+<TT>pub/packages/cii</TT>, and download the file
+<A HREF="ftp://ftp.cs.princeton.edu/pub/packages/cii/README">README</A>, which
+describes the contents of the directory and how to download the distribution.</P>
+<P>The most recent distributions are usually in files named <TT>cii</TT><I>xy</I><TT>.tar.gz</TT>
+or <TT>cii</TT><I>xy</I><TT>.zip</TT>. <I>xy</I> is the version number,
+e.g., 10 is version 1.0. <TT>cii</TT><I>xy</I><TT>.tar.gz</TT> is a U<SMALL>NIX</SMALL>
+tar file compressed with <TT>gzip</TT>, and <TT>cii</TT><I>xy</I><TT>.zip</TT>
+is a ZIP file compatible with PKZIP version 2.04g. The files in
+<TT>cii</TT><I>xy</I><TT>.zip</TT> are DOS/Windows text files; that is, their
+lines end with carriage returns and linefeeds.
+<TT>cii</TT><I>xy</I><TT>.zip</TT> may also be available on America Online,
+Compuserve, and other online services.</P>
+<P>Information is also available on the World-Wide Web at URL
+<A HREF="http://www.cs.princeton.edu/software/cii/">http://www.cs.princeton.edu/software/cii/</A>.
+This page includes instructions on reporting bugs.</P>
+<H2>Acknowledgments</H2>
+<P>I have been using some of the interfaces in this book for my own research
+project and in courses at the University of Arizona and Princeton University
+since the late 1970s. Students in these courses have been guinea pigs for my
+drafts of these interfaces. Their feedback over the years has been an important
+contribution to both the code in this book and its explanation. The Princeton
+students in several offerings of COS 217 and COS 596 deserve special thanks,
+because they suffered unknowingly through the drafts of most of what's in this
+book.</P>
+<P>Interfaces are a way of life at Digital's System Research Center (SRC), and
+my 1992 and 1993 summers at SRC working on the Modula-3 project erased any
+doubts I may have harbored about the efficacy of this approach. My thanks to SRC
+for supporting my visits, and to Bill Kalsow, Eric Muller, and Greg Nelson for
+many illuminating discussions.</P>
+<P>My thanks to IDA's Centers for Communications Research in Princeton and La
+Jolla for their support during the summer of 1994 and during my 1995&#150;96
+sabbatical. The CCRs provided ideal hideouts at which to plan and complete this
+book.</P>
+<P>Technical interactions with colleagues and students have contributed to this
+book in many ways. Even seemingly unrelated discussions have provoked
+improvements in my code and in its explanation.  Thanks to Andrew Appel, Greg
+Astfalk, Jack Davidson, John Ellis, Mary Fern&aacute;ndez, Chris Fraser, Alex
+Gounares, Kai Li, Jacob Navia, Maylee Noah, Rob Pike, Bill Plauger, John Reppy,
+Anne Rogers, and Richard Stevens. Careful readings of my code and prose by Rex
+Jaeschke, Brian Kernighan, Taj Khattra, Richard O'Keefe, Norman Ramsey, and
+David Spuler made a significant contribution to the quality of both.</P>
+<P><A HREF="./">Back to the CII home page</A>.</P>
+<HR>
+<ADDRESS><A HREF="http://www.cs.princeton.edu/~drh/">David Hanson</A> /
+<A HREF="mailto:drh@cs.princeton.edu">drh@cs.princeton.edu</A><BR>$Revision: 1.8 $ $Date$
+</ADDRESS></BODY></HTML>

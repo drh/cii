@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<link HREF="mailto:drh@microsoft.com" REV="made" TITLE="David R. Hanson">
+<title>Contents for C Interfaces and Implementations</title>
+</head>
+
+<body>
+
+<h1>Contents</h1>
+
+<p>Click on the parenthesized links to browse the named source files. (These files have no
+comments, because the book explains them.) 
+
+<ol>
+  <li><b>Introduction</b><br>
+    Literate Programs (<a HREF="pkg/examples/double.c">double.c</a>)<br>
+    Programming Style<br>
+    Efficiency</li>
+  <li><b>Interfaces and Implementations</b><br>
+    Interfaces (<a HREF="pkg/include/arith.h">arith.h</a>)<br>
+    Implementations (<a HREF="pkg/src/arith.c">arith.c</a>)</li>
+  <li><b>Atoms</b> <em><a HREF="doc/atom.pdf">Download/view this chapter</a> (an Adobe Acrobat
+    PDF file, 52K)</em><br>
+    Interface (<a HREF="pkg/include/atom.h">atom.h</a>)<br>
+    Implementation (<a HREF="pkg/src/atom.c">atom.c</a>)</li>
+  <li><b>Exceptions and Assertions</b><br>
+    Interface (<a HREF="pkg/include/except.h">except.h</a>)<br>
+    Implementation (<a HREF="pkg/src/except.c">except.c</a>)<br>
+    Assertions (<a HREF="pkg/include/assert.h">assert.h</a>)</li>
+  <li><b>Memory Management</b><br>
+    Interface (<a HREF="pkg/include/mem.h">mem.h</a>)<br>
+    Production Implementation (<a HREF="pkg/src/mem.c">mem.c</a>)<br>
+    Checking Implementation (<a HREF="pkg/src/memchk.c">memchk.c</a>)</li>
+  <li><b>More Memory Management</b><br>
+    Interface (<a HREF="pkg/include/arena.h">arena.h</a>)<br>
+    Implementation (<a HREF="pkg/src/arena.c">arena.c</a>)</li>
+  <li><b>Lists</b><br>
+    Interface (<a HREF="pkg/include/list.h">list.h</a>)<br>
+    Implementation (<a HREF="pkg/src/list.c">list.c</a>)</li>
+  <li><b>Tables</b><br>
+    Interface (<a HREF="pkg/include/table.h">table.h</a>)<br>
+    Example: Word Frequencies (<a HREF="pkg/examples/wf.c">wf.c</a>, <a
+    HREF="pkg/examples/getword.h">getword.h</a>, <a HREF="pkg/examples/getword.c">getword.c</a>)<br>
+    Implementation (<a HREF="pkg/src/table.c">table.c</a>)</li>
+  <li><b>Sets</b><br>
+    Interface (<a HREF="pkg/include/set.h">set.h</a>)<br>
+    Example: Cross-Reference Listings (<a HREF="pkg/examples/xref.c">xref.c</a>, <a
+    HREF="pkg/examples/getword.h">getword.h</a>, <a HREF="pkg/examples/getword.c">getword.c</a>)<br>
+    Implementation (<a HREF="pkg/src/set.c">set.c</a>)<br>
+    <small>Member Operations · Set Operations</small></li>
+  <li><b>Dynamic Arrays</b><br>
+    Interfaces (<a HREF="pkg/include/array.h">array.h</a>, <a HREF="pkg/include/arrayrep.h">arrayrep.h</a>)<br>
+    Implementation (<a HREF="pkg/src/array.c">array.c</a>)</li>
+  <li><b>Sequences</b><br>
+    Interface (<a HREF="pkg/include/seq.h">seq.h</a>)<br>
+    Implementation (<a HREF="pkg/src/seq.c">seq.c</a>)</li>
+  <li><b>Rings</b><br>
+    Interface (<a HREF="pkg/include/ring.h">ring.h</a>)<br>
+    Implementation (<a HREF="pkg/src/ring.c">ring.c</a>)</li>
+  <li><b>Bit Vectors</b><br>
+    Interface (<a HREF="pkg/include/bit.h">bit.h</a>)<br>
+    Implementation (<a HREF="pkg/src/bit.c">bit.c</a>)<br>
+    <small>Member Operations · Comparisons · Set Operations</small></li>
+  <li><b>Formatting</b><br>
+    Interface (<a HREF="pkg/include/fmt.h">fmt.h</a>)<br>
+    <small>Formatting Functions · Conversion Functions</small><br>
+    Implementation (<a HREF="pkg/src/fmt.c">fmt.c</a>)<br>
+    <small>Formatting Functions · Conversion Functions</small></li>
+  <li><b>Low-Level Strings</b><br>
+    Interface (<a HREF="pkg/include/str.h">str.h</a>)<br>
+    Example: Printing Identifiers (<a HREF="pkg/ids/ids.c">ids.c</a>)<br>
+    Implementation (<a HREF="pkg/src/str.c">str.c</a>)<br>
+    <small>String Operations · Searching Strings · Conversion Functions</small></li>
+  <li><b>High-Level Strings</b><br>
+    Interface (<a HREF="pkg/include/text.h">text.h</a>)<br>
+    Implementation (<a HREF="pkg/src/text.c">text.c</a>)<br>
+    <small>String Operations · Memory Management · Searching Strings · Conversion Functions</small></li>
+  <li><b>Extended-Precision Arithmetic</b><br>
+    Interface (<a HREF="pkg/include/xp.h">xp.h</a>)<br>
+    Implementation (<a HREF="pkg/src/xp.c">xp.c</a>)<br>
+    <small>Addition and Subtraction · Multiplication · Division and Comparison · Shifting
+    · String Conversions</small></li>
+  <li><b>Arbitrary-Precision Arithmetic</b><br>
+    Interface (<a HREF="pkg/include/ap.h">ap.h</a>)<br>
+    Example: A Calculator (<a HREF="pkg/examples/calc.c">calc.c</a>)<br>
+    Implementation (<a HREF="pkg/src/ap.c">ap.c</a>)<br>
+    <small>Negation and Multiplication · Addition and Subtraction · Division ·
+    Exponentiation · Comparisons · Convenience Functions · Shifting · String and Integer
+    Conversions</small></li>
+  <li><b>Multiple-Precision Arithmetic</b><br>
+    Interface (<a HREF="pkg/include/mp.h">mp.h</a>)<br>
+    Example: Another Calculator (<a HREF="pkg/examples/mpcalc.c">mpcalc.c</a>)<br>
+    Implementation (<a HREF="pkg/src/mp.c">mp.c</a>)<br>
+    <small>Conversions · Unsigned Arithmetic · Signed Arithmetic · Convenience Functions ·
+    Comparisons and Logical Operations · String Conversions</small></li>
+  <li><b>Threads</b><br>
+    Interfaces<br>
+    <small>Threads (<a HREF="pkg/include/thread.h">thread.h</a>) · General Semaphores (<a
+    HREF="pkg/include/sem.h">sem.h</a>) · Synchronous Communication Channels (<a
+    HREF="pkg/include/chan.h">chan.h</a>)</small><br>
+    Examples<br>
+    <small>Sorting Concurrently (<a HREF="pkg/examples/sort.c">sort.c</a>) · Critical Regions
+    (<a HREF="pkg/examples/spin.c">spin.c</a>) · Generating Primes (<a
+    HREF="pkg/examples/sieve.c">sieve.c</a>)</small><br>
+    Implementations<br>
+    <small>Synchronous Communication Channels (<a HREF="pkg/src/chan.c">chan.c</a>) · Threads
+    (<a HREF="pkg/src/thread.c">thread.c</a>) · Thread Creation and Context-Switching (<a
+    HREF="pkg/src/thread.c">thread.c</a>, <a HREF="pkg/src/swtch.s">swtch.s</a>) · Preemption
+    · General Semaphores (<a HREF="pkg/src/thread.c">thread.c</a>) · Context-Switching on
+    the MIPS and ALPHA</small></li>
+</ol>
+
+<dl>
+  <dd><b>Interface Summary</b><br>
+    <b>Bibliography</b><br>
+    <b>Index</b></dd>
+</dl>
+
+<p><a HREF="./">Back to the CII home page</a>.</p>
+
+<hr>
+
+<address>
+  <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a
+  HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
+  $Revision: 1.16 $ $Date$ 
+</address>
+</body>
+</html>

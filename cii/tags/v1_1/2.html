@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<link HREF="mailto:drh@microsoft.com" REV="made" TITLE="David R. Hanson">
+<title>Errata for C Interfaces and Implementations, 2/p</title>
+</head>
+
+<body>
+
+<h1>Errata: Second Printing</h1>
+
+<p>Corrections to second printing <cite>C Interfaces and Implementations: Techniques for
+Creating Reusable Software</cite> (Addison-Wesley Professional Computing Series, 1997,
+ISBN 0-201-49841-3). In the list below, line +<em>n</em> and line -<em>n</em> refer to the
+<em>n</em>th line from the top and bottom of the indicated page.</p>
+
+<p><strong>Page 168, lines -13..-8:</strong> Change to</p>
+
+<blockquote>
+  <pre>if (length == 0)
+	FREE(array-&gt;array);
+else if (array-&gt;length == 0)
+	array-&gt;array = ALLOC(length*array-&gt;size);
+else
+	RESIZE(array-&gt;array, length*array-&gt;size);</pre>
+</blockquote>
+
+<p>(This change should also be applied to page 168, lines -11..-8 in the first printing.)</p>
+
+<p>The errors below also appear in the first printing.</p>
+
+<p><strong>Page 84, line -10:</strong> Change to</p>
+
+<blockquote>
+  <pre>#define NALLOC ((4096 + sizeof (union align) - 1)/ \
+	(sizeof (union align)))*(sizeof (union align))
+</pre>
+</blockquote>
+
+<p><strong>Page 358, line -2:</strong> initalized <img SRC="images/rightarrow.gif"
+ALIGN="BOTTOM" WIDTH="17" HEIGHT="11"> initialized</p>
+
+<p><a HREF="1.html">First printing corrections.</a></p>
+
+<hr>
+
+<address>
+  <a HREF="http://www.research.microsoft.com/~drh/">David Hanson</a> / <a
+  HREF="mailto:drh@microsoft.com">drh@microsoft.com</a><br>
+  $Revision: 1.9 $ $Date$ 
+</address>
+</body>
+</html>
