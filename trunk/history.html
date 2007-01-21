@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD><LINK HREF="mailto:drh@microsoft.com" REV="made" TITLE="David R. Hanson">
+<TITLE>CII Modification History</TITLE></HEAD>
+<BODY>
+<H1>Modification History</H1>
+<P>This page summarizes the changes in the source code from <CITE>C Interfaces
+and Implementations</CITE> in reverse chronological order. For more information
+about this book, see the World-Wide Web page at
+<A HREF="http://www.cs.princeton.edu/software/cii/">http://www.cs.princeton.edu/software/cii/</A>.</P>
+<H2>1.1 Tue Nov  5 14:30:12 PST 1997</H2>
+<P>In the list below, notations like [p. 442] refer to the pages on which the
+corrections appear; see the errata for the <A HREF="1.html">first</A> and
+<A HREF="2.html">second</A> printings.</P>
+<DL>
+<DT><CODE><B>src/array.c</B></CODE>:</DT>
+<DD>Corrected <CODE>Array_resize</CODE> so that it correctly resizes empty
+arrays and handles a new size of 0 [p. 168].</DD>
+<DD>Corrected <CODE>Array_copy(a, len)</CODE> so that it correctly copies the
+elements of <CODE>a</CODE> when <CODE>Array_length(a) == len</CODE> [p. 169].</DD>
+<DT><CODE><B>src/arena.c</B></CODE>:</DT>
+<DD>Corrected if statement condition in <CODE>Arena_alloc</CODE> to avoid
+undefined behavior [p. 94].</DD>
+<DD>If <CODE>MAXALIGN</CODE> is defined, it gives the platform's maximum
+alignment in bytes and is used instead of <CODE>sizeof (union align)</CODE>.
+<CODE>MAXALIGN</CODE> is needed only when the maximum alignment is not equal to
+<CODE>sizeof (union align)</CODE>.</DD>
+<DT><CODE><B>include/except.h</B></CODE>, <CODE><B>src/except.c</B></CODE>:</DT>
+<DD>When compiling under Windows 95 or NT (i.e., <CODE>WIN32</CODE> is
+defined), declared <CODE>Except_stack</CODE> to be thread local storage.</DD>
+<DT><CODE><B>src/mem.c</B></CODE>:</DT>
+<DD>Corrected definition of <CODE>NALLOC</CODE> so that allocated blocks are
+properly aligned [p. 84].</DD>
+<DT><CODE><B>src/memchk.c</B></CODE>:</DT>
+<DD>If <CODE>MAXALIGN</CODE> is defined, it gives the maximum alignment; see
+<CODE>src/arena.c</CODE> above.</DD>
+<DT><CODE><B>src/{thread.c,swtch.s}</B></CODE>:</DT>
+<DD>Added Linux support. In <CODE>src/thread.c</CODE>, corrected assertion to
+catch <CODE>Thread_join(Thread_self())</CODE> [p. 442].</DD>
+<DT><CODE><B>src/thread-nt.c</B></CODE>:</DT>
+<DD>Implementation of the Thread interface for Windows NT that uses NT native
+threads.</DD></DL>
+<H2>1.0 Sat Aug 24 12:33:17 EDT 1996</H2>
+<P>In addition to the changes itemized below, the following global changes were
+made.</P>
+<OL>
+<LI>Replaced uses of <CODE>Mem_calloc</CODE> that initialized pointers with
+explicit assignments, because null pointers may be nonzero.</LI>
+<LI>Revised functions passed to other functions, like <CODE>qsort</CODE> and
+<CODE>Thread_new</CODE>, so that they match the prototypes of the corresponding
+formal parameters, which avoids the implicit assumption that all object pointer
+types have the same size and representation.</LI>
+<LI>Revised uses of the <CODE>Mem</CODE> and <CODE>Atom</CODE> functions and
+macros to conform to the revised interfaces (see below).</LI>
+<LI>Revised sample applications so they exit when a file argument cannot be
+opened, after using <CODE>strerror</CODE> to printing a more detailed
+diagnostic.</LI></OL>
+<DL>
+<DT><CODE><B>{wf,xref}/*.[ch]</B></CODE>:</DT>
+<DD>Changed <CODE>first(char c)</CODE> and <CODE>rest(char c)</CODE> to
+<CODE>first(int c)</CODE> and <CODE>rest(int c)</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>src/arena.[ch]</B></CODE>:</DT>
+<DD>Changed the type of the <CODE>nbytes</CODE> and <CODE>count</CODE>
+arguments to <CODE>Arena_alloc</CODE> and <CODE>Arena_calloc</CODE> from
+<CODE>int</CODE> to <CODE>long</CODE>.</DD>
+<DT><CODE><B>src/assert.h</B></CODE>:</DT>
+<DD>Added missing <CODE>#undef assert</CODE>.</DD>
+<DD>Moved the declaration of <CODE>Assert_Failed</CODE> to <CODE>except.h</CODE>
+so that <CODE>assert.h</CODE> is plug-compatible with an ANSI/ISO <CODE>assert.h</CODE>.</DD>
+<DT><CODE><B>src/atom.[ch]</B></CODE>:</DT>
+<DD>Changed the return type of <CODE>Atom_new</CODE>, <CODE>Atom_string</CODE>,
+and <CODE>Atom_int</CODE> from <CODE>char *</CODE> to <CODE>const char *</CODE>.</DD>
+<DT><CODE><B>src/except.h</B></CODE>:</DT>
+<DD>Added declaration for <CODE>Assert_Failed</CODE>.</DD>
+<DD>Declared <CODE>Except_flag</CODE> volatile.</DD>
+<DT><CODE><B>src/list.h</B></CODE>:</DT>
+<DD>Reversed the order of  the <CODE>first</CODE> and <CODE>rest</CODE>
+fields.</DD>
+<DT><CODE><B>src/mem.[ch]</B></CODE>:</DT>
+<DD>Changed the type of the <CODE>nbytes</CODE> and <CODE>count</CODE>
+arguments to <CODE>Mem_alloc</CODE>, <CODE>Mem_calloc</CODE>, and <CODE>Mem_resize</CODE>
+from <CODE>int</CODE> to <CODE>long</CODE>.</DD>
+<DD>Changed <CODE>Mem_free</CODE> and <CODE>Mem_resize</CODE> to accept
+pointers to the blocks to be deallocated or resized instead of pointers to those
+pointers; the arguments to these functions now mimic the arguments for <CODE>malloc</CODE>
+and <CODE>realloc</CODE>.</DD>
+<DD>Changed <CODE>FREE(ptr)</CODE>: it frees the block pointed to by <CODE>ptr</CODE>
+and clears <CODE>ptr</CODE>; it evaluates <CODE>ptr</CODE> more than once.</DD>
+<DD>Changed <CODE>RESIZE(ptr, nbytes)</CODE>: it resizes the block pointed to
+by <CODE>ptr</CODE> and reaims <CODE>ptr</CODE> at the resized block; it
+evaluates <CODE>ptr</CODE> more than once.</DD>
+<DT><CODE><B>src/mp.c</B></CODE>:</DT>
+<DD>Fixed overflow tests in <CODE>MP_fromint</CODE>, <CODE>MP_addi</CODE>,
+<CODE>MP_subi</CODE>, <CODE>MP_muli</CODE>, <CODE>MP_divi</CODE>, and <CODE>MP_modi</CODE>,
+which were incorrect on platforms where <CODE>sizeof (long)</CODE> exceeds
+<CODE>sizeof (int)</CODE>.</DD>
+<DD>Fixed <CODE>MP_mul</CODE> and <CODE>MP_mulu</CODE>, which scribbled
+beyond the end of <CODE>z</CODE>, their result arguments.</DD>
+<DD>Added missing assertion on the value of <CODE>base</CODE> to <CODE>MP_tostr</CODE>.</DD></DL>
+<H2>09b3 Thu May 30 01:13:26 EDT 1996</H2>
+<P>This beta release is the last one before release 1.0, which will coincide
+with the publication of <CITE>C Interfaces and Implementations</CITE> in August
+1996.</P>
+<P>There are too many bug fixes to list individually here, so the following
+summary describes only the interface changes and the new examples.</P>
+<DL>
+<DT><CODE><B>cref/*.c</B></CODE>:</DT>
+<DD>A version of <CODE>xref</CODE> that uses <CODE>Text</CODE> and <CODE>Ring</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>iref/*.c</B></CODE>:</DT>
+<DD>A version of <CODE>xref</CODE> that uses <CODE>Text</CODE>, <CODE>Array</CODE>,
+and <CODE>MP</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>idents/*.c</B></CODE>:</DT>
+<DD>A version of <CODE>ids</CODE> that uses <CODE>Str</CODE> and <CODE>Seq</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>kref/*.c</B></CODE>:</DT>
+<DD>A version of <CODE>xref</CODE> that uses <CODE>Str</CODE> and <CODE>Seq</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>words/*.c</B></CODE>:</DT>
+<DD>A version of <CODE>ids</CODE> that uses <CODE>Text</CODE> and <CODE>Ring</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>src/bit.h</B></CODE>:</DT>
+<DD>Renamed <CODE>Bit_length</CODE> to <CODE>Bit_count</CODE>, <CODE>Bit_size</CODE>
+to <CODE>Bit_length</CODE>, <CODE>Bit_member</CODE> to <CODE>Bit_get</CODE>,
+and removed
+<CODE>Bit_remove</CODE>.</DD>
+<DD>Removed
+<CODE>Bit_remove</CODE>.</DD>
+<DD>Changed <CODE>Bit_put</CODE> to <CODE>Bit_put(set, n, bit)</CODE>, which
+now sets bit <CODE>n</CODE> in <CODE>set</CODE> to <CODE>bit</CODE> and
+returns the previous value of bit <CODE>n</CODE>.</DD>
+<DT><CODE><B>src/except.h</B></CODE>:</DT>
+<DD>Added enumeration identifiers for the values assigned to <CODE>Except_flag</CODE>.</DD>
+<DT><CODE><B>src/ring.h</B></CODE>:</DT>
+<DD>Changed <CODE>Ring_put(ring, i, x)</CODE> so it returns the previous value
+of
+<CODE>ring[i]</CODE> instead of <CODE>x</CODE>.</DD>
+<DT><CODE><B>src/seq.h</B></CODE>:</DT>
+<DD>Changed <CODE>Seq_put(seq, i, x)</CODE> so it returns the previous value
+of
+<CODE>seq[i]</CODE> instead of <CODE>x</CODE>.</DD>
+<DT><CODE><B>src/set.h</B></CODE>:</DT>
+<DD>Renamed <CODE>Set_cvt</CODE> to <CODE>Set_fmt</CODE>.</DD>
+<DT><CODE><B>src/str.h</B></CODE>:</DT>
+<DD>Renamed <CODE>Str_cvt</CODE> to <CODE>Str_fmt</CODE>.</DD>
+<DT><CODE><B>src/table.h</B></CODE>:</DT>
+<DD>Changed <CODE>Table_put(table, key, value)</CODE> so it returns the
+previous value associated with <CODE>key</CODE> instead of <CODE>value</CODE>,
+or null if <CODE>table</CODE> doesn't hold <CODE>key</CODE>.</DD>
+<DT><CODE><B>src/text.h</B></CODE>:</DT>
+<DD>Changed the <CODE>str</CODE> field  in <CODE>Text_T</CODE> to <CODE>const
+char *str</CODE>.</DD>
+<DD>Renamed <CODE>Text_cvt</CODE> to <CODE>Text_fmt</CODE>.</DD>
+<DT><CODE><B>src/xp.h</B></CODE>:</DT>
+<DD>Changed the return type of <CODE>XP_add</CODE>, <CODE>XP_sub</CODE>,
+<CODE>XP_sum</CODE>, <CODE>XP_diff</CODE>, <CODE>XP_product</CODE>, <CODE>XP_quotient</CODE>,
+ and <CODE>XP_neg</CODE>, and <CODE>XP_fromstr</CODE> to <CODE>int</CODE>,
+and changed the type of the last argument (<CODE>carry</CODE>, <CODE>borrow</CODE>,
+or <CODE>y</CODE>) to these functions to <CODE>int</CODE>.</DD>
+<DD>Changed the return type of <CODE>XP_fromstr</CODE> to <CODE>int</CODE>.</DD>
+<DD>Changed the prototype of <CODE>XP_mul</CODE> to <CODE>int XP_mul(T z, int
+n, T x, int m, T y)</CODE> so <CODE>n</CODE> and <CODE>m</CODE> precede the
+<CODE>T</CODE> values to which they apply.</DD>
+<DD>Changed the prototype of <CODE>XP_div</CODE> to <CODE>int XP_div(int n, T
+q, T x, int m, T y, T r, T tmp)</CODE> so <CODE>n</CODE> and <CODE>m</CODE>
+precede the <CODE>T</CODE> values to which they apply .</DD>
+<DD>Changed the type of the last argument (<CODE>fill</CODE>) to <CODE>XP_lshift</CODE>
+and <CODE>XP_lshift</CODE> to <CODE>int</CODE>.</DD></DL>
+<H2>09b2 Sat Feb  3 11:20:30 PST 1996</H2>
+<P>`<CODE>const</CODE>' qualifiers have been added to some of the arguments in
+many of the interfaces. The source files have been stamped with an RCS-like
+revision numbers. C++ keywords are no longer used as variables.</P>
+<DL>
+<DT><CODE><B>calc/calc.c</B></CODE>:</DT>
+<DD>Changed the negation operator <CODE>_</CODE> to <CODE>~</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>mpcalc/mpcalc.c</B></CODE>:</DT>
+<DD>Changed the negation and complement operators, <CODE>_</CODE> and <CODE>~</CODE>,
+to <CODE>~</CODE> and <CODE>!</CODE>.</DD></DL>
+<DL>
+<DT><CODE><B>src/atom.h</B></CODE>:</DT>
+<DD><CODE>Atom_new</CODE> now accepts zero-length strings.</DD>
+<DT><CODE><B>src/atom.c</B></CODE>:</DT>
+<DD>Changed <CODE>Atom_new</CODE> to accept <CODE>len</CODE>=0.</DD>
+<DT><CODE><B>src/bit.h</B></CODE>:</DT>
+<DD>Removed <CODE>Bit_cmp</CODE>.</DD>
+<DD>Added <CODE>Bit_eq</CODE>,  <CODE>Bit_leq</CODE>, and <CODE>Bit_lt</CODE>.</DD>
+<DT><CODE><B>src/bit.c</B></CODE>:</DT>
+<DD>Changed internal representation to avoid the `struct hack,' removed <CODE>Bit_cmp</CODE>,
+and added implementations for <CODE>Bit_eq</CODE>,  <CODE>Bit_leq</CODE>, and
+<CODE>Bit_lt</CODE>.</DD>
+<DT><CODE><B>src/except.h</B></CODE>:</DT>
+<DD>Removed <CODE>RETURN_VOID</CODE> and changed the definition of <CODE>RETURN</CODE>
+so that it subsumes <CODE>RETURN_VOID</CODE>.</DD>
+<DT><CODE><B>src/ring.c</B></CODE>:</DT>
+<DD>Fixed <CODE>Ring_rotate</CODE> so that <CODE>Ring_rotate(r, 0)</CODE>
+when
+<CODE>r</CODE> is empty works.</DD>
+<DT><CODE><B>src/set.h</B></CODE>:</DT>
+<DD>The <CODE>cmp(x,y)</CODE> function passed to <CODE>Set_new</CODE> must
+now return an integer &lt;0, =0, or &gt;0 if <CODE>x</CODE>&lt;<CODE>y</CODE>,
+<CODE>x</CODE>=<CODE>y</CODE>, or <CODE>x</CODE>&gt;<CODE>y</CODE>.</DD>
+<DT><CODE><B>src/str.c</B></CODE>:</DT>
+<DD>Fixed incorrect arguments to <CODE>va_start</CODE> in <CODE>Str_catv</CODE>.</DD>
+<DT><CODE><B>src/swtch.s</B></CODE>:</DT>
+<DD>Added support for the DEC Alpha.</DD>
+<DT><CODE><B>src/table.h</B></CODE>:</DT>
+<DD>The <CODE>cmp(x,y)</CODE> function passed to <CODE>Table_new</CODE> must
+now return an integer &lt;0, =0, or &gt;0 if <CODE>x</CODE>&lt;<CODE>y</CODE>,
+<CODE>x</CODE>=<CODE>y</CODE>, or <CODE>x</CODE>&gt;<CODE>y</CODE>.</DD>
+<DT><CODE><B>src/table.c</B></CODE>:</DT>
+<DD>Fixed incorrect comparison in <CODE>Table_remove</CODE> that caused
+entries not to be removed.</DD>
+<DT><CODE><B>src/thread.h</B></CODE>:</DT>
+<DD>Added <CODE>Thread_Failed</CODE>; <CODE>Thread_new</CODE> raises <CODE>Thread_Failed</CODE>
+when it cannot create a thread, instead of <CODE>Mem_Failed</CODE>.</DD>
+<DT><CODE><B>src/thread.c</B></CODE>:</DT>
+<DD>Fixed incorrect arguments to <CODE>memset</CODE> in <CODE>Thread_new</CODE>,
+and changed <CODE>Thread_new</CODE> to raise <CODE>Thread_Failed</CODE>.</DD>
+<DD>Added support for the DEC Alpha to <CODE>Thread_new</CODE>.</DD></DL>
+<H2>09b1 Mon Oct 30 00:26:58 EST 1995</H2>
+<P>Initial beta release.</P>
+<P><A HREF="./">Back to the CII home page</A>.</P>
+<HR>
+<ADDRESS><A HREF="http://www.research.microsoft.com/~drh/">David Hanson</A> /
+<A HREF="mailto:drh@microsoft.com">drh@microsoft.com</A><BR>$Revision: 1.8 $ $Date: 1997/11/05 21:29:02 $</ADDRESS></BODY></HTML>

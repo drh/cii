@@ -1,0 +1,180 @@
+This hierarchy contains all the source code in the forthcoming book
+`C Interfaces and Implementations' by David Hanson. For more information,
+see World-Wide Web page at http://www.cs.princeton.edu/software/cii/.
+
+Contents
+~~~~~~~~
+A distribution includes the following files and directories.
+
+README	this file.
+
+CPYRIGHT
+	copyright statement.
+
+packing.lst
+	a list of the files in the distribution.
+
+history.txt
+	describes the distribution's revision history; an ASCII version
+	of http://www.cs.princeton.edu/software/cii/history.html.
+
+include
+	interfaces (.h files) for the CII library.
+
+src	implementations (.c files) for the CII library.
+
+These directories hold the examples from the chapters indicated and
+additional examples:
+
+double	 1/Introduction: double
+wf	 8/Tables
+xref	 9/Sets
+ids	15/Low-Level Strings
+calc	18/Arbitrary-Precision Arithmetic
+mpcalc	19/Multiple-Precision Arithmetic
+sieve	20/Threads
+sort	20/Threads
+spin	20/Threads
+cref	version of xref that uses Text and Ring
+kref	version of cref that uses Str and Seq
+iref	version of cref that uses Text, Array, and MP
+idents	version of ids that uses Str_r* and Seq
+words	version of ids that uses Text_r* and Ring
+
+Installation and Use
+~~~~~~~~~~~~~~~~~~~~
+The CII distributions are numbered X.Y where X is the major release
+number and Y is the minor release number. Starting with major release
+1, minor releases fix bugs and perhaps make improvements, but do *not*
+change interfaces. The interfaces and the compiled library are
+compatible with earlier and later minor releases; for example, a
+program compiled with the 1.3 release is compatible with release 1.8
+and vice versa. Major releases occur when one or more interfaces are
+changed or extended, or when new interfaces are added. These invariants
+do *not* apply to the 0.9 beta releases.
+
+It's usually best to follow a similar naming scheme when installing
+CII so that programs compiled with one major release can be
+recompiled even after a subsequent major release has been installed.
+The minor release number can be omitted. On UNIX, this can be
+accomplished by installing the interfaces in, say,
+/usr/local/lib/cii/X/include, where X is the major release number,
+and installing the library, libcii.a, in
+/usr/local/lib/cii/X/libcii.a.
+
+At sites with multiple platforms (architectures and OSes) and a
+single /usr/local hierarchy, the library can be installed in a
+platform-specific location below /usr/local/cii/X, e.g.,
+/usr/local/lib/cii/X/alpha-osf/libcii.a. The interfaces are machine
+independent and thus don't need platform-specific locations.
+
+Following this scheme permits the actual installation locations to be
+confined to specifying prefixes, like /usr/local/lib/cii/X/include and
+/usr/local/lib/cii/X/, in makefiles; programs can include interfaces by
+giving just the names of their header files.
+
+NB: If you use several compilers, you may need compiler-specific
+variants of libcii.a, and thus use platform names that denote a
+specific architecture, OS, *and* compiler. For example, the Text
+interface uses small structures and passes them by value, and, on some
+platforms, gcc generates code for text.c that is incompatible with lcc
+and the vendor-supplied cc. This problem is not specific to CII; it can
+occur with any library.
+
+Installation Details
+~~~~~~~~~~~~~~~~~~~~
+To build and install libcii.a on a UNIX system, perform the following
+steps. The commands shown assume that you have chdir'd to the
+distribution directory in this README appears.
+
+The distribution includes implementations of strncmp, memmove, and
+memcmp, because some vendor implementations are incorrect: these
+routines must compare bytes as unsigned chars. If your vendor's
+implementations are correct, you can edit these out of the makefile.
+
+1. Create the installation directories, if necessary:
+
+mkdir /usr/local/lib/cii/X /usr/local/lib/cii/X/include
+
+where X is the major release number. Change these directories to
+reflect your local conventions.
+
+2. Install the interfaces:
+
+cd include
+cp -p *.h /usr/local/lib/cii/X/include
+
+3. Build and install libcii.a and (optionally) memchk.o:
+
+cd src
+make CC="lcc -A"
+cp libcii.a /usr/local/lib/cii/X
+ranlib /usr/local/lib/cii/X/libcii.a
+
+If you don't have lcc, use another ANSI C compiler, e.g., gcc. There
+should be no errors or warnings, except for src/thread.c on some
+systems. You should be able to ignore the warnings. src/thread.c
+compiles only on SPARCs under SunOS 4.1.3 and on MIPSes under ULTRIX
+V4.3 or IRIX 5.3.
+
+If you want to make the checking implementation of the Mem interface
+available (see Sec. 5.3), compile and install memchk.o:
+
+make CC="lcc -A" memchk.o
+cp memchk.o /usr/local/lib/cii/X
+
+4. Clean up: "make clean" cleans up, but does not remove libcii.a;
+"make clobber" cleans up and removes libcii.a.
+
+Compiling the Examples
+~~~~~~~~~~~~~~~~~~~~~~
+The examples can be built by simply compiling them with compiler
+options that specify the locations of the interfaces and library, e.g.,
+if release 1 has been installed in /usr/local/lib/cii/1, double can be
+built with the commands
+
+cd double
+lcc -o double -I/usr/local/lib/cii/1/include *.c /usr/local/lib/cii/1/libcii.a
+
+Some compilation systems accept a -L option to specify the location of
+additional libraries, e.g.,
+
+cd sieve
+gcc -o sieve -I/usr/local/lib/cii/1/include *.c -L/usr/local/lib/cii/1 -lcii
+
+Reporting Bugs
+~~~~~~~~~~~~~~
+Devise the shortest possible example program that elicits the bug.
+Prune your example until it can be pruned no more without sending the
+error into hiding. I prune most error demonstrations to only a few
+lines. Annotate your example with C comments that describe the bug and
+your suggested fix, if you have one. If the example crashes, please
+report the last part of the call chain if you can.
+
+Send your example by electronic mail to cii-bugs@cs.princeton.edu and
+to drh@cs.princeton.edu. Please send only valid C programs; put all
+remarks in C comments so that I can process reports semiautomatically.
+
+Keeping in Touch
+~~~~~~~~~~~~~~~~
+There is a mailing list for general information about C Interfaces and
+Implementation. To join the list, send a message with the 1-line body
+
+subscribe cii
+
+to majordomo@cs.princeton.edu. This line must appear in the message
+body; `Subject:' lines are ignored. Mail sent to cii@cs.princeton.edu
+is forwarded to everyone on the mailing list.
+
+There is also an cii-bugs mailing list for reporting bugs; subscribe to
+it by sending a message with the 1-line body "subscribe cii-bugs" to
+majordomo@cs.princeton.edu. Mail addressed to cii-bugs@cs.princeton.edu
+is forwarded to everyone on this list.
+
+To unsubscribe, send "unsubscribe cii" or "unsubscribe cii-bugs" to
+majordomo@cs.princeton.edu. To learn more about mailing lists served by
+majordomo, send a message with the 1-word body "help" to
+majordomo@cs.princeton.edu.
+
+David R. Hanson / drh@cs.princeton.edu / http://www.cs.princeton.edu/~drh/
+$Id: README,v 1.7 1996/05/30 00:08:22 drh Exp drh $

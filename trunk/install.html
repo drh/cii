@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad//DTD HTML 3.2 + extensions for HoTMetaL PRO 3.0(U) 19961211//EN"
+ "hmpro3.dtd">
+<HTML>
+<HEAD><LINK HREF="mailto:drh@microsoft.com" REV="made" TITLE="David R. Hanson">
+<TITLE>CII Installation Guide</TITLE></HEAD>
+<BODY>
+<H1>CII Installation  Guide</H1>
+<P ALIGN="LEFT"><B><A HREF="http://www.research.microsoft.com/~drh/">David R.
+Hanson</A>, <A HREF="http://www.research.microsoft.com/">Microsoft Research</A></B></P>
+<H2>Contents</H2>
+<DIR>
+<LI><A HREF="#intro">Introduction</A></LI>
+<LI><A HREF="#unix">Installation on UNIX
+</A></LI>
+<LI><A HREF="#win32">Installation on Windows 95/NT</A></LI>
+<LI><A HREF="#bugs">Reporting Bugs</A>
+</LI>
+<LI><A HREF="#mailinglist">Keeping in Touch</A></LI></DIR>
+<H2><A NAME="intro">Introduction</A></H2>
+<P>This page describes how to install the software from my book <CITE><A
+HREF="http://www.awl.com/cseng/titles/0-201-49841-3/">C Interfaces and
+Implementations: Techniques for Creating Reusable Software</A></CITE> (<A
+HREF="http://cseng.aw.com/seriesdetail.qry?SeriesID=4">Addison-Wesley
+Professional Computing Series</A>, 1997, ISBN 0-201-49841-3). A CII distribution
+includes the following files and directories.</P>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="2">
+<TR>
+<TD><CODE><A HREF="README">README</A></CODE></TD>
+<TD></TD>
+<TD>distribution identification</TD></TR>
+<TR>
+<TD><CODE><A HREF="CPYRIGHT">CPYRIGHT</A></CODE></TD>
+<TD></TD>
+<TD>copyright statement</TD></TR>
+<TR>
+<TD><CODE><A HREF="packing.lst">packing.lst</A></CODE></TD>
+<TD></TD>
+<TD>a list of the files in the distribution</TD></TR>
+<TR>
+<TD><CODE><A HREF="install.html">install.html</A></CODE></TD>
+<TD></TD>
+<TD>this file</TD></TR>
+<TR>
+<TD><CODE><A HREF="history.html">history.html</A></CODE></TD>
+<TD></TD>
+<TD>describes the distribution's revision history</TD></TR>
+<TR>
+<TD><CODE><A HREF="makefile">makefile</A></CODE></TD>
+<TD></TD>
+<TD>UNIX makefile</TD></TR>
+<TR>
+<TD><CODE><A HREF="makefile.nt">makefile.nt</A></CODE></TD>
+<TD></TD>
+<TD>Windows 95/NT makefile</TD></TR>
+<TR>
+<TD><CODE><A HREF="include">include</A>/*.h</CODE></TD>
+<TD></TD>
+<TD>interfaces (<CODE>.h</CODE> files) for the CII library</TD></TR>
+<TR>
+<TD><CODE><A HREF="src">src</A>/*.c</CODE></TD>
+<TD></TD>
+<TD>implementations (<CODE>.c</CODE> files) for the CII library</TD></TR>
+<TR>
+<TD><CODE><A HREF="examples">examples</A>/*.[ch]</CODE></TD>
+<TD></TD>
+<TD>example clients, including those from the book</TD></TR></TABLE>
+<P>The CII distributions are numbered <EM>X.Y</EM> where <EM>X</EM> is the
+major release number and <EM>Y</EM> is the minor release number. Starting with
+major release 1, minor releases fix bugs and perhaps make improvements, but do
+<STRONG>not</STRONG> change interfaces. The interfaces and the compiled library
+are compatible with earlier and later minor releases; for example, a program
+compiled with the 1.3 release is compatible with release 1.8 and vice versa.
+Major releases occur when one or more interfaces are changed or extended, or
+when new interfaces are added.</P>
+<P>It's usually best to follow a similar naming scheme when installing CII so
+that programs compiled with one major release can be recompiled even after a
+subsequent major release has been installed. The minor release number can be
+omitted. On UNIX, for example, this convention can be accomplished by installing
+the interfaces in, say,
+<CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/include</CODE>, where <EM>X</EM>
+is the major release number, and installing the library, <CODE>libcii.a</CODE>,
+in
+<CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/libcii.a</CODE>.</P>
+<P>At UNIX sites with multiple platforms (architectures and OSes) and a single
+<CODE>/usr/local</CODE> hierarchy, the library can be installed in a
+platform-specific location below <CODE>/usr/local/cii/</CODE><EM>X</EM>, e.g.,
+<CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/alpha-osf/libcii.a</CODE>.
+The interfaces are machine independent and thus don't need platform-specific
+locations. Similar conventions can be used on Windows 95/NT.</P>
+<P>Following this scheme permits the actual installation locations to be
+confined to specifying prefixes, like <CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/include</CODE>
+and
+<CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/</CODE>, in makefiles;
+programs can include interfaces by giving just the names of their header files.</P>
+<P>On UNIX systems, it's also useful to plant release-independent symbol link
+to the latest CII release, e.g., make <CODE>/usr/local/include/cii</CODE> point
+to <CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/include</CODE> and
+<CODE>/usr/local/lib/libcii.a</CODE> point to <CODE>/usr/local/lib/cii/</CODE><EM>X</EM><CODE>/libcii.a</CODE>.</P>
+<P><STRONG>NB</STRONG>: If you use several compilers, you may need
+compiler-specific variants of <CODE>libcii.a</CODE>, and thus use platform
+names that denote a specific architecture, OS, <STRONG>and</STRONG> compiler.
+For example, the Text interface uses small structures and passes them by value,
+and, on some platforms, one C compiler might generate code for <CODE>src/text.c</CODE>
+that is incompatible with another compiler. This problem is not specific to CII;
+it can occur with any library.</P>
+<P>The installation makefile is designed so that CII can be installed from a
+read-only file system or directory, which is common in networked environments,
+so the distribution can be unloaded on a central file server. If you're
+installing CII on a UNIX system, continue with the next section. If you're
+installing CII on a Windows NT 4.0 or Windows 95 system, read the next section
+first, then follow the <A HREF="#win32">Windows NT/95 instructions</A>.</P>
+<H2><A NAME="unix">Installation on UNIX</A></H2>
+<P>The CII components (include files and the library) are installed in a single
+<EM>build directory</EM>. On multi-platform systems supported by a central file
+server, it's common to store the build directory in a location specific to the
+platform and to the version of CII, as suggested above. For example,
+installation on a UNIX system involves the following steps. Below, the build
+directory is referred to as <CODE>BUILDDIR</CODE>, and the commands shown
+assume the distribution directory is the current working directory.</P>
+<OL>
+<LI>Create the build directory, using a version- and platform-specific naming
+convention as suggested above, and record the name of this directory in the
+<CODE>BUILDDIR</CODE> environment variable:
+<BLOCKQUOTE>
+<PRE>% setenv BUILDDIR /usr/local/lib/cii/1/alpha-osf
+% mkdir -p $BUILDDIR</PRE></BLOCKQUOTE>Here and below, commands assume the C
+shell. Also, you'll need a version of <CODE>mkdir</CODE> that supports the
+<CODE>-p</CODE> option, which creates intermediate directories as necessary.</LI>
+<LI>Create the include directory in the build directory, and copy the include
+files:
+<BLOCKQUOTE>
+<PRE>% mkdir $BUILDDIR/include
+% cp -p include/*.h $BUILDDIR/include</PRE></BLOCKQUOTE>Some users create a
+symbolic link to the include directory in the distribution instead of making
+repeated copies of the include files. For example, at Princeton, the
+distributions are stored under <TT>/proj/pkg/cii</TT>, so the include files are
+&quot;installed&quot; by creating one symbolic link:
+<BLOCKQUOTE>
+<PRE>% ln -s /proj/pkg/cii/1.1/include $BUILDDIR/include</PRE></BLOCKQUOTE></LI>
+<LI>Build everything using the appropriate make command for your environment:
+<BLOCKQUOTE>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="0" CELLSPACING="2">
+<TR>
+<TD>ALPHA OSF/1 V3.2A:</TD>
+<TD>	<CODE>% make CC='cc -std1 -Dalpha' AS='as -Dalpha'</CODE></TD></TR>
+<TR>
+<TD>MIPS IRIX 6.2:</TD>
+<TD><CODE>% make</CODE></TD></TR>
+<TR>
+<TD>MIPS Ultrix 4.3:</TD>
+<TD><CODE>% gmake CC=gcc LD=gcc</CODE></TD></TR>
+<TR>
+<TD>SPARC SunOS 5.5.1 (Solaris)</TD>
+<TD><CODE>% make -k THREADS=</CODE></TD></TR>
+<TR>
+<TD>X86 Linux/Slackware 3.3</TD>
+<TD><CODE>% make CC='cc -DMAXALIGN=8' AS='cc -c -x assembler-with-cpp
+-traditional'</CODE></TD></TR></TABLE></BLOCKQUOTE>This command builds, in
+<CODE>BUILDDIR</CODE>, <CODE>libcii.a</CODE>, <CODE>memchk.o</CODE>, and the
+examples. There may be some warnings on some platforms. The assignment <CODE>THREADS=</CODE>
+appears on those platforms for which there is no Thread implementation. On these
+platforms, examples that use Thread won't link correctly, so use the <CODE>-k</CODE>
+option cause make to keep going. <CODE>MAXALIGN</CODE> is explained in <CODE><A
+HREF="history.html">history.html</A></CODE>.<BR><CODE>src/{memcmp,memmove,strncmp}.c</CODE>
+are implementations of the similarly named ANSI library functions. These are
+included in the distribution because some of  them are implemented incorrectly
+on some UNIX platforms. The corresponding object files are assigned to <CODE>EXTRAS</CODE>;
+if some of these functions are implemented correctly on your system, you can
+omit the CII versions by either editing <CODE>libcii.a</CODE>, or including the
+appropriate assignment to
+<CODE>EXTRAS</CODE>, e.g.,
+<BLOCKQUOTE>
+<PRE>% make EXTRAS=$BUILDDIR/memcmp.o</PRE></BLOCKQUOTE></LI>
+<LI>The <A HREF="makefile"><CODE>makefile</CODE></A> includes the file named
+by the <CODE>CUSTOM</CODE> macro; the default is <CODE>custom.mk</CODE>, and
+an empty
+<CODE>custom.mk</CODE> is included in the distribution. If desired, prepare a
+site-specific customization file and define <CODE>CUSTOM</CODE> to the path of
+that file when invoking make in the previous step. For example, on the ALPHA, I
+use <CODE>osf.mk</CODE>:
+<BLOCKQUOTE>
+<PRE>% cat osf.mk
+BUILDDIR=/usr/local/lib/cii/1/alpha-osf
+CC=cc -std1 -Dalpha
+AS=as -Dalpha
+% make CUSTOM=osf.mk</PRE></BLOCKQUOTE></LI>
+<LI>Run a few of the test programs, e.g.,
+<BLOCKQUOTE>
+<PRE>% $BUILDDIR/wf &lt;makefile
+% $BUILDDIR/sieve</PRE></BLOCKQUOTE>and then clean up:
+<BLOCKQUOTE>
+<PRE>% make clean</PRE></BLOCKQUOTE>This command removes everything except
+<CODE>include</CODE> and <CODE>libcii.a</CODE>. If you want to leave <CODE>memchk.o</CODE>
+installed, rebuild it, e.g.,
+<BLOCKQUOTE>
+<PRE>% make $BUILDDIR/memchk.o</PRE></BLOCKQUOTE><CODE>make clobber</CODE>
+removes everything from <CODE>BUILDDIR</CODE>.</LI>
+<LI>If desired, plant release-independent symbolic links to the include
+directory and to the installed library, e.g.,
+<BLOCKQUOTE>
+<PRE>% ln -s $BUILDDIR/include /usr/local/include/cii
+% ln -s $BUILDDIR/libcii.a /usr/local/lib/libcii.a</PRE></BLOCKQUOTE></LI></OL>
+<H2><A NAME="win32">Installation on Windows 95/NT</A></H2>
+<P>On Windows NT or Windows 95, you can use a directory organization similar to
+the one described above for UNIX as follows. The commands below assume the
+distribution is rooted at <CODE>C:\dist</CODE> and that the C compiler is
+Microsoft Visual C/C++ 5.0.</P>
+<OL>
+<LI>Create the build directory and set <CODE>BUILDDIR</CODE>:
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;set BUILDDIR=\lib\cii\1
+C:\dist&gt;mkdir %BUILDDIR%</PRE></BLOCKQUOTE>Change the assignment to <CODE>BUILDDIR</CODE>
+to suit your local conventions.</LI>
+<LI>Create the include directory in the build directory, and copy the include
+files:
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;mkdir %BUILDDIR%\include
+C:\dist&gt;copy include\*.h %BUILDDIR%\include</PRE></BLOCKQUOTE></LI>
+<LI>Build everything using <CODE>nmake</CODE>:
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;nmake -f makefile.nt BUILDDIR=%BUILDDIR%</PRE></BLOCKQUOTE>This
+command builds, in <CODE>BUILDDIR</CODE>, <CODE>libcii.lib</CODE>, <CODE>libcii.pdb</CODE>,
+<CODE>memchk.obj</CODE>, and the examples. The default <CODE>BUILDDIR</CODE>
+is
+<CODE>\lib\cii\1</CODE>, so the assignment to <CODE>BUILDDIR</CODE> above can
+be omitted if you use this default.</LI>
+<LI>Run a few of the test programs, e.g.,
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;%BUILDDIR%\wf &lt;makefile
+C:\dist&gt;%BUILDDIR%\sieve</PRE></BLOCKQUOTE>and then clean up:
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;nmake -f makefile.nt BUILDDIR=%BUILDDIR% clean</PRE></BLOCKQUOTE>This
+command removes everything except
+<CODE>include</CODE>, <CODE>libcii.a</CODE>, and <CODE>libcii.pdb</CODE>. If
+you want to leave <CODE>memchk.obj</CODE> installed, rebuild it, e.g.,
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;nmake -f makefile.nt BUILDDIR=%BUILDDIR% %BUILDDIR%\memchk.obj</PRE></BLOCKQUOTE><CODE>make
+clobber</CODE> removes everything from <CODE>BUILDDIR</CODE></LI>
+<LI><CODE>src\libcii.def</CODE> is a module definition file for the CII
+library. To create a DLL instead of a statically linked library, execute
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;nmake -f makefile.nt BUILDDIR=%BUILDDIR% libcii.dll</PRE></BLOCKQUOTE>This
+command creates <CODE>%BUILDDIR%\libcii.dll</CODE>, <B>overwrites</B>
+<CODE>%BUILDDIR%\libcii.lib</CODE> with the import library, and creates the
+export library <CODE>%BUILDDIR%\libcii.exp</CODE>. If you use <CODE>libcii.dll</CODE>,
+you'll need to move it to a directory on your <CODE>PATH</CODE>.</LI></OL>
+<P>Some users copy the include and library files into their Visual C/C++ 5.0
+distribution, e.g.,</P>
+<BLOCKQUOTE>
+<PRE>C:\dist&gt;mkdir &quot;\Program Files\DevStudio\VC\include\cii&quot;
+C:\dist&gt;copy include\*.h &quot;\Program Files\DevStudio\VC\include\cii&quot;
+C:\dist&gt;copy %BUILDDIR%\libcii.* &quot;\Program Files\DevStudio\VC\lib&quot;</PRE></BLOCKQUOTE>
+<H2><A NAME="bugs">Reporting Bugs</A></H2>
+<P>Devise the shortest possible example program that elicits the bug. Prune
+your example until it can be pruned no more without sending the error into
+hiding. I prune most error demonstrations to only a few lines. Annotate your
+example with C comments that describe the bug and your suggested fix, if you
+have one. If the example crashes, please report the last part of the call chain
+if you can.</P>
+<P>Send your example by electronic mail to <CODE>cii-bugs@cs.princeton.edu</CODE>
+and to <CODE>drh@microsoft.com</CODE>. Please send only valid C programs; put
+all remarks in C comments so that I can process reports semiautomatically.</P>
+<H2><A NAME="mailinglist">Keeping in Touch</A></H2>
+<P>There is a mailing list for general information about CII. To be added to
+the list, send a message with the 1-line body</P>
+<BLOCKQUOTE>
+<PRE>subscribe cii</PRE></BLOCKQUOTE>
+<P>to <TT>majordomo@cs.princeton.edu</TT>. This line must appear in the
+message body; &quot;Subject:&quot; lines are ignored. To learn more about
+mailing lists served by <TT>majordomo</TT>, send a message with the 1-word body
+&quot;<TT>help</TT>&quot; to <TT>majordomo@cs.princeton.edu</TT>.  Mail sent
+to <TT>cii@cs.princeton.edu</TT> is forwarded to everyone on the mailing list.</P>
+<P>There is also an <TT>cii-bugs</TT> mailing list for reporting bugs;
+subscribe to it by sending a message with the 1-line body</P>
+<BLOCKQUOTE>
+<PRE>subscribe cii-bugs</PRE></BLOCKQUOTE>
+<P>to <TT>majordomo@cs.princeton.edu</TT>. Mail addressed to
+<CODE>cii-bugs@cs.princeton.edu</CODE> is forwarded to everyone on this list.</P>
+<HR>
+<ADDRESS><A HREF="http://www.research.microsoft.com/~drh/">David Hanson</A> /
+<A HREF="mailto:drh@microsoft.com">drh@microsoft.com</A><BR>$Revision: 1.6 $ $Date: 1997/11/05 22:32:25 $</ADDRESS></BODY></HTML>
