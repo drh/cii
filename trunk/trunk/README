@@ -1,0 +1,14 @@
+This hierarchy contains all the source code from my book
+"C Interfaces and Implementations: Techniques for Creating Reusable
+Software (Addison-Wesley Professional Computing Series, 1997,
+ISBN 0-201-49841-3).
+
+For installation instructions, see install.html.
+
+For a summary of the distribution's revision history, see history.html.
+
+For more information, visit http://www.cs.princeton.edu/software/cii/.
+-----
+David R. Hanson
+drh@microsoft.com / http://www.research.microsoft.com/~drh/
+$Id: README,v 1.11 1997/10/30 00:51:23 drh Exp $

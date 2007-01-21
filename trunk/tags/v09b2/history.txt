@@ -1,0 +1,64 @@
+Modification History
+
+This page summarizes the changes in the source code from C Interfaces and
+Implementations in reverse chronological order. For more information about
+this book, see the World-Wide Web page at
+http://www.cs.princeton.edu/software/cii/.
+
+09b2 Sat Feb 3 11:20:30 PST 1996
+
+`const' qualifiers have been added to some of the arguments in many of the
+interfaces. The source files have been stamped with an RCS-like revision
+numbers. C++ keywords are no longer used as variables.
+
+calc/calc.c:
+     Changed the negation operator _ to ~.
+
+mpcalc/mpcalc.c:
+     Changed the negation and complement operators,_ and ~, to ~ and !.
+
+src/atom.h:
+     Atom_new now accepts zero-length strings.
+src/atom.c:
+     Changed Atom_new to accept len=0.
+src/bit.h:
+     Removed Bit_cmp.
+     Added Bit_eq, Bit_leq, and Bit_lt.
+src/bit.c:
+     Changed internal representation to avoid the `struct hack', removed
+     Bit_cmp, and added implementations for Bit_eq, Bit_leq, and Bit_lt.
+src/except.h:
+     Removed RETURN_VOID and changed the definition of RETURN so that it
+     subsumes RETURN_VOID.
+src/ring.c:
+     Fixed Ring_rotate so that Ring_rotate(r, 0) when r is empty works.
+src/set.h:
+     The cmp(x,y) function passed to Set_new must now return an integer <0,
+     =0, or >0 if x<y, x=y, or x>y.
+src/str.c:
+     Fixed incorrect arguments to va_start in Str_catv.
+src/swtch.s:
+     Added support for the DEC Alpha.
+src/table.h:
+     The cmp(x,y) function passed to Table_new must now return an integer
+     <0, =0, or >0 if x<y, x=y, or x>y.
+src/table.c:
+     Fixed incorrect comparison in Table_remove that caused entries not to
+     be removed.
+src/thread.h:
+     Added Thread_Failed; Thread_new raises Thread_Failed when it cannot
+     create a thread, instead of Mem_Failed.
+src/thread.c:
+     Fixed incorrect arguments to memset in Thread_new, and changed
+     Thread_new to raise Thread_Failed.
+     Added support for the DEC Alpha to Thread_new.
+
+09b1 Mon Oct 30 00:26:58 EST 1995
+
+Initial beta release.
+
+Back to the CII home page.
+
+---------------------------------------------------------------------------
+David Hanson / drh@cs.princeton.edu / $Revision: 1.2 $ $Date: 1996/02/03
+16:22:13 $
