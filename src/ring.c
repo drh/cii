@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/ring.doc,v 1.12 1997/02/21 19:49:24 drh Exp $";
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -16,7 +15,6 @@ struct T {
 T Ring_new(void) {
 	T ring;
 	NEW0(ring);
-	ring->head = NULL;
 	return ring;
 }
 T Ring_ring(void *x, ...) {
@@ -35,10 +33,10 @@ void Ring_free(T *ring) {
 		int n = (*ring)->length;
 		for ( ; n-- > 0; p = q) {
 			q = p->rlink;
-			FREE(p);
+			FREE(&p);
 		}
 	}
-	FREE(*ring);
+	FREE(ring);
 }
 int Ring_length(T ring) {
 	assert(ring);
@@ -153,7 +151,7 @@ void *Ring_remove(T ring, int i) {
 	x = q->value;
 	q->llink->rlink = q->rlink;
 	q->rlink->llink = q->llink;
-	FREE(q);
+	FREE(&q);
 	if (--ring->length == 0)
 		ring->head = NULL;
 	return x;
@@ -167,7 +165,7 @@ void *Ring_remhi(T ring) {
 	x = q->value;
 	q->llink->rlink = q->rlink;
 	q->rlink->llink = q->llink;
-	FREE(q);
+	FREE(&q);
 	if (--ring->length == 0)
 		ring->head = NULL;
 	return x;
@@ -199,3 +197,4 @@ void Ring_rotate(T ring, int n) {
 	}
 	ring->head = q;
 }
+static char rcsid[] = "$RCSfile: RCS/ring.doc,v $ $Revision: 1.7 $";

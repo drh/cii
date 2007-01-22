@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/array.doc,v 1.11 1997/10/29 22:05:21 drh Exp $ */
 #ifndef ARRAY_INCLUDED
 #define ARRAY_INCLUDED
 #define T Array_T
@@ -13,3 +12,4 @@ extern void Array_resize(T array, int length);
 extern T    Array_copy  (T array, int length);
 #undef T
 #endif
+/* $RCSfile: RCS/array.doc,v $ $Revision: 1.6 $ */

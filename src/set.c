@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/set.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
 #include <limits.h>
 #include <stddef.h>
 #include "mem.h"
@@ -54,16 +53,12 @@ T Set_new(int hint,
 	assert(hint >= 0);
 	for (i = 1; primes[i] < hint; i++)
 		;
-	set = ALLOC(sizeof (*set) +
+	set = CALLOC(1, sizeof (*set) +
 		primes[i-1]*sizeof (set->buckets[0]));
 	set->size = primes[i-1];
 	set->cmp  = cmp  ?  cmp : cmpatom;
 	set->hash = hash ? hash : hashatom;
 	set->buckets = (struct member **)(set + 1);
-	for (i = 0; i < set->size; i++)
-		set->buckets[i] = NULL;
-	set->length = 0;
-	set->timestamp = 0;
 	return set;
 }
 int Set_member(T set, const void *member) {
@@ -108,7 +103,7 @@ void *Set_remove(T set, const void *member) {
 			struct member *p = *pp;
 			*pp = p->link;
 			member = p->member;
-			FREE(p);
+			FREE(&p);
 			set->length--;
 			return (void *)member;
 		}
@@ -126,10 +121,10 @@ void Set_free(T *set) {
 		for (i = 0; i < (*set)->size; i++)
 			for (p = (*set)->buckets[i]; p; p = q) {
 				q = p->link;
-				FREE(p);
+				FREE(&p);
 			}
 	}
-	FREE(*set);
+	FREE(set);
 }
 void Set_map(T set,
 	void apply(const void *member, void *cl), void *cl) {
@@ -281,3 +276,4 @@ T Set_diff(T s, T t) {
 		return set;
 	}
 }
+static char rcsid[] = "$RCSfile: RCS/set.doc,v $ $Revision: 1.7 $";

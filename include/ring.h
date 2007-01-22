@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/ring.doc,v 1.12 1997/02/21 19:49:24 drh Exp $ */
 #ifndef RING_INCLUDED
 #define RING_INCLUDED
 #define T Ring_T
@@ -18,3 +17,4 @@ extern void *Ring_remhi(T ring);
 extern void Ring_rotate(T ring, int n);
 #undef T
 #endif
+/* $RCSfile: RCS/ring.doc,v $ $Revision: 1.7 $ */

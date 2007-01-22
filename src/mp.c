@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/mp.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
@@ -56,7 +55,7 @@ static int apply(T op(T, T, T), T z, T x, long v) {
 			z[nbytes-1] &= msb; }
 	op(z, x, tmp[2]);
 	return (nbits < 8*(int)sizeof (v) &&
-	       	(v < -(1L<<(nbits-1)) || v >= (1L<<(nbits-1))));
+	       	(v < -(1<<(nbits-1)) || v >= (1<<(nbits-1))));
 }
 int MP_set(int n) {
 	int prev = nbits;
@@ -66,7 +65,7 @@ int MP_set(int n) {
 	shift  = (n-1)%8;
 	msb    = ones(n);
 	if (tmp[0] != temp)
-		FREE(tmp[0]);
+		FREE(&tmp[0]);
 	if (nbytes <= 16)
 		tmp[0] = temp;
 	else
@@ -101,7 +100,7 @@ T MP_fromint(T z, long v) {
 		XP_fromint(nbytes, z, v);
 	z[nbytes-1] &= msb;
 	if ((nbits < 8*(int)sizeof (v) &&
-	    	(v < -(1L<<(nbits-1)) || v >= (1L<<(nbits-1)))))
+	    	(v < -(1<<(nbits-1)) || v >= (1<<(nbits-1)))))
 		RAISE(MP_Overflow);
 	return z;
 }
@@ -149,8 +148,8 @@ T MP_cvtu(int m, T z, T x) {
 			carry |= x[i];
 		memcpy(z, x, mbytes);
 		z[mbytes-1] &= ones(m);
-		if (carry)
-			RAISE(MP_Overflow);
+if (carry)
+	RAISE(MP_Overflow);
 	} else {
 		memcpy(z, x, nbytes);
 		for (i = nbytes; i < mbytes; i++)
@@ -258,16 +257,16 @@ T MP_mul2(T z, T x, T y) {
 	assert(x); assert(y); assert(z);
 	sx = sign(x);
 	sy = sign(y);
-	if (sx) {
-		XP_neg(nbytes, tmp[0], x, 1);
-		x = tmp[0];
-		x[nbytes-1] &= msb;
-	}
-	if (sy) {
-		XP_neg(nbytes, tmp[1], y, 1);
-		y = tmp[1];
-		y[nbytes-1] &= msb;
-	}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
+if (sy) {
+	XP_neg(nbytes, tmp[1], y, 1);
+	y = tmp[1];
+	y[nbytes-1] &= msb;
+}
 	memset(tmp[3], '\0', 2*nbytes);
 	XP_mul(tmp[3], nbytes, x, nbytes, y);
 	if (sx != sy)
@@ -281,22 +280,22 @@ T MP_mul(T z, T x, T y) {
 	assert(x); assert(y); assert(z);
 	sx = sign(x);
 	sy = sign(y);
-	if (sx) {
-		XP_neg(nbytes, tmp[0], x, 1);
-		x = tmp[0];
-		x[nbytes-1] &= msb;
-	}
-	if (sy) {
-		XP_neg(nbytes, tmp[1], y, 1);
-		y = tmp[1];
-		y[nbytes-1] &= msb;
-	}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
+if (sy) {
+	XP_neg(nbytes, tmp[1], y, 1);
+	y = tmp[1];
+	y[nbytes-1] &= msb;
+}
 	memset(tmp[3], '\0', 2*nbytes);
 	XP_mul(tmp[3], nbytes, x, nbytes, y);
 	if (sx != sy)
-		XP_neg(nbytes, z, tmp[3], 1);
+		XP_neg((2*nbits - 1)/8 + 1, z, tmp[3], 1);
 	else
-		memcpy(z, tmp[3], nbytes);
+		memcpy(z, tmp[3], (2*nbits - 1)/8 + 1);
 	z[nbytes-1] &= msb;
 	{
 		int i;
@@ -494,11 +493,11 @@ T MP_divi(T z, T x, long y) {
 	else if (-BASE < y && y < BASE) {
 		int r;
 		int sx = sign(x), sy = y < 0;
-		if (sx) {
-			XP_neg(nbytes, tmp[0], x, 1);
-			x = tmp[0];
-			x[nbytes-1] &= msb;
-		}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
 		r = XP_quotient(nbytes, z, x, sy ? -y : y);
 		if (sx != sy) {
 			XP_neg(nbytes, z, z, 1);
@@ -524,11 +523,11 @@ long MP_modi(T x, long y) {
 		T z = tmp[2];
 		int r;
 		int sx = sign(x), sy = y < 0;
-		if (sx) {
-			XP_neg(nbytes, tmp[0], x, 1);
-			x = tmp[0];
-			x[nbytes-1] &= msb;
-		}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
 		r = XP_quotient(nbytes, z, x, sy ? -y : y);
 		if (sx != sy) {
 			XP_neg(nbytes, z, z, 1);
@@ -647,13 +646,13 @@ void MP_fmtu(int code, va_list *app,
 	unsigned char flags[], int width, int precision) {
 	T x;
 	char *buf;
-	assert(app && flags);
+	assert(app && *app && flags);
 	x = va_arg(*app, T);
 	assert(x);
 	buf = MP_tostr(NULL, 0, va_arg(*app, int), x);
 	Fmt_putd(buf, strlen(buf), put, cl, flags,
 		width, precision);
-	FREE(buf);
+	FREE(&buf);
 }
 void MP_fmt(int code, va_list *app,
 	int put(int c, void *cl), void *cl,
@@ -661,11 +660,10 @@ void MP_fmt(int code, va_list *app,
 	T x;
 	int base, size, sx;
 	char *buf;
-	assert(app && flags);
+	assert(app && *app && flags);
 	x = va_arg(*app, T);
 	assert(x);
 	base = va_arg(*app, int);
-	assert(base >= 2 && base <= 36);
 	sx = sign(x);
 	if (sx) {
 		XP_neg(nbytes, tmp[0], x, 1);
@@ -686,5 +684,6 @@ void MP_fmt(int code, va_list *app,
 		MP_tostr(buf, size + 1, base, x);
 	Fmt_putd(buf, strlen(buf), put, cl, flags,
 		width, precision);
-	FREE(buf);
+	FREE(&buf);
 }
+static char rcsid[] = "$RCSfile: RCS/mp.doc,v $ $Revision: 1.8 $";

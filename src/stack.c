@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/inter.doc,v 1.11 1997/02/21 19:42:15 drh Exp $";
 #include <stddef.h>
 #include "assert.h"
 #include "mem.h"
@@ -13,9 +12,7 @@ struct T {
 };
 T Stack_new(void) {
 	T stk;
-	NEW(stk);
-	stk->count = 0;
-	stk->head = NULL;
+	NEW0(stk);
 	return stk;
 }
 int Stack_empty(T stk) {
@@ -40,7 +37,7 @@ void *Stack_pop(T stk) {
 	stk->head = t->link;
 	stk->count--;
 	x = t->x;
-	FREE(t);
+	FREE(&t);
 	return x;
 }
 void Stack_free(T *stk) {
@@ -48,7 +45,8 @@ void Stack_free(T *stk) {
 	assert(stk && *stk);
 	for (t = (*stk)->head; t; t = u) {
 		u = t->link;
-		FREE(t);
+		FREE(&t);
 	}
-	FREE(*stk);
+	FREE(stk);
 }
+static char rcsid[] = "$RCSfile: RCS/inter.doc,v $ $Revision: 1.6 $";

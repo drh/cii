@@ -44,12 +44,12 @@ _swtch:	lda	$sp,-112($sp)	# allocate _swtch's frame
 _start:	.frame	$sp,0,$26
 	.mask	0x0,0
 	.prologue 0
-	mov	$14,$16	# register 14 holds args
-	mov	$15,$27	# register 15 holds apply
+	mov	$14,$16	# $14 holds args
+	mov	$15,$27	# $15 holds apply
 	jsr	$26,($27)	# call apply
 	ldgp	$26,0($26)	# reload the global pointer
 	mov	$0,$16	# Thread_exit(apply(args))
-	mov	$13,$27	# register 13 has Thread_exit
+	mov	$13,$27	# $13 holds Thread_exit
 	jsr	$26,($27)
 	call_pal	0
 .end	_start
@@ -85,7 +85,7 @@ _ENDMONITOR:
 .align	2
 .ent	_swtch
 .set	reorder
-_swtch:	.frame	$sp,88,$31
+_swtch:	.frame $sp,88,$31
 	subu	$sp,88
 	.fmask	0xfff00000,-48
 	s.d	$f20,0($sp)
@@ -126,49 +126,15 @@ _swtch:	.frame	$sp,88,$31
 	addu	$sp,88
 	j	$31
 .globl	_start
-_start:	move	$4,$23	# register 23 holds args
-	move	$25,$30	# register 30 holds apply
+_start:	move	$4,$23	# $23 holds args
+	move	$25,$30	# $30 holds apply
 	jal	$25
 	move	$4,$2	# Thread_exit(apply(p))
-	move	$25,$21	# register 21 holds Thread_exit
+	move	$25,$21	# $21 holds Thread_exit
 	jal	$25
 	syscall
 .end	_swtch
 .globl	_ENDMONITOR
-_ENDMONITOR:
-#elif linux && i386
-.align	4
-.globl	__swtch
-.globl	_swtch
-__swtch:
-_swtch:
-	subl	$16,%esp
-	movl	%ebx,0(%esp)
-	movl	%esi,4(%esp)
-	movl	%edi,8(%esp)
-	movl	%ebp,12(%esp)
-	movl	20(%esp),%eax
-	movl	%esp,0(%eax)
-	movl	24(%esp),%eax
-	movl	0(%eax),%esp
-	movl	0(%esp),%ebx
-	movl	4(%esp),%esi
-	movl	8(%esp),%edi
-	movl	12(%esp),%ebp
-	addl	$16, %esp
-	ret
-.align	4
-.globl	__thrstart
-.globl	_thrstart
-__thrstart:
-_thrstart:
-	pushl	%edi
-	call	*%esi
-	pushl	%eax
-	call	Thread_exit
-.globl	__ENDMONITOR
-.globl	_ENDMONITOR
-__ENDMONITOR:
 _ENDMONITOR:
 #else
 Unsupported platform

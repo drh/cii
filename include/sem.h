@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $ */
 #ifndef SEM_INCLUDED
 #define SEM_INCLUDED
 #define T Sem_T
@@ -15,3 +14,4 @@ extern void Sem_wait  (T *s);
 extern void Sem_signal(T *s);
 #undef T
 #endif
+/* $RCSfile: RCS/thread.doc,v $ $Revision: 1.7 $ */

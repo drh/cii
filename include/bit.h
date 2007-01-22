@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/bit.doc,v 1.15 1997/02/21 19:49:56 drh Exp $ */
 #ifndef BIT_INCLUDED
 #define BIT_INCLUDED
 #define T Bit_T
@@ -23,3 +22,4 @@ extern T Bit_minus(T s, T t);
 extern T Bit_diff (T s, T t);
 #undef T
 #endif
+/* $RCSfile: RCS/bit.doc,v $ $Revision: 1.10 $ */

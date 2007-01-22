@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/set.doc,v 1.11 1996/06/26 23:02:01 drh Exp $ */
 #ifndef SET_INCLUDED
 #define SET_INCLUDED
 #define T Set_T
@@ -20,3 +19,4 @@ extern T Set_minus(T s, T t);
 extern T Set_diff (T s, T t);
 #undef T
 #endif
+/* $RCSfile: RCS/set.doc,v $ $Revision: 1.7 $ */

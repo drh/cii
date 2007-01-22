@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/ap.doc,v 1.11 1996/06/26 23:02:01 drh Exp $ */
 #ifndef AP_INCLUDED
 #define AP_INCLUDED
 #include <stdarg.h>
@@ -32,3 +31,4 @@ extern int AP_cmp (T x, T y);
 extern int AP_cmpi(T x, long int y);
 #undef T
 #endif
+/* $RCSfile: RCS/ap.doc,v $ $Revision: 1.8 $ */

@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/mp.doc,v 1.11 1996/06/26 23:02:01 drh Exp $ */
 #ifndef MP_INCLUDED
 #define MP_INCLUDED
 #include <stdarg.h>
@@ -65,3 +64,4 @@ extern void  MP_fmtu   (int code, va_list *app,
 	unsigned char flags[], int width, int precision);
 #undef T
 #endif
+/* $RCSfile: RCS/mp.doc,v $ $Revision: 1.8 $ */

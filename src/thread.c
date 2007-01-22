@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $";
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -92,25 +91,10 @@ static void release(void) {
 	do { critical++;
 	while ((t = freelist) != NULL) {
 		freelist = t->next;
-		FREE(t);
+		FREE(&t);
 	}
 	critical--; } while (0);
 }
-#if linux
-#include <asm/sigcontext.h>
-static int interrupt(int sig, struct sigcontext_struct sc) {
-	if (critical ||
-	   sc.eip >= (unsigned long)_MONITOR
-	&& sc.eip <= (unsigned long)_ENDMONITOR)
-		return 0;
-	put(current, &ready);
-	do { critical++;
-	sigsetmask(sc.oldmask);
-	critical--; } while (0);
-	run();
-	return 0;
-}
-#else
 static int interrupt(int sig, int code,
 	struct sigcontext *scp) {
 	if (critical ||
@@ -122,7 +106,6 @@ static int interrupt(int sig, int code,
 	run();
 	return 0;
 }
-#endif
 int Thread_init(int preempt, ...) {
 	assert(preempt == 0 || preempt == 1);
 	assert(current == NULL);
@@ -159,7 +142,7 @@ void Thread_pause(void) {
 	run();
 }
 int Thread_join(T t) {
-	assert(current && t != current);
+	assert(current);
 	testalert();
 	if (t) {
 		if (t->handle == t) {
@@ -243,14 +226,14 @@ T Thread_new(int apply(void *), void *args,
 		critical--; } while (0);
 		args = t->sp;
 	}
-#if alpha
+	#if alpha
 	{ extern void _start(void);
 	  t->sp -= 112/8;
 	  t->sp[(48+24)/8] = (unsigned long)Thread_exit;
 	  t->sp[(48+16)/8] = (unsigned long)args;
 	  t->sp[(48+ 8)/8] = (unsigned long)apply;
 	  t->sp[(48+ 0)/8] = (unsigned long)_start; }
-#elif mips
+	#elif mips
 	{ extern void _start(void);
 	  t->sp -= 16/4;
 	  t->sp -= 88/4;
@@ -258,7 +241,7 @@ T Thread_new(int apply(void *), void *args,
 	  t->sp[(48+28)/4] = (unsigned long)args;
 	  t->sp[(48+32)/4] = (unsigned long)apply;
 	  t->sp[(48+36)/4] = (unsigned long)_start; }
-#elif sparc
+	#elif sparc
 	{ 	int i; void *fp; extern void _start(void);
 	  	for (i = 0; i < 8; i++)
 	  		*--t->sp = 0;
@@ -269,17 +252,9 @@ T Thread_new(int apply(void *), void *args,
 	  	*--t->sp = (unsigned long)_start - 8;
 	  	*--t->sp = (unsigned long)fp;
 	  	t->sp -= 64/4; }
-#elif linux && i386
-	{ extern void _thrstart(void);
-	  t->sp -= 4/4;
-	  *t->sp = (unsigned long)_thrstart;
-	  t->sp -= 16/4;
-	  t->sp[4/4]  = (unsigned long)apply;
-	  t->sp[8/4]  = (unsigned long)args;
-	  t->sp[12/4] = (unsigned long)t->sp + (4+16)/4; }
-#else
+	#else
 	Unsupported platform
-#endif
+	#endif
 	nthreads++;
 	put(t, &ready);
 	return t;
@@ -320,3 +295,4 @@ void Sem_signal(T *s) {
 		++s->count;
 }
 #undef T
+static char rcsid[] = "$RCSfile: RCS/thread.doc,v $ $Revision: 1.7 $";

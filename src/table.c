@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/table.doc,v 1.13 1997/10/27 23:10:11 drh Exp $";
 #include <limits.h>
 #include <stddef.h>
 #include "mem.h"
@@ -33,16 +32,12 @@ T Table_new(int hint,
 	assert(hint >= 0);
 	for (i = 1; primes[i] < hint; i++)
 		;
-	table = ALLOC(sizeof (*table) +
+	table = CALLOC(1, sizeof (*table) +
 		primes[i-1]*sizeof (table->buckets[0]));
 	table->size = primes[i-1];
 	table->cmp  = cmp  ?  cmp : cmpatom;
 	table->hash = hash ? hash : hashatom;
 	table->buckets = (struct binding **)(table + 1);
-	for (i = 0; i < table->size; i++)
-		table->buckets[i] = NULL;
-	table->length = 0;
-	table->timestamp = 0;
 	return table;
 }
 void *Table_get(T table, const void *key) {
@@ -110,7 +105,7 @@ void *Table_remove(T table, const void *key) {
 			struct binding *p = *pp;
 			void *value = p->value;
 			*pp = p->link;
-			FREE(p);
+			FREE(&p);
 			table->length--;
 			return value;
 		}
@@ -138,8 +133,9 @@ void Table_free(T *table) {
 		for (i = 0; i < (*table)->size; i++)
 			for (p = (*table)->buckets[i]; p; p = q) {
 				q = p->link;
-				FREE(p);
+				FREE(&p);
 			}
 	}
-	FREE(*table);
+	FREE(table);
 }
+static char rcsid[] = "$RCSfile: RCS/table.doc,v $ $Revision: 1.8 $";

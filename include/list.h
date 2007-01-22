@@ -1,11 +1,10 @@
-/* $Id: H:/drh/idioms/book/RCS/list.doc,v 1.11 1997/02/21 19:46:01 drh Exp $ */
 #ifndef LIST_INCLUDED
 #define LIST_INCLUDED
 #define T List_T
 typedef struct T *T;
 struct T {
-	T rest;
 	void *first;
+	T rest;
 };
 extern T      List_append (T list, T tail);
 extern T      List_copy   (T list);
@@ -20,3 +19,4 @@ extern void   List_map    (T list,
 extern void **List_toArray(T list, void *end);
 #undef T
 #endif
+/* $RCSfile: RCS/list.doc,v $ $Revision: 1.6 $ */

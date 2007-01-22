@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/str.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
 #include <string.h>
 #include <limits.h>
 #include "assert.h"
@@ -275,7 +274,7 @@ void Str_fmt(int code, va_list *app,
 	unsigned char flags[], int width, int precision) {
 	char *s;
 	int i, j;
-	assert(app && flags);
+	assert(app && *app && flags);
 	s = va_arg(*app, char *);
 	i = va_arg(*app, int);
 	j = va_arg(*app, int);
@@ -283,3 +282,4 @@ void Str_fmt(int code, va_list *app,
 	Fmt_puts(s + i, j - i, put, cl, flags,
 		width, precision);
 }
+static char rcsid[] = "$RCSfile: RCS/str.doc,v $ $Revision: 1.7 $";

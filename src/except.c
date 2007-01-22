@@ -1,12 +1,8 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/except.doc,v 1.10 1997/02/21 19:43:55 drh Exp $";
 #include <stdlib.h>
 #include <stdio.h>
 #include "assert.h"
 #include "except.h"
 #define T Except_T
-#ifdef WIN32
-__declspec(thread)
-#endif
 Except_Frame *Except_stack = NULL;
 void Except_raise(const T *e, const char *file,
 	int line) {
@@ -30,3 +26,4 @@ void Except_raise(const T *e, const char *file,
 	Except_stack = Except_stack->prev;
 	longjmp(p->env, Except_raised);
 }
+static char rcsid[] = "$RCSfile: RCS/except.doc,v $ $Revision: 1.6 $";

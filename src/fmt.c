@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/fmt.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -42,7 +41,7 @@ static void cvt_d(int code, va_list *app,
 	else
 		m = val;
 	do
-		*--p = m%10 + '0';
+		*--p = "0123456789"[m%10];
 	while ((m /= 10) > 0);
 	if (val < 0)
 		*--p = '-';
@@ -56,7 +55,7 @@ static void cvt_u(int code, va_list *app,
 	char buf[43];
 	char *p = buf + sizeof buf;
 	do
-		*--p = m%10 + '0';
+		*--p = "0123456789"[m%10];
 	while ((m /= 10) > 0);
 	Fmt_putd(p, (buf + sizeof buf) - p, put, cl, flags,
 		width, precision);
@@ -68,7 +67,7 @@ static void cvt_o(int code, va_list *app,
 	char buf[43];
 	char *p = buf + sizeof buf;
 	do
-		*--p = (m&0x7) + '0';
+		*--p = "01234567"[m&0x7];
 	while ((m>>= 3) != 0);
 	Fmt_putd(p, (buf + sizeof buf) - p, put, cl, flags,
 		width, precision);
@@ -152,10 +151,6 @@ static T cvt[256] = {
  /* 120-127 */ cvt_x, 0, 0,     0,     0,     0,     0,     0
 };
 char *Fmt_flags = "-+ 0";
-static int outc(int c, void *cl) {
-	FILE *f = cl;
-	return putc(c, f);
-}
 static int insert(int c, void *cl) {
 	struct buf *p = cl;
 	if (p->bp >= p->buf + p->size)
@@ -166,7 +161,7 @@ static int insert(int c, void *cl) {
 static int append(int c, void *cl) {
 	struct buf *p = cl;
 	if (p->bp >= p->buf + p->size) {
-		RESIZE(p->buf, 2*p->size);
+		p->buf = RESIZE(&p->buf, 2*p->size);
 		p->bp = p->buf + p->size;
 		p->size *= 2;
 	}
@@ -185,8 +180,8 @@ void Fmt_puts(const char *str, int len,
 		flags['-'] = 1;
 		width = -width;
 	}
-	if (precision >= 0)
-		flags['0'] = 0;
+if (precision >= 0)
+	flags['0'] = 0;
 	if (precision >= 0 && precision < len)
 		len = precision;
 	if (!flags['-'])
@@ -209,13 +204,15 @@ void Fmt_fmt(int put(int c, void *), void *cl,
 void Fmt_print(const char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
-	Fmt_vfmt(outc, stdout, fmt, ap);
+	Fmt_vfmt((int (*)(int, void *))fputc, stdout,
+		fmt, ap);
 	va_end(ap);
 }
 void Fmt_fprint(FILE *stream, const char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);
-	Fmt_vfmt(outc, stream, fmt, ap);
+	Fmt_vfmt((int (*)(int, void *))fputc, stream,
+		fmt, ap);
 	va_end(ap);
 }
 int Fmt_sfmt(char *buf, int size, const char *fmt, ...) {
@@ -254,12 +251,13 @@ char *Fmt_vstring(const char *fmt, va_list ap) {
 	cl.buf = cl.bp = ALLOC(cl.size);
 	Fmt_vfmt(append, &cl, fmt, ap);
 	append(0, &cl);
-	return RESIZE(cl.buf, cl.bp - cl.buf);
+	return RESIZE(&cl.buf, cl.bp - cl.buf);
 }
 void Fmt_vfmt(int put(int c, void *cl), void *cl,
 	const char *fmt, va_list ap) {
 	assert(put);
 	assert(fmt);
+	assert(ap);
 	while (*fmt)
 		if (*fmt != '%' || *++fmt == '%')
 			put((unsigned char)*fmt++, cl);
@@ -329,8 +327,8 @@ void Fmt_putd(const char *str, int len,
 		flags['-'] = 1;
 		width = -width;
 	}
-	if (precision >= 0)
-		flags['0'] = 0;
+if (precision >= 0)
+	flags['0'] = 0;
 	if (len > 0 && (*str == '-' || *str == '+')) {
 		sign = *str++;
 		len--;
@@ -364,11 +362,12 @@ void Fmt_putd(const char *str, int len,
 			put(sign, cl);
 	  }
 	  pad(precision - len, '0');
-	  {
-	  	int i;
-	  	for (i = 0; i < len; i++)
-	  		put((unsigned char)*str++, cl);
-	  }
+{
+	int i;
+	for (i = 0; i < len; i++)
+		put((unsigned char)*str++, cl);
+}
 	  if (flags['-'])
 	  	pad(width - n, ' '); }
 }
+static char rcsid[] = "$RCSfile: RCS/fmt.doc,v $ $Revision: 1.6 $";

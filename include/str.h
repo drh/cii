@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/str.doc,v 1.10 1996/06/26 23:02:01 drh Exp $ */
 #ifndef STR_INCLUDED
 #define STR_INCLUDED
 #include <stdarg.h>
@@ -39,3 +38,4 @@ extern void Str_fmt(int code, va_list *app,
 	unsigned char flags[], int width, int precision);
 #undef T
 #endif
+/* $RCSfile: RCS/str.doc,v $ $Revision: 1.7 $ */

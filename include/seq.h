@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/seq.doc,v 1.11 1997/02/21 19:48:24 drh Exp $ */
 #ifndef SEQ_INCLUDED
 #define SEQ_INCLUDED
 #define T Seq_T
@@ -15,3 +14,4 @@ extern void *Seq_remlo(T seq);
 extern void *Seq_remhi(T seq);
 #undef T
 #endif
+/* $RCSfile: RCS/seq.doc,v $ $Revision: 1.7 $ */

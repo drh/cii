@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/seq.doc,v 1.11 1997/02/21 19:48:24 drh Exp $";
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -30,7 +29,7 @@ T Seq_new(int hint) {
 	if (hint == 0)
 		hint = 16;
 	ArrayRep_init(&seq->array, hint, sizeof (void *),
-		ALLOC(hint*sizeof (void *)));
+		CALLOC(hint, sizeof (void *)));
 	return seq;
 }
 T Seq_seq(void *x, ...) {
@@ -106,3 +105,4 @@ void *Seq_addlo(T seq, void *x) {
 	return ((void **)seq->array.array)[
 	       	(seq->head + i)%seq->array.length] = x;
 }
+static char rcsid[] = "$RCSfile: RCS/seq.doc,v $ $Revision: 1.7 $";

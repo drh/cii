@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/arena.doc,v 1.10 1997/02/21 19:45:19 drh Exp $";
 #include <stdlib.h>
 #include <string.h>
 #include "assert.h"
@@ -16,18 +15,14 @@ struct T {
 	char *limit;
 };
 union align {
-#ifdef MAXALIGN
-	char pad[MAXALIGN];
-#else
 	int i;
 	long l;
-	long *lp;
+	unsigned u;
 	void *p;
 	void (*fp)(void);
 	float f;
 	double d;
 	long double ld;
-#endif
 };
 union header {
 	struct T b;
@@ -36,11 +31,9 @@ union header {
 static T freechunks;
 static int nfree;
 T Arena_new(void) {
-	T arena = malloc(sizeof (*arena));
+	T arena = calloc(1, sizeof (*arena));
 	if (arena == NULL)
 		RAISE(Arena_NewFailed);
-	arena->prev = NULL;
-	arena->limit = arena->avail = NULL;
 	return arena;
 }
 void Arena_dispose(T *ap) {
@@ -49,31 +42,31 @@ void Arena_dispose(T *ap) {
 	free(*ap);
 	*ap = NULL;
 }
-void *Arena_alloc(T arena, long nbytes,
+void *Arena_alloc(T arena, int nbytes,
 	const char *file, int line) {
 	assert(arena);
 	assert(nbytes > 0);
-	nbytes = ((nbytes + sizeof (union align) - 1)/
-		(sizeof (union align)))*(sizeof (union align));
-	while (nbytes > arena->limit - arena->avail) {
+	nbytes = (nbytes +
+		sizeof (union align)-1)&~(sizeof (union align)-1);
+	while (arena->avail + nbytes > arena->limit) {
 		T ptr;
 		char *limit;
-		if ((ptr = freechunks) != NULL) {
-			freechunks = freechunks->prev;
-			nfree--;
-			limit = ptr->limit;
-		} else {
-			long m = sizeof (union header) + nbytes + 10*1024;
-			ptr = malloc(m);
-			if (ptr == NULL)
-				{
-					if (file == NULL)
-						RAISE(Arena_Failed);
-					else
-						Except_raise(&Arena_Failed, file, line);
-				}
-			limit = (char *)ptr + m;
+if ((ptr = freechunks) != NULL) {
+	freechunks = freechunks->prev;
+	nfree--;
+	limit = ptr->limit;
+} else {
+	int m = sizeof (union header) + nbytes + 10*1024;
+	ptr = malloc(m);
+	if (ptr == NULL)
+		{
+			if (file == NULL)
+				RAISE(Arena_Failed);
+			else
+				Except_raise(&Arena_Failed, file, line);
 		}
+	limit = (char *)ptr + m;
+}
 		*ptr = *arena;
 		arena->avail = (char *)((union header *)ptr + 1);
 		arena->limit = limit;
@@ -82,7 +75,7 @@ void *Arena_alloc(T arena, long nbytes,
 	arena->avail += nbytes;
 	return arena->avail - nbytes;
 }
-void *Arena_calloc(T arena, long count, long nbytes,
+void *Arena_calloc(T arena, int count, int nbytes,
 	const char *file, int line) {
 	void *ptr;
 	assert(count > 0);
@@ -106,3 +99,4 @@ void Arena_free(T arena) {
 	assert(arena->limit == NULL);
 	assert(arena->avail == NULL);
 }
+static char rcsid[] = "$RCSfile: RCS/arena.doc,v $ $Revision: 1.6 $";

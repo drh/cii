@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/text.doc,v 1.10 1996/06/26 23:02:01 drh Exp $ */
 #ifndef TEXT_INCLUDED
 #define TEXT_INCLUDED
 #include <stdarg.h>
@@ -42,3 +41,4 @@ extern Text_save_T Text_save(void);
 extern void        Text_restore(Text_save_T *save);
 #undef T
 #endif
+/* $RCSfile: RCS/text.doc,v $ $Revision: 1.7 $ */

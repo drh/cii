@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/list.doc,v 1.11 1997/02/21 19:46:01 drh Exp $";
 #include <stdarg.h>
 #include <stddef.h>
 #include "assert.h"
@@ -47,7 +46,7 @@ T List_pop(T list, void **x) {
 		T head = list->rest;
 		if (x)
 			*x = list->first;
-		FREE(list);
+		FREE(&list);
 		return head;
 	} else
 		return list;
@@ -72,7 +71,7 @@ void List_free(T *list) {
 	assert(list);
 	for ( ; *list; *list = next) {
 		next = (*list)->rest;
-		FREE(*list);
+		FREE(list);
 	}
 }
 void List_map(T list,
@@ -83,7 +82,7 @@ void List_map(T list,
 }
 void **List_toArray(T list, void *end) {
 	int i, n = List_length(list);
-	void **array = ALLOC((n + 1)*sizeof (*array));
+	void **array = CALLOC(n + 1, sizeof (*array));
 	for (i = 0; i < n; i++) {
 		array[i] = list->first;
 		list = list->rest;
@@ -91,3 +90,4 @@ void **List_toArray(T list, void *end) {
 	array[i] = end;
 	return array;
 }
+static char rcsid[] = "$RCSfile: RCS/list.doc,v $ $Revision: 1.6 $";

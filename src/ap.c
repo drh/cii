@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/ap.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
 #include <ctype.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -85,7 +84,7 @@ T AP_new(long int n) {
 }
 void AP_free(T *z) {
 	assert(z && *z);
-	FREE(*z);
+	FREE(z);
 }
 T AP_neg(T x) {
 	T z;
@@ -154,7 +153,7 @@ T AP_div(T x, T y) {
 		XP_T tmp = ALLOC(x->ndigits + y->ndigits + 2);
 		XP_div(x->ndigits, q->digits, x->digits,
 			y->ndigits, y->digits, r->digits, tmp);
-		FREE(tmp);
+		FREE(&tmp);
 	}
 	normalize(q, q->size);
 	normalize(r, r->size);
@@ -180,7 +179,7 @@ T AP_mod(T x, T y) {
 		XP_T tmp = ALLOC(x->ndigits + y->ndigits + 2);
 		XP_div(x->ndigits, q->digits, x->digits,
 			y->ndigits, y->digits, r->digits, tmp);
-		FREE(tmp);
+		FREE(&tmp);
 	}
 	normalize(q, q->size);
 	normalize(r, r->size);
@@ -388,7 +387,7 @@ char *AP_tostr(char *str, int size, int base, T x) {
 		XP_tostr(str + 1, size - 1, base, x->ndigits, q);
 	} else
 		XP_tostr(str, size, base, x->ndigits, q);
-	FREE(q);
+	FREE(&q);
 	return str;
 }
 void AP_fmt(int code, va_list *app,
@@ -396,11 +395,12 @@ void AP_fmt(int code, va_list *app,
 	unsigned char flags[], int width, int precision) {
 	T x;
 	char *buf;
-	assert(app && flags);
+	assert(app && *app && flags);
 	x = va_arg(*app, T);
 	assert(x);
 	buf = AP_tostr(NULL, 0, 10, x);
 	Fmt_putd(buf, strlen(buf), put, cl, flags,
 		width, precision);
-	FREE(buf);
+	FREE(&buf);
 }
+static char rcsid[] = "$RCSfile: RCS/ap.doc,v $ $Revision: 1.8 $";

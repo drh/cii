@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/bit.doc,v 1.15 1997/02/21 19:49:56 drh Exp $";
 #include <stdarg.h>
 #include <string.h>
 #include "assert.h"
@@ -43,20 +42,19 @@ static T copy(T t) {
 T Bit_new(int length) {
 	T set;
 	assert(length >= 0);
-	NEW(set);
-	if (length > 0)
+	NEW0(set);
+	if (length > 0) {
 		set->words = CALLOC(nwords(length),
 			sizeof (unsigned long));
-	else
-		set->words = NULL;
-	set->bytes = (unsigned char *)set->words;
+		set->bytes = (unsigned char *)set->words;
+	}
 	set->length = length;
 	return set;
 }
 void Bit_free(T *set) {
 	assert(set && *set);
-	FREE((*set)->words);
-	FREE(*set);
+	FREE(&(*set)->words);
+	FREE(set);
 }
 int Bit_length(T set) {
 	assert(set);
@@ -181,3 +179,4 @@ T Bit_minus(T s, T t) {
 T Bit_diff(T s, T t) {
 	setop(Bit_new(s->length), copy(t), copy(s), ^)
 }
+static char rcsid[] = "$RCSfile: RCS/bit.doc,v $ $Revision: 1.10 $";

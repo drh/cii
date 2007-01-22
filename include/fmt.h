@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/fmt.doc,v 1.10 1996/06/26 23:02:01 drh Exp $ */
 #ifndef FMT_INCLUDED
 #define FMT_INCLUDED
 #include <stdarg.h>
@@ -32,3 +31,4 @@ extern void Fmt_puts(const char *str, int len,
 	unsigned char flags[256], int width, int precision);
 #undef T
 #endif
+/* $RCSfile: RCS/fmt.doc,v $ $Revision: 1.6 $ */

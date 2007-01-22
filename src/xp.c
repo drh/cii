@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/xp.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
 #include <ctype.h>
 #include <string.h>
 #include "assert.h"
@@ -159,13 +158,13 @@ int XP_div(int n, T q, T x, int m, T y, T r, T tmp) {
 			}
 		}
 		memcpy(r, rem, m);
-		{
-			int i;
-			for (i = n-m+1; i < nx; i++)
-				q[i] = 0;
-			for (i = m; i < my; i++)
-				r[i] = 0;
-		}
+{
+	int i;
+	for (i = n-m+1; i < nx; i++)
+		q[i] = 0;
+	for (i = m; i < my; i++)
+		r[i] = 0;
+}
 	}
 	return 1;
 }
@@ -272,3 +271,4 @@ char *XP_tostr(char *str, int size, int base,
 	}
 	return str;
 }
+static char rcsid[] = "$RCSfile: RCS/xp.doc,v $ $Revision: 1.7 $";

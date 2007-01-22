@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/xp.doc,v 1.10 1996/06/26 23:02:01 drh Exp $ */
 #ifndef XP_INCLUDED
 #define XP_INCLUDED
 #define T XP_T
@@ -27,3 +26,4 @@ extern char *XP_tostr  (char *str, int size, int base,
 	int n, T x);
 #undef T
 #endif
+/* $RCSfile: RCS/xp.doc,v $ $Revision: 1.7 $ */

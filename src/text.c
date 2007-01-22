@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/text.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
 #include <string.h>
 #include <limits.h>
 #include "assert.h"
@@ -15,7 +14,7 @@ struct Text_save_T {
 	struct chunk *current;
 	char *avail;
 };
-static char cset[] =
+static char cset[] = {
 	"\000\001\002\003\004\005\006\007\010\011\012\013\014\015\016\017"
 	"\020\021\022\023\024\025\026\027\030\031\032\033\034\035\036\037"
 	"\040\041\042\043\044\045\046\047\050\051\052\053\054\055\056\057"
@@ -32,7 +31,7 @@ static char cset[] =
 	"\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337"
 	"\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357"
 	"\360\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377"
-	;
+};
 const T Text_cset   = { 256, cset };
 const T Text_ascii  = { 127, cset };
 const T Text_ucase  = {  26, cset + 'A' };
@@ -219,10 +218,10 @@ void Text_restore(Text_save_T *save) {
 	assert(save && *save);
 	current = (*save)->current;
 	current->avail = (*save)->avail;
-	FREE(*save);
+	FREE(save);
 	for (p = current->link; p; p = q) {
 		q = p->link;
-		FREE(p);
+		FREE(&p);
 	}
 	current->link = NULL;
 }
@@ -388,9 +387,10 @@ void Text_fmt(int code, va_list *app,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	T *s;
-	assert(app && flags);
+	assert(app && *app && flags);
 	s = va_arg(*app, T*);
 	assert(s && s->len >= 0 && s->str);
 	Fmt_puts(s->str, s->len, put, cl, flags,
 		width, precision);
 }
+static char rcsid[] = "$RCSfile: RCS/text.doc,v $ $Revision: 1.7 $";

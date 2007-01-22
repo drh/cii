@@ -1,4 +1,3 @@
-/* $Id: H:/drh/idioms/book/RCS/inter.doc,v 1.11 1997/02/21 19:42:15 drh Exp $ */
 #ifndef STACK_INCLUDED
 #define STACK_INCLUDED
 #define T Stack_T
@@ -10,3 +9,4 @@ extern void *Stack_pop  (T stk);
 extern void  Stack_free (T *stk);
 #undef T
 #endif
+/* $RCSfile: RCS/inter.doc,v $ $Revision: 1.6 $ */
