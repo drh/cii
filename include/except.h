@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/except.doc,v 1.10 1997/02/21 19:43:55 drh Exp $ */
+/* $RCSfile: RCS/except.doc,v $ $Revision: 1.9 $ */
 #ifndef EXCEPT_INCLUDED
 #define EXCEPT_INCLUDED
 #include <setjmp.h>
@@ -16,9 +16,6 @@ struct Except_Frame {
 };
 enum { Except_entered=0, Except_raised,
        Except_handled,   Except_finalized };
-#ifdef WIN32
-__declspec(thread)
-#endif
 extern Except_Frame *Except_stack;
 extern const Except_T Assert_Failed;
 void Except_raise(const T *e, const char *file,int line);

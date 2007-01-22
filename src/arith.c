@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/inter.doc,v 1.11 1997/02/21 19:42:15 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/inter.doc,v $ $Revision: 1.10 $";
 #include "arith.h"
 int Arith_max(int x, int y) {
 	return x > y ? x : y;

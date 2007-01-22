@@ -1,13 +1,10 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/mem.doc,v 1.12 1997/10/27 23:08:05 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/mem.doc,v $ $Revision: 1.11 $";
 #include <stdlib.h>
 #include <string.h>
 #include "assert.h"
 #include "except.h"
 #include "mem.h"
 union align {
-#ifdef MAXALIGN
-	char pad[MAXALIGN];
-#else
 	int i;
 	long l;
 	long *lp;
@@ -16,13 +13,11 @@ union align {
 	float f;
 	double d;
 	long double ld;
-#endif
 };
 #define hash(p, t) (((unsigned long)(p)>>3) & \
 	(sizeof (t)/sizeof ((t)[0])-1))
 #define NDESCRIPTORS 512
-#define NALLOC ((4096 + sizeof (union align) - 1)/ \
-	(sizeof (union align)))*(sizeof (union align))
+#define NALLOC 4096
 const Except_T Mem_Failed = { "Allocation Failed" };
 static struct descriptor {
 	struct descriptor *free;

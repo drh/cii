@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/array.doc,v 1.11 1997/10/29 22:05:21 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/array.doc,v $ $Revision: 1.9 $";
 #include <stdlib.h>
 #include <string.h>
 #include "assert.h"
@@ -57,12 +57,10 @@ int Array_size(T array) {
 void Array_resize(T array, int length) {
 	assert(array);
 	assert(length >= 0);
-	if (length == 0)
-		FREE(array->array);
-	else if (array->length == 0)
-		array->array = ALLOC(length*array->size);
-	else
+	if (length > 0)
 		RESIZE(array->array, length*array->size);
+	else
+		FREE(array->array);
 	array->length = length;
 }
 T Array_copy(T array, int length) {
@@ -70,7 +68,7 @@ T Array_copy(T array, int length) {
 	assert(array);
 	assert(length >= 0);
 	copy = Array_new(length, array->size);
-	if (copy->length >= array->length
+	if (copy->length > array->length
 	&& array->length > 0)
 		memcpy(copy->array, array->array, array->length);
 	else if (array->length > copy->length

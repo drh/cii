@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/bit.doc,v 1.15 1997/02/21 19:49:56 drh Exp $ */
+/* $RCSfile: RCS/bit.doc,v $ $Revision: 1.14 $ */
 #ifndef BIT_INCLUDED
 #define BIT_INCLUDED
 #define T Bit_T

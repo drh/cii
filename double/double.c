@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/intro.doc,v 1.12 1997/10/27 23:05:12 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/intro.doc,v $ $Revision: 1.10 $";
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>

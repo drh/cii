@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/fmt.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/fmt.doc,v $ $Revision: 1.10 $";
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -185,8 +185,8 @@ void Fmt_puts(const char *str, int len,
 		flags['-'] = 1;
 		width = -width;
 	}
-	if (precision >= 0)
-		flags['0'] = 0;
+if (precision >= 0)
+	flags['0'] = 0;
 	if (precision >= 0 && precision < len)
 		len = precision;
 	if (!flags['-'])
@@ -329,8 +329,8 @@ void Fmt_putd(const char *str, int len,
 		flags['-'] = 1;
 		width = -width;
 	}
-	if (precision >= 0)
-		flags['0'] = 0;
+if (precision >= 0)
+	flags['0'] = 0;
 	if (len > 0 && (*str == '-' || *str == '+')) {
 		sign = *str++;
 		len--;
@@ -364,11 +364,11 @@ void Fmt_putd(const char *str, int len,
 			put(sign, cl);
 	  }
 	  pad(precision - len, '0');
-	  {
-	  	int i;
-	  	for (i = 0; i < len; i++)
-	  		put((unsigned char)*str++, cl);
-	  }
+{
+	int i;
+	for (i = 0; i < len; i++)
+		put((unsigned char)*str++, cl);
+}
 	  if (flags['-'])
 	  	pad(width - n, ' '); }
 }

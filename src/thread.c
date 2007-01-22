@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/thread.doc,v $ $Revision: 1.10 $";
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -96,21 +96,6 @@ static void release(void) {
 	}
 	critical--; } while (0);
 }
-#if linux
-#include <asm/sigcontext.h>
-static int interrupt(int sig, struct sigcontext_struct sc) {
-	if (critical ||
-	   sc.eip >= (unsigned long)_MONITOR
-	&& sc.eip <= (unsigned long)_ENDMONITOR)
-		return 0;
-	put(current, &ready);
-	do { critical++;
-	sigsetmask(sc.oldmask);
-	critical--; } while (0);
-	run();
-	return 0;
-}
-#else
 static int interrupt(int sig, int code,
 	struct sigcontext *scp) {
 	if (critical ||
@@ -122,7 +107,6 @@ static int interrupt(int sig, int code,
 	run();
 	return 0;
 }
-#endif
 int Thread_init(int preempt, ...) {
 	assert(preempt == 0 || preempt == 1);
 	assert(current == NULL);
@@ -159,7 +143,7 @@ void Thread_pause(void) {
 	run();
 }
 int Thread_join(T t) {
-	assert(current && t != current);
+	assert(current);
 	testalert();
 	if (t) {
 		if (t->handle == t) {
@@ -269,14 +253,6 @@ T Thread_new(int apply(void *), void *args,
 	  	*--t->sp = (unsigned long)_start - 8;
 	  	*--t->sp = (unsigned long)fp;
 	  	t->sp -= 64/4; }
-#elif linux && i386
-	{ extern void _thrstart(void);
-	  t->sp -= 4/4;
-	  *t->sp = (unsigned long)_thrstart;
-	  t->sp -= 16/4;
-	  t->sp[4/4]  = (unsigned long)apply;
-	  t->sp[8/4]  = (unsigned long)args;
-	  t->sp[12/4] = (unsigned long)t->sp + (4+16)/4; }
 #else
 	Unsupported platform
 #endif

@@ -9,27 +9,13 @@ right to left.
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include "assert.h"
 #include "atom.h"
 #include "fmt.h"
 #include "mem.h"
 #include "table.h"
 #include "seq.h"
 #include "str.h"
-
-static char rcsid[] = "$Id: kref.c,v 1.3 1997/07/30 22:41:04 drh Exp $";
-
-int getword(char *line, int *i, char *first, char *rest) {
-	int j;
-
-	assert(line);
-	assert(i);
-	assert(first);
-	assert(rest);
-	if ((j = Str_rupto(line, 1, *i, first)) > 0)
-		j = Str_rmany(line, 1, *i = j + 1, rest);
-	return j;
-}
+#include "getword.h"
 
 char *first, *rest;
 

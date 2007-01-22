@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/table.doc,v 1.13 1997/10/27 23:10:11 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/table.doc,v $ $Revision: 1.12 $";
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
@@ -24,9 +24,9 @@ int getword(FILE *fp, char *buf, int size,
 				buf[i++] = c;
 		}
 	if (i < size)
-		buf[i] = '\0';
+		buf[i] = 0;
 	else
-		buf[size-1] = '\0';
+		buf[size-1] = 0;
 	if (c != EOF)
 		ungetc(c, fp);
 	return i > 0;

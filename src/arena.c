@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/arena.doc,v 1.10 1997/02/21 19:45:19 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/arena.doc,v $ $Revision: 1.9 $";
 #include <stdlib.h>
 #include <string.h>
 #include "assert.h"
@@ -16,9 +16,6 @@ struct T {
 	char *limit;
 };
 union align {
-#ifdef MAXALIGN
-	char pad[MAXALIGN];
-#else
 	int i;
 	long l;
 	long *lp;
@@ -27,7 +24,6 @@ union align {
 	float f;
 	double d;
 	long double ld;
-#endif
 };
 union header {
 	struct T b;
@@ -55,25 +51,25 @@ void *Arena_alloc(T arena, long nbytes,
 	assert(nbytes > 0);
 	nbytes = ((nbytes + sizeof (union align) - 1)/
 		(sizeof (union align)))*(sizeof (union align));
-	while (nbytes > arena->limit - arena->avail) {
+	while (arena->avail + nbytes > arena->limit) {
 		T ptr;
 		char *limit;
-		if ((ptr = freechunks) != NULL) {
-			freechunks = freechunks->prev;
-			nfree--;
-			limit = ptr->limit;
-		} else {
-			long m = sizeof (union header) + nbytes + 10*1024;
-			ptr = malloc(m);
-			if (ptr == NULL)
-				{
-					if (file == NULL)
-						RAISE(Arena_Failed);
-					else
-						Except_raise(&Arena_Failed, file, line);
-				}
-			limit = (char *)ptr + m;
+if ((ptr = freechunks) != NULL) {
+	freechunks = freechunks->prev;
+	nfree--;
+	limit = ptr->limit;
+} else {
+	long m = sizeof (union header) + nbytes + 10*1024;
+	ptr = malloc(m);
+	if (ptr == NULL)
+		{
+			if (file == NULL)
+				RAISE(Arena_Failed);
+			else
+				Except_raise(&Arena_Failed, file, line);
 		}
+	limit = (char *)ptr + m;
+}
 		*ptr = *arena;
 		arena->avail = (char *)((union header *)ptr + 1);
 		arena->limit = limit;

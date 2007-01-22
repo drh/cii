@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/mp.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
+static char rcsid[] = "$RCSfile: RCS/mp.doc,v $ $Revision: 1.11 $";
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
@@ -149,8 +149,8 @@ T MP_cvtu(int m, T z, T x) {
 			carry |= x[i];
 		memcpy(z, x, mbytes);
 		z[mbytes-1] &= ones(m);
-		if (carry)
-			RAISE(MP_Overflow);
+if (carry)
+	RAISE(MP_Overflow);
 	} else {
 		memcpy(z, x, nbytes);
 		for (i = nbytes; i < mbytes; i++)
@@ -258,16 +258,16 @@ T MP_mul2(T z, T x, T y) {
 	assert(x); assert(y); assert(z);
 	sx = sign(x);
 	sy = sign(y);
-	if (sx) {
-		XP_neg(nbytes, tmp[0], x, 1);
-		x = tmp[0];
-		x[nbytes-1] &= msb;
-	}
-	if (sy) {
-		XP_neg(nbytes, tmp[1], y, 1);
-		y = tmp[1];
-		y[nbytes-1] &= msb;
-	}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
+if (sy) {
+	XP_neg(nbytes, tmp[1], y, 1);
+	y = tmp[1];
+	y[nbytes-1] &= msb;
+}
 	memset(tmp[3], '\0', 2*nbytes);
 	XP_mul(tmp[3], nbytes, x, nbytes, y);
 	if (sx != sy)
@@ -281,16 +281,16 @@ T MP_mul(T z, T x, T y) {
 	assert(x); assert(y); assert(z);
 	sx = sign(x);
 	sy = sign(y);
-	if (sx) {
-		XP_neg(nbytes, tmp[0], x, 1);
-		x = tmp[0];
-		x[nbytes-1] &= msb;
-	}
-	if (sy) {
-		XP_neg(nbytes, tmp[1], y, 1);
-		y = tmp[1];
-		y[nbytes-1] &= msb;
-	}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
+if (sy) {
+	XP_neg(nbytes, tmp[1], y, 1);
+	y = tmp[1];
+	y[nbytes-1] &= msb;
+}
 	memset(tmp[3], '\0', 2*nbytes);
 	XP_mul(tmp[3], nbytes, x, nbytes, y);
 	if (sx != sy)
@@ -494,11 +494,11 @@ T MP_divi(T z, T x, long y) {
 	else if (-BASE < y && y < BASE) {
 		int r;
 		int sx = sign(x), sy = y < 0;
-		if (sx) {
-			XP_neg(nbytes, tmp[0], x, 1);
-			x = tmp[0];
-			x[nbytes-1] &= msb;
-		}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
 		r = XP_quotient(nbytes, z, x, sy ? -y : y);
 		if (sx != sy) {
 			XP_neg(nbytes, z, z, 1);
@@ -524,11 +524,11 @@ long MP_modi(T x, long y) {
 		T z = tmp[2];
 		int r;
 		int sx = sign(x), sy = y < 0;
-		if (sx) {
-			XP_neg(nbytes, tmp[0], x, 1);
-			x = tmp[0];
-			x[nbytes-1] &= msb;
-		}
+if (sx) {
+	XP_neg(nbytes, tmp[0], x, 1);
+	x = tmp[0];
+	x[nbytes-1] &= msb;
+}
 		r = XP_quotient(nbytes, z, x, sy ? -y : y);
 		if (sx != sy) {
 			XP_neg(nbytes, z, z, 1);

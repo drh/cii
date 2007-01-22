@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/seq.doc,v 1.11 1997/02/21 19:48:24 drh Exp $ */
+/* $RCSfile: RCS/seq.doc,v $ $Revision: 1.10 $ */
 #ifndef SEQ_INCLUDED
 #define SEQ_INCLUDED
 #define T Seq_T
