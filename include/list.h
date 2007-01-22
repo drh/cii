@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/list.doc,v 1.11 1997/02/21 19:46:01 drh Exp $ */
+/* $Id$ */
 #ifndef LIST_INCLUDED
 #define LIST_INCLUDED
 #define T List_T

@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/array.doc,v 1.11 1997/10/29 22:05:21 drh Exp $ */
+/* $Id$ */
 #ifndef ARRAYREP_INCLUDED
 #define ARRAYREP_INCLUDED
 #define T Array_T

@@ -1,4 +1,4 @@
-# $Id: unix.m4,v 1.4 1997/11/04 22:28:19 drh Exp $
+# $Id$
 A=.a
 O=.o
 E=
@@ -18,7 +18,7 @@ THREADS=$(BUILDDIR)/thread$O $(BUILDDIR)/swtch$O
 include $(CUSTOM)
 B=$(BUILDDIR)/
 
-# $Id: makefile.m4,v 1.4 1997/11/04 22:29:12 drh Exp $
+# $Id$
 OBJS=	$Bap$O \
 	$Barena$O \
 	$Barith$O \

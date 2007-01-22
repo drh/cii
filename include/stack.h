@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/inter.doc,v 1.11 1997/02/21 19:42:15 drh Exp $ */
+/* $Id$ */
 #ifndef STACK_INCLUDED
 #define STACK_INCLUDED
 #define T Stack_T

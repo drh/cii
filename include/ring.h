@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/ring.doc,v 1.12 1997/02/21 19:49:24 drh Exp $ */
+/* $Id$ */
 #ifndef RING_INCLUDED
 #define RING_INCLUDED
 #define T Ring_T

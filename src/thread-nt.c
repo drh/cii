@@ -9,7 +9,7 @@
 #include "thread.h"
 #include "sem.h"
 
-static char rcsid[] = "$Id: thread-nt.c,v 1.5 1997/07/29 17:10:25 drh Exp $";
+static char rcsid[] = "$Id$";
 
 #define T Thread_T
 struct T {
@@ -52,10 +52,10 @@ static T getThreadByID(DWORD id) {
 	return t;
 }
 
+/* removeThread - must be called from within a critical region */
 static void removeThread(T t) {
 	T *q;
 
-	ENTERCRITICAL;
 	q = &allthreads[HASH(t->IDThread)];
 	for ( ; *q != NULL && *q != t; q = &(*q)->next)
 		;
@@ -63,7 +63,6 @@ static void removeThread(T t) {
 	*q = t->next;
 	nthreads--;
 	t->handle = NULL;
-	LEAVECRITICAL;
 }
 
 static void addThread(T t) {
@@ -169,8 +168,8 @@ void Thread_exit(int code) {
 	BOOL result;
 	T current = Thread_self();
 
-	removeThread(current);
 	ENTERCRITICAL;
+	removeThread(current);
 	if (current->joinlist != NULL) {
 		T t, n;
 		int count = 0;
@@ -213,7 +212,9 @@ void Thread_alert(T t) {
 static unsigned __stdcall start(void *p) {
 	T t = p;
 
-	Except_stack = NULL;
+	if (Except_index == -1)
+		Except_init();
+	TlsSetValue(Except_index, NULL);
 	Thread_exit((*t->apply)(t->args));
 	return 0;
 }

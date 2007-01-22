@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/arena.doc,v 1.10 1997/02/21 19:45:19 drh Exp $ */
+/* $Id$ */
 #ifndef ARENA_INCLUDED
 #define ARENA_INCLUDED
 #include "except.h"

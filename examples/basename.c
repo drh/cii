@@ -9,7 +9,7 @@ char *dirname(char *path, int i, int j) {
 		return Str_dup("./", 1, 0, 1);
 }
 
-char *basename(char *path, int i, int j, char *suffix) {
+char *basename(char *path, int i, int j, const char *suffix) {
 	i = Str_rchr(path, i, j, '/');
 	j = Str_rmatch(path, i + 1, 0, suffix);
 	return Str_dup(path, i + 1, j, 1);

@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/ap.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
+static const char *rcsid = "$Id$";
 #include <ctype.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -376,7 +376,7 @@ char *AP_tostr(char *str, int size, int base, T x) {
 			for (k = 5; (1<<k) > base; k--)
 				;
 			size = (8*x->ndigits)/k + 1 + 1;
-			if (x->sign == 1)
+			if (x->sign == -1)
 				size++;
 		}
 		str = ALLOC(size);

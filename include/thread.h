@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $ */
+/* $Id$ */
 #ifndef THREAD_INCLUDED
 #define THREAD_INCLUDED
 #include "except.h"
