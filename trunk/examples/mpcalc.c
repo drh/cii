@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/mp.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
+static const char *rcsid = "$Id$";
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,7 +12,7 @@ Seq_T sp;
 int ibase = 10;
 int obase = 10;
 struct {
-	char *fmt;
+	const char *fmt;
 	MP_T (*add)(MP_T, MP_T, MP_T);
 	MP_T (*sub)(MP_T, MP_T, MP_T);
 	MP_T (*mul)(MP_T, MP_T, MP_T);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 	Fmt_register('D', MP_fmt);
 	Fmt_register('U', MP_fmtu);
 	while ((c = getchar()) != EOF) {
-		MP_T x = NULL, y = NULL, z = NULL;
+		volatile MP_T x = NULL, y = NULL, z = NULL;
 		TRY
  			switch (c) {
 			default:
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
 				break;
 			case 'f': {
 				int n = Seq_length(sp);
-				while (--n > 0)
+				while (--n >= 0)
 					Fmt_print(f->fmt, Seq_get(sp, n), obase);
 				break;
 			}

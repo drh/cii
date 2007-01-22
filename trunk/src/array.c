@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/array.doc,v 1.11 1997/10/29 22:05:21 drh Exp $";
+static const char *rcsid = "$Id$";
 #include <stdlib.h>
 #include <string.h>
 #include "assert.h"
@@ -72,9 +72,11 @@ T Array_copy(T array, int length) {
 	copy = Array_new(length, array->size);
 	if (copy->length >= array->length
 	&& array->length > 0)
-		memcpy(copy->array, array->array, array->length);
+		memcpy(copy->array, array->array,
+			array->length*array->size);
 	else if (array->length > copy->length
 	&& copy->length > 0)
-		memcpy(copy->array, array->array, copy->length);
+		memcpy(copy->array, array->array,
+			copy->length*array->size);
 	return copy;
 }

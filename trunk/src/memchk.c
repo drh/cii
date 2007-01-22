@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/mem.doc,v 1.12 1997/10/27 23:08:05 drh Exp $";
+static char rcsid[] = "$Id$";
 #include <stdlib.h>
 #include <string.h>
 #include "assert.h"

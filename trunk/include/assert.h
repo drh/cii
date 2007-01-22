@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/except.doc,v 1.10 1997/02/21 19:43:55 drh Exp $ */
+/* $Id$ */
 #undef assert
 #ifdef NDEBUG
 #define assert(e) ((void)0)

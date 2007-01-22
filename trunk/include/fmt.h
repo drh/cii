@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/fmt.doc,v 1.10 1996/06/26 23:02:01 drh Exp $ */
+/* $Id$ */
 #ifndef FMT_INCLUDED
 #define FMT_INCLUDED
 #include <stdarg.h>

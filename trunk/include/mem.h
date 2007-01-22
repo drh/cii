@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/mem.doc,v 1.12 1997/10/27 23:08:05 drh Exp $ */
+/* $Id$ */
 #ifndef MEM_INCLUDED
 #define MEM_INCLUDED
 #include "except.h"

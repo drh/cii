@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $";
+static char rcsid[] = "$Id$" "\n$Id$";
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -11,6 +11,20 @@ struct args {
 	int lb, ub;
 };
 int cutoff = 10000;
+#include <stdarg.h>
+#define Fmt_print outs
+
+static void outs(const char *fmt, ...) {
+	char *buf;
+	va_list ap;
+
+	va_start(ap, fmt);
+	buf = Fmt_vstring(fmt, ap);
+	va_end(ap);
+	printf("%s", buf);
+	FREE(buf);
+}
+
 int partition(int a[], int i, int j) {
 	int v, k, t;
 	j++;

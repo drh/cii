@@ -17,7 +17,7 @@ right to left.
 #include "seq.h"
 #include "str.h"
 
-static char rcsid[] = "$Id: kref.c,v 1.3 1997/07/30 22:41:04 drh Exp $";
+static char rcsid[] = "$Id$";
 
 int getword(char *line, int *i, char *first, char *rest) {
 	int j;
@@ -67,7 +67,8 @@ void print(Table_T files) {
 }
 
 void kref(char *name, FILE *fp, Table_T identifiers) {
-	char buf[512], *filename = "";
+	char buf[512];
+	const char *filename = "";
 	int linenum;
 
 	if (name)

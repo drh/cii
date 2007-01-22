@@ -1,4 +1,4 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/text.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
+static const char *rcsid = "$Id$";
 #include <string.h>
 #include <limits.h>
 #include "assert.h"
@@ -173,7 +173,7 @@ T Text_map(T s, const T *from, const T *to) {
 			map[k] = k;
 		assert(from->len == to->len);
 		for (k = 0; k < from->len; k++)
-			map[from->str[k]] = to->str[k];
+			map[(unsigned char)from->str[k]] = to->str[k];
 		inited = 1;
 	} else {
 		assert(from == NULL && to == NULL);
@@ -188,7 +188,7 @@ T Text_map(T s, const T *from, const T *to) {
 		text.len = s.len;
 		text.str = p = alloc(s.len);
 		for (i = 0; i < s.len; i++)
-			*p++ = map[s.str[i]];
+			*p++ = map[(unsigned char)s.str[i]];
 		return text;
 	}
 }

@@ -1,4 +1,4 @@
-/* $Id: H:/drh/idioms/book/RCS/xp.doc,v 1.10 1996/06/26 23:02:01 drh Exp $ */
+/* $Id$ */
 #ifndef XP_INCLUDED
 #define XP_INCLUDED
 #define T XP_T
