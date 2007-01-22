@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $";
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,7 +12,7 @@ extern void _ENDMONITOR(void);
 #define T Thread_T
 #define isempty(q) ((q) == NULL)
 struct T {
-	unsigned long *sp;						/* must be first */
+	unsigned long *sp;						/* must be first! */
 	T link;
 	T *inqueue;
 	T handle;
@@ -30,8 +29,7 @@ static struct Thread_T root;
 static T join0;
 static T freelist;
 const Except_T Thread_Alerted = { "Thread alerted" };
-const Except_T Thread_Failed =
-	{ "Thread creation failed" };
+const Except_T Thread_Failed = { "Thread creation failed" };
 static int critical;
 extern void _swtch(T from, T to);
 static void put(T t, T *q) {
@@ -92,25 +90,10 @@ static void release(void) {
 	do { critical++;
 	while ((t = freelist) != NULL) {
 		freelist = t->next;
-		FREE(t);
+		FREE(&t);
 	}
 	critical--; } while (0);
 }
-#if linux
-#include <asm/sigcontext.h>
-static int interrupt(int sig, struct sigcontext_struct sc) {
-	if (critical ||
-	   sc.eip >= (unsigned long)_MONITOR
-	&& sc.eip <= (unsigned long)_ENDMONITOR)
-		return 0;
-	put(current, &ready);
-	do { critical++;
-	sigsetmask(sc.oldmask);
-	critical--; } while (0);
-	run();
-	return 0;
-}
-#else
 static int interrupt(int sig, int code,
 	struct sigcontext *scp) {
 	if (critical ||
@@ -122,7 +105,6 @@ static int interrupt(int sig, int code,
 	run();
 	return 0;
 }
-#endif
 int Thread_init(int preempt, ...) {
 	assert(preempt == 0 || preempt == 1);
 	assert(current == NULL);
@@ -132,7 +114,7 @@ int Thread_init(int preempt, ...) {
 	if (preempt) {
 		{
 			struct sigaction sa;
-			memset(&sa, '\0', sizeof sa);
+			memset(&sa, 0, sizeof sa);
 			sa.sa_handler = (void (*)())interrupt;
 			if (sigaction(SIGVTALRM, &sa, NULL) < 0)
 				return 0;
@@ -159,7 +141,7 @@ void Thread_pause(void) {
 	run();
 }
 int Thread_join(T t) {
-	assert(current && t != current);
+	assert(current);
 	testalert();
 	if (t) {
 		if (t->handle == t) {
@@ -210,8 +192,7 @@ void Thread_alert(T t) {
 		put(t, &ready);
 	}
 }
-T Thread_new(int apply(void *), void *args,
-	int nbytes, ...) {
+T Thread_new(int apply(void *), void *args, int nbytes, ...) {
  	T t;
 	assert(current);
 	assert(apply);
@@ -219,12 +200,12 @@ T Thread_new(int apply(void *), void *args,
 	if (args == NULL)
 		nbytes = 0;
 	{
-		int stacksize = (16*1024+sizeof (*t)+nbytes+15)&~15;
+		int stacksize = (16*1024 + sizeof (*t) + nbytes + 15)&~15;
 		release();
 		do { critical++;
 		TRY
 			t = ALLOC(stacksize);
-			memset(t, '\0', sizeof *t);
+			memset(t, 0, sizeof *t);
 		EXCEPT(Mem_Failed)
 			t = NULL;
 		END_TRY;
@@ -237,20 +218,20 @@ T Thread_new(int apply(void *), void *args,
 	}
 	t->handle = t;
 	if (nbytes > 0) {
-		t->sp -= ((nbytes + 15U)&~15)/sizeof (*t->sp);
+		t->sp -= ((nbytes + 15)&~15)/sizeof *t->sp;
 		do { critical++;
 		memcpy(t->sp, args, nbytes);
 		critical--; } while (0);
 		args = t->sp;
 	}
-#if alpha
+	#if alpha
 	{ extern void _start(void);
 	  t->sp -= 112/8;
 	  t->sp[(48+24)/8] = (unsigned long)Thread_exit;
 	  t->sp[(48+16)/8] = (unsigned long)args;
 	  t->sp[(48+ 8)/8] = (unsigned long)apply;
 	  t->sp[(48+ 0)/8] = (unsigned long)_start; }
-#elif mips
+	#elif mips
 	{ extern void _start(void);
 	  t->sp -= 16/4;
 	  t->sp -= 88/4;
@@ -258,7 +239,7 @@ T Thread_new(int apply(void *), void *args,
 	  t->sp[(48+28)/4] = (unsigned long)args;
 	  t->sp[(48+32)/4] = (unsigned long)apply;
 	  t->sp[(48+36)/4] = (unsigned long)_start; }
-#elif sparc
+	#elif sparc
 	{ 	int i; void *fp; extern void _start(void);
 	  	for (i = 0; i < 8; i++)
 	  		*--t->sp = 0;
@@ -269,36 +250,28 @@ T Thread_new(int apply(void *), void *args,
 	  	*--t->sp = (unsigned long)_start - 8;
 	  	*--t->sp = (unsigned long)fp;
 	  	t->sp -= 64/4; }
-#elif linux && i386
-	{ extern void _thrstart(void);
-	  t->sp -= 4/4;
-	  *t->sp = (unsigned long)_thrstart;
-	  t->sp -= 16/4;
-	  t->sp[4/4]  = (unsigned long)apply;
-	  t->sp[8/4]  = (unsigned long)args;
-	  t->sp[12/4] = (unsigned long)t->sp + (4+16)/4; }
-#else
+	#else
 	Unsupported platform
-#endif
+	#endif
 	nthreads++;
 	put(t, &ready);
 	return t;
 }
 #undef T
 #define T Sem_T
-T *Sem_new(int count) {
-	T *s;
+Sem_T *Sem_new(int count) {
+	Sem_T *s;
 	NEW(s);
 	Sem_init(s, count);
 	return s;
 }
-void Sem_init(T *s, int count) {
+void Sem_init(Sem_T *s, int count) {
 	assert(current);
 	assert(s);
 	s->count = count;
 	s->queue = NULL;
 }
-void Sem_wait(T *s) {
+void Sem_wait(Sem_T *s) {
 	assert(current);
 	assert(s);
 	testalert();
@@ -309,7 +282,7 @@ void Sem_wait(T *s) {
 	} else
 		--s->count;
 }
-void Sem_signal(T *s) {
+void Sem_signal(Sem_T *s) {
 	assert(current);
 	assert(s);
 	if (s->count == 0 && !isempty(s->queue)) {
@@ -320,3 +293,4 @@ void Sem_signal(T *s) {
 		++s->count;
 }
 #undef T
+static char rcsid[] = "$RCSfile: RCS/thread.doc,v $ $Revision: 1.3 $";

@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/seq.doc,v 1.11 1997/02/21 19:48:24 drh Exp $";
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -19,7 +18,7 @@ static void expand(T seq) {
 	if (seq->head > 0)
 		{
 			void **old = &((void **)seq->array.array)[seq->head];
-			memcpy(old+n, old, (n - seq->head)*sizeof (void *));
+			memcpy(old + n, old, (n - seq->head)*sizeof (void *));
 			seq->head += n;
 		}
 }
@@ -30,7 +29,7 @@ T Seq_new(int hint) {
 	if (hint == 0)
 		hint = 16;
 	ArrayRep_init(&seq->array, hint, sizeof (void *),
-		ALLOC(hint*sizeof (void *)));
+		CALLOC(hint, sizeof (void *)));
 	return seq;
 }
 T Seq_seq(void *x, ...) {
@@ -43,7 +42,6 @@ T Seq_seq(void *x, ...) {
 	return seq;
 }
 void Seq_free(T *seq) {
-	assert(seq && *seq);
 	assert((void *)*seq == (void *)&(*seq)->array);
 	Array_free((Array_T *)seq);
 }
@@ -54,34 +52,26 @@ int Seq_length(T seq) {
 void *Seq_get(T seq, int i) {
 	assert(seq);
 	assert(i >= 0 && i < seq->length);
-	return ((void **)seq->array.array)[
-	       	(seq->head + i)%seq->array.length];
+	return ((void **)seq->array.array)[(seq->head + i)%seq->array.length];
 }
 void *Seq_put(T seq, int i, void *x) {
-	void *prev;
 	assert(seq);
 	assert(i >= 0 && i < seq->length);
-	prev = ((void **)seq->array.array)[
-	       	(seq->head + i)%seq->array.length];
-	((void **)seq->array.array)[
-		(seq->head + i)%seq->array.length] = x;
-	return prev;
+	return ((void **)seq->array.array)[(seq->head + i)%seq->array.length] = x;
 }
 void *Seq_remhi(T seq) {
 	int i;
 	assert(seq);
 	assert(seq->length > 0);
 	i = --seq->length;
-	return ((void **)seq->array.array)[
-	       	(seq->head + i)%seq->array.length];
+	return ((void **)seq->array.array)[(seq->head + i)%seq->array.length];
 }
 void *Seq_remlo(T seq) {
 	int i = 0;
 	void *x;
 	assert(seq);
 	assert(seq->length > 0);
-	x = ((void **)seq->array.array)[
-	    	(seq->head + i)%seq->array.length];
+	x = ((void **)seq->array.array)[(seq->head + i)%seq->array.length];
 	seq->head = (seq->head + 1)%seq->array.length;
 	--seq->length;
 	return x;
@@ -92,17 +82,15 @@ void *Seq_addhi(T seq, void *x) {
 	if (seq->length == seq->array.length)
 		expand(seq);
 	i = seq->length++;
-	return ((void **)seq->array.array)[
-	       	(seq->head + i)%seq->array.length] = x;
+	return ((void **)seq->array.array)[(seq->head + i)%seq->array.length] = x;
 }
 void *Seq_addlo(T seq, void *x) {
 	int i = 0;
 	assert(seq);
 	if (seq->length == seq->array.length)
 		expand(seq);
-	if (--seq->head < 0)
-		seq->head = seq->array.length - 1;
+	seq->head = (seq->head - 1)%(unsigned)seq->array.length;
 	seq->length++;
-	return ((void **)seq->array.array)[
-	       	(seq->head + i)%seq->array.length] = x;
+	return ((void **)seq->array.array)[(seq->head + i)%seq->array.length] = x;
 }
+static char rcsid[] = "$RCSfile: RCS/seq.doc,v $ $Revision: 1.2 $";

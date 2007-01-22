@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/thread.doc,v 1.11 1997/02/21 19:50:51 drh Exp $";
 #include <string.h>
 #include "assert.h"
 #include "mem.h"
@@ -45,3 +44,4 @@ int Chan_receive(Chan_T c, void *ptr, int size) {
 	Sem_signal(&c->send);
 	return n;
 }
+static char rcsid[] = "$RCSfile: RCS/thread.doc,v $ $Revision: 1.3 $";

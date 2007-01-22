@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/ap.doc,v 1.11 1996/06/26 23:02:01 drh Exp $";
 #include <ctype.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -15,28 +14,22 @@ struct T {
 	int size;
 	XP_T digits;
 };
-#define iszero(x) ((x)->ndigits==1 && (x)->digits[0]==0)
+#define iszero(x) ((x)->ndigits == 1 && (x)->digits[0] == 0)
 #define maxdigits(x,y) ((x)->ndigits > (y)->ndigits ? \
 	(x)->ndigits : (y)->ndigits)
-#define isone(x) ((x)->ndigits==1 && (x)->digits[0]==1)
+#define isone(x) ((x)->ndigits == 1 && (x)->digits[0] == 1)
 static T normalize(T z, int n);
 static int cmp(T x, T y);
 static T mk(int size) {
-	T z = CALLOC(1, sizeof (*z) + size);
-	assert(size > 0);
+	T z = CALLOC(1, sizeof *z + size);
 	z->sign = 1;
 	z->size = size;
 	z->ndigits = 1;
-	z->digits = (XP_T)(z + 1);
+	z->digits = (void *)(z + 1);
 	return z;
 }
 static T set(T z, long int n) {
-	if (n == LONG_MIN)
-		XP_fromint(z->size, z->digits, LONG_MAX + 1UL);
-	else if (n < 0)
-		XP_fromint(z->size, z->digits, -n);
-	else
-		XP_fromint(z->size, z->digits, n);
+	XP_fromint(z->size, z->digits, n);
 	z->sign = n < 0 ? -1 : 1;
 	return normalize(z, z->size);
 }
@@ -49,30 +42,40 @@ static T add(T z, T x, T y) {
 	if (x->ndigits < n)
 		return add(z, y, x);
 	else if (x->ndigits > n) {
-		int carry = XP_add(n, z->digits, x->digits,
+		unsigned carry = XP_add(n, z->digits, x->digits,
 			y->digits, 0);
-		z->digits[z->size-1] = XP_sum(x->ndigits - n,
-			&z->digits[n], &x->digits[n], carry);
-	} else
+		XP_sum(z->size - n, &z->digits[n], &x->digits[n],
+			carry);
+		return normalize(z, z->size);
+	} else {
 		z->digits[n] = XP_add(n, z->digits, x->digits,
 			y->digits, 0);
-	return normalize(z, z->size);
+		return normalize(z, n + 1);
+	}
 }
 static T sub(T z, T x, T y) {
-	int borrow, n = y->ndigits;
-	borrow = XP_sub(n, z->digits, x->digits,
-		y->digits, 0);
-	if (x->ndigits > n)
-		borrow = XP_diff(x->ndigits - n, &z->digits[n],
-			&x->digits[n], borrow);
-	assert(borrow == 0);
-	return normalize(z, z->size);
+	int n = y->ndigits;
+	unsigned borrow;
+	borrow = XP_sub(n, z->digits, x->digits, y->digits, 0);
+	if (x->ndigits > n) {
+		XP_diff(z->size - n, &z->digits[n], &x->digits[n],
+			borrow);
+		return normalize(z, z->size);
+	} else
+		return normalize(z, n + 1);
 }
 static T mulmod(T x, T y, T p) {
-	T z, xy = AP_mul(x, y);
-	z = AP_mod(xy, p);
-	AP_free(&xy);
-	return z;
+	if (isone(y))
+		return AP_mod(x, p);
+	else {
+		T z;
+		x = AP_mod(x, p);
+		y = AP_mod(y, p);
+		z = AP_mul(x, y);
+		AP_free(&x);
+		AP_free(&y);
+		return z;
+	}
 }
 static int cmp(T x, T y) {
 	if (x->ndigits != y->ndigits)
@@ -81,11 +84,11 @@ static int cmp(T x, T y) {
 		return XP_cmp(x->ndigits, x->digits, y->digits);
 }
 T AP_new(long int n) {
-	return set(mk(sizeof (long int)), n);
+	return set(mk(sizeof (unsigned long)), n);
 }
 void AP_free(T *z) {
 	assert(z && *z);
-	FREE(*z);
+	FREE(z);
 }
 T AP_neg(T x) {
 	T z;
@@ -101,11 +104,10 @@ T AP_mul(T x, T y) {
 	assert(x);
 	assert(y);
 	z = mk(x->ndigits + y->ndigits);
-	XP_mul(z->digits, x->ndigits, x->digits, y->ndigits,
+	XP_mul(x->ndigits, z->digits, x->digits, y->ndigits,
 		y->digits);
 	normalize(z, z->size);
-	z->sign = iszero(z)
-		|| ((x->sign^y->sign) == 0) ? 1 : -1;
+	z->sign = iszero(z) || ((x->sign^y->sign) == 0) ? 1 : -1;
 	return z;
 }
 T AP_add(T x, T y) {
@@ -152,18 +154,15 @@ T AP_div(T x, T y) {
 	r = mk(y->ndigits);
 	{
 		XP_T tmp = ALLOC(x->ndigits + y->ndigits + 2);
-		XP_div(x->ndigits, q->digits, x->digits,
-			y->ndigits, y->digits, r->digits, tmp);
-		FREE(tmp);
+		XP_div(x->ndigits, q->digits, r->digits, x->digits,
+			y->ndigits, y->digits, tmp);
+		FREE(&tmp);
 	}
 	normalize(q, q->size);
 	normalize(r, r->size);
-	q->sign = iszero(q)
-		|| ((x->sign^y->sign) == 0) ? 1 : -1;
+	q->sign = iszero(q) || ((x->sign^y->sign) == 0) ? 1 : -1;
 	if (!((x->sign^y->sign) == 0) && !iszero(r)) {
-		int carry = XP_sum(q->size, q->digits,
-			q->digits, 1);
-		assert(carry == 0);
+		XP_sum(q->size, q->digits, q->digits, 1);
 		normalize(q, q->size);
 	}
 	AP_free(&r);
@@ -178,62 +177,68 @@ T AP_mod(T x, T y) {
 	r = mk(y->ndigits);
 	{
 		XP_T tmp = ALLOC(x->ndigits + y->ndigits + 2);
-		XP_div(x->ndigits, q->digits, x->digits,
-			y->ndigits, y->digits, r->digits, tmp);
-		FREE(tmp);
+		XP_div(x->ndigits, q->digits, r->digits, x->digits,
+			y->ndigits, y->digits, tmp);
+		FREE(&tmp);
 	}
 	normalize(q, q->size);
 	normalize(r, r->size);
-	q->sign = iszero(q)
-		|| ((x->sign^y->sign) == 0) ? 1 : -1;
+	q->sign = iszero(q) || ((x->sign^y->sign) == 0) ? 1 : -1;
 	if (!((x->sign^y->sign) == 0) && !iszero(r)) {
-		int borrow = XP_sub(r->size, r->digits,
-			y->digits, r->digits, 0);
-		assert(borrow == 0);
+		XP_sub(r->size, r->digits, y->digits, r->digits, 0);
 		normalize(r, r->size);
 	}
 	AP_free(&q);
 	return r;
 }
 T AP_pow(T x, T y, T p) {
-	T z;
+	AP_T z;
 	assert(x);
 	assert(y);
-	assert(y->sign == 1);
-	assert(!p || p->sign==1 && !iszero(p) && !isone(p));
-	if (iszero(x))
-		return AP_new(0);
-	if (iszero(y))
-		return AP_new(1);
-	if (isone(x))
-		return AP_new((((y)->digits[0]&1) == 0) ? 1 : x->sign);
-	if (p)
-		if (isone(y))
-			z = AP_mod(x, p);
-		else {
-			T y2 = AP_rshift(y, 1), t = AP_pow(x, y2, p);
-			z = mulmod(t, t, p);
-			AP_free(&y2);
-			AP_free(&t);
-			if (!(((y)->digits[0]&1) == 0)) {
-				z = mulmod(y2 = AP_mod(x, p), t = z, p);
-				AP_free(&y2);
-				AP_free(&t);
-			}
+	assert(y->sign == 1 && !iszero(y));
+	if (p) {
+		assert(p);
+		assert(p->sign == 1 && !iszero(p) && !isone(p));
+		if (iszero(x))
+			return AP_new(0);
+		if (iszero(y))
+			return AP_new(1);
+		if (isone(y) || isone(x))
+			return AP_addi(x, 0);
+		if ((((y)->digits[0]&1) == 0)) {
+			y = AP_rshift(y, 1);
+			x = AP_pow(x, y, p);
+			AP_free(&y);
+			z = mulmod(x, x, p);
+			AP_free(&x);
+		} else {
+			T y1 = AP_subi(y, 1);
+			y = AP_pow(x, y1, p);
+			AP_free(&y1);
+			z = mulmod(x, y, p);
+			AP_free(&y);
 		}
-	else
-		if (isone(y))
-			z = AP_addi(x, 0);
-		else {
-			T y2 = AP_rshift(y, 1), t = AP_pow(x, y2, NULL);
-			z = AP_mul(t, t);
-			AP_free(&y2);
-			AP_free(&t);
-			if (!(((y)->digits[0]&1) == 0)) {
-				z = AP_mul(x, t = z);
-				AP_free(&t);
-			}
+	} else {
+		if (iszero(x))
+			return AP_new(0);
+		if (iszero(y))
+			return AP_new(1);
+		if (isone(y) || isone(x))
+			return AP_addi(x, 0);
+		if ((((y)->digits[0]&1) == 0)) {
+			y = AP_rshift(y, 1);
+			x = AP_pow(x, y, NULL);
+			AP_free(&y);
+			z = AP_mul(x, x);
+			AP_free(&x);
+		} else {
+			AP_T y1 = AP_subi(y, 1);
+			y = AP_pow(x, y1, NULL);
+			AP_free(&y1);
+			z = AP_mul(x, y);
+			AP_free(&y);
 		}
+	}
 	return z;
 }
 int AP_cmp(T x, T y) {
@@ -298,24 +303,18 @@ T AP_lshift(T x, int s) {
 	assert(x);
 	assert(s >= 0);
 	z = mk(x->ndigits + ((s+7)&~7)/8);
-	XP_lshift(z->size, z->digits, x->ndigits,
-		x->digits, s, 0);
 	z->sign = x->sign;
+	XP_lshift(z->size, z->digits, x->ndigits, x->digits, s, 0);
 	return normalize(z, z->size);
 }
 T AP_rshift(T x, int s) {
+	T z;
 	assert(x);
 	assert(s >= 0);
-	if (s >= 8*x->ndigits)
-		return AP_new(0);
-	else {
-		T z = mk(x->ndigits - s/8);
-		XP_rshift(z->size, z->digits, x->ndigits,
-			x->digits, s, 0);
-		normalize(z, z->size);
-		z->sign = iszero(z) ? 1 : x->sign;
-		return z;
-	}
+	z = mk(x->ndigits + ((s+7)&~7)/8);
+	z->sign = x->sign;
+	XP_rshift(z->size, z->digits, x->ndigits, x->digits, s, 0);
+	return normalize(z, z->size);
 }
 long int AP_toint(T x) {
 	unsigned long u;
@@ -329,9 +328,9 @@ long int AP_toint(T x) {
 T AP_fromstr(const char *str, int base, char **end) {
 	T z;
 	const char *p = str;
-	char *endp, sign = '\0';
-	int carry;
-	assert(p);
+	char *endp, sign = 0;
+	unsigned carry;
+	assert(str);
 	assert(base >= 2 && base <= 36);
 	while (*p && isspace(*p))
 		p++;
@@ -340,7 +339,7 @@ T AP_fromstr(const char *str, int base, char **end) {
 	{
 		const char *start;
 		int k, n = 0;
-		for ( ; *p == '0' && p[1] == '0'; p++)
+		for ( ; *p == '0'; p++)
 			;
 		start = p;
 		for ( ; (  '0' <= *p && *p <= '9' && *p < '0' + base
@@ -352,8 +351,7 @@ T AP_fromstr(const char *str, int base, char **end) {
 		z = mk(((k*n + 7)&~7)/8);
 		p = start;
 	}
-	carry = XP_fromstr(z->size, z->digits, p,
-		base, &endp);
+	carry = XP_fromstr(z->size, z->digits, p, base, &endp);
 	assert(carry == 0);
 	normalize(z, z->size);
 	if (endp == p) {
@@ -368,14 +366,14 @@ T AP_fromstr(const char *str, int base, char **end) {
 char *AP_tostr(char *str, int size, int base, T x) {
 	XP_T q;
 	assert(x);
-	assert(base >= 2 && base <= 36);
+	assert(base > 1 && base <= 36);
 	assert(str == NULL || size > 1);
-	if (str == NULL) {
+	if (!str) {
 		{
 			int k;
-			for (k = 5; (1<<k) > base; k--)
+			for (k = 2; (1<<k) < base; k++)
 				;
-			size = (8*x->ndigits)/k + 1 + 1;
+			size = (8*x->ndigits)/(k-1) + 1 + 1;
 			if (x->sign == 1)
 				size++;
 		}
@@ -388,19 +386,17 @@ char *AP_tostr(char *str, int size, int base, T x) {
 		XP_tostr(str + 1, size - 1, base, x->ndigits, q);
 	} else
 		XP_tostr(str, size, base, x->ndigits, q);
-	FREE(q);
 	return str;
 }
 void AP_fmt(int code, va_list *app,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
-	T x;
+	T x = va_arg(*app, T);
 	char *buf;
-	assert(app && flags);
-	x = va_arg(*app, T);
 	assert(x);
 	buf = AP_tostr(NULL, 0, 10, x);
 	Fmt_putd(buf, strlen(buf), put, cl, flags,
 		width, precision);
-	FREE(buf);
+	FREE(&buf);
 }
+static char rcsid[] = "$RCSfile: RCS/ap.doc,v $ $Revision: 1.2 $";

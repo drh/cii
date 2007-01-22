@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/ring.doc,v 1.12 1997/02/21 19:49:24 drh Exp $";
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -16,7 +15,6 @@ struct T {
 T Ring_new(void) {
 	T ring;
 	NEW0(ring);
-	ring->head = NULL;
 	return ring;
 }
 T Ring_ring(void *x, ...) {
@@ -35,10 +33,10 @@ void Ring_free(T *ring) {
 		int n = (*ring)->length;
 		for ( ; n-- > 0; p = q) {
 			q = p->rlink;
-			FREE(p);
+			FREE(&p);
 		}
 	}
-	FREE(*ring);
+	FREE(ring);
 }
 int Ring_length(T ring) {
 	assert(ring);
@@ -55,14 +53,13 @@ void *Ring_get(T ring, int i) {
 			for (n = i; n-- > 0; )
 				q = q->rlink;
 		else
-			for (n = ring->length - i; n-- > 0; )
+			for (n = i - ring->length/2; n-- > 0; )
 				q = q->llink;
 	}
 	return q->value;
 }
 void *Ring_put(T ring, int i, void *x) {
 	struct node *q;
-	void *prev;
 	assert(ring);
 	assert(i >= 0 && i < ring->length);
 	{
@@ -72,12 +69,10 @@ void *Ring_put(T ring, int i, void *x) {
 			for (n = i; n-- > 0; )
 				q = q->rlink;
 		else
-			for (n = ring->length - i; n-- > 0; )
+			for (n = i - ring->length/2; n-- > 0; )
 				q = q->llink;
 	}
-	prev = q->value;
-	q->value = x;
-	return prev;
+	return q->value = x;
 }
 void *Ring_addhi(T ring, void *x) {
 	struct node *p, *q;
@@ -96,21 +91,25 @@ void *Ring_addhi(T ring, void *x) {
 	return p->value = x;
 }
 void *Ring_addlo(T ring, void *x) {
-	assert(ring);
 	Ring_addhi(ring, x);
 	ring->head = ring->head->llink;
 	return x;
 }
 void *Ring_add(T ring, int pos, void *x) {
+	struct node *p, *q;
+	int i;
 	assert(ring);
-	assert(pos >= -ring->length && pos<=ring->length+1);
-	if (pos == 1 || pos == -ring->length)
+	if (pos == 1 || -pos == ring->length)
 		return Ring_addlo(ring, x);
 	else if (pos == 0 || pos == ring->length + 1)
 		return Ring_addhi(ring, x);
 	else {
-		struct node *p, *q;
-		int i = pos < 0 ? pos + ring->length : pos - 1;
+		if (pos > 1 && pos <= ring->length)
+			i = pos - 1;
+		else if (pos < 0 && -pos < ring->length)
+			i = pos + ring->length;
+		else
+			assert(0);
 		{
 			int n;
 			q = ring->head;
@@ -118,7 +117,7 @@ void *Ring_add(T ring, int pos, void *x) {
 				for (n = i; n-- > 0; )
 					q = q->rlink;
 			else
-				for (n = ring->length - i; n-- > 0; )
+				for (n = i - ring->length/2; n-- > 0; )
 					q = q->llink;
 		}
 		NEW(p);
@@ -145,7 +144,7 @@ void *Ring_remove(T ring, int i) {
 			for (n = i; n-- > 0; )
 				q = q->rlink;
 		else
-			for (n = ring->length - i; n-- > 0; )
+			for (n = i - ring->length/2; n-- > 0; )
 				q = q->llink;
 	}
 	if (i == 0)
@@ -153,7 +152,7 @@ void *Ring_remove(T ring, int i) {
 	x = q->value;
 	q->llink->rlink = q->rlink;
 	q->rlink->llink = q->llink;
-	FREE(q);
+	FREE(&q);
 	if (--ring->length == 0)
 		ring->head = NULL;
 	return x;
@@ -167,7 +166,7 @@ void *Ring_remhi(T ring) {
 	x = q->value;
 	q->llink->rlink = q->rlink;
 	q->rlink->llink = q->llink;
-	FREE(q);
+	FREE(&q);
 	if (--ring->length == 0)
 		ring->head = NULL;
 	return x;
@@ -179,14 +178,15 @@ void *Ring_remlo(T ring) {
 	return Ring_remhi(ring);
 }
 void Ring_rotate(T ring, int n) {
-	struct node *q;
 	int i;
+	struct node *q;
 	assert(ring);
-	assert(n >= -ring->length && n <= ring->length);
-	if (n >= 0)
+	if (n > 0 && n <= ring->length)
 		i = n%ring->length;
-	else
+	else if (n < 0 && -n <= ring->length)
 		i = n + ring->length;
+	else if (n != 0)
+		assert(0);
 	{
 		int n;
 		q = ring->head;
@@ -194,8 +194,9 @@ void Ring_rotate(T ring, int n) {
 			for (n = i; n-- > 0; )
 				q = q->rlink;
 		else
-			for (n = ring->length - i; n-- > 0; )
+			for (n = i - ring->length/2; n-- > 0; )
 				q = q->llink;
 	}
 	ring->head = q;
 }
+static char rcsid[] = "$RCSfile: RCS/ring.doc,v $ $Revision: 1.2 $";

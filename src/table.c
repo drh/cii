@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/table.doc,v 1.13 1997/10/27 23:10:11 drh Exp $";
 #include <limits.h>
 #include <stddef.h>
 #include "mem.h"
@@ -6,7 +5,7 @@ static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/table.doc,v 1.13 1997/10/27 2
 #include "table.h"
 #define T Table_T
 struct T {
-	int size;
+	unsigned size;
 	int (*cmp)(const void *x, const void *y);
 	unsigned (*hash)(const void *key);
 	int length;
@@ -23,26 +22,21 @@ static int cmpatom(const void *x, const void *y) {
 static unsigned hashatom(const void *key) {
 	return (unsigned long)key>>2;
 }
-T Table_new(int hint,
-	int cmp(const void *x, const void *y),
+T Table_new(int hint, int cmp(const void *x, const void *y),
 	unsigned hash(const void *key)) {
 	T table;
 	int i;
-	static int primes[] = { 509, 509, 1021, 2053, 4093,
-		8191, 16381, 32771, 65521, INT_MAX };
+	static int primes[] = { 317, 317, 691, 1399, 2801,
+		INT_MAX };
 	assert(hint >= 0);
 	for (i = 1; primes[i] < hint; i++)
 		;
-	table = ALLOC(sizeof (*table) +
-		primes[i-1]*sizeof (table->buckets[0]));
+	table = CALLOC(1, sizeof *table +
+		primes[i-1]*sizeof table->buckets[0]);
 	table->size = primes[i-1];
 	table->cmp  = cmp  ?  cmp : cmpatom;
 	table->hash = hash ? hash : hashatom;
-	table->buckets = (struct binding **)(table + 1);
-	for (i = 0; i < table->size; i++)
-		table->buckets[i] = NULL;
-	table->length = 0;
-	table->timestamp = 0;
+	table->buckets = (void *)(table + 1);
 	return table;
 }
 void *Table_get(T table, const void *key) {
@@ -59,7 +53,6 @@ void *Table_get(T table, const void *key) {
 void *Table_put(T table, const void *key, void *value) {
 	int i;
 	struct binding *p;
-	void *prev;
 	assert(table);
 	assert(key);
 	i = (*table->hash)(key)%table->size;
@@ -72,12 +65,10 @@ void *Table_put(T table, const void *key, void *value) {
 		p->link = table->buckets[i];
 		table->buckets[i] = p;
 		table->length++;
-		prev = NULL;
-	} else
-		prev = p->value;
+	}
 	p->value = value;
 	table->timestamp++;
-	return prev;
+	return value;
 }
 int Table_length(T table) {
 	assert(table);
@@ -86,8 +77,7 @@ int Table_length(T table) {
 void Table_map(T table,
 	void apply(const void *key, void **value, void *cl),
 	void *cl) {
-	int i;
-	unsigned stamp;
+	unsigned i, stamp;
 	struct binding *p;
 	assert(table);
 	assert(apply);
@@ -110,14 +100,14 @@ void *Table_remove(T table, const void *key) {
 			struct binding *p = *pp;
 			void *value = p->value;
 			*pp = p->link;
-			FREE(p);
+			FREE(&p);
 			table->length--;
 			return value;
 		}
 	return NULL;
 }
 void **Table_toArray(T table, void *end) {
-	int i, j = 0;
+	unsigned i, j = 0;
 	void **array;
 	struct binding *p;
 	assert(table);
@@ -132,14 +122,15 @@ void **Table_toArray(T table, void *end) {
 }
 void Table_free(T *table) {
 	assert(table && *table);
-	if ((*table)->length > 0) {
-		int i;
+	if (table && (*table)->length > 0) {
+		unsigned i;
 		struct binding *p, *q;
 		for (i = 0; i < (*table)->size; i++)
 			for (p = (*table)->buckets[i]; p; p = q) {
 				q = p->link;
-				FREE(p);
+				FREE(&p);
 			}
 	}
-	FREE(*table);
+	FREE(table);
 }
+static char rcsid[] = "$RCSfile: RCS/table.doc,v $ $Revision: 1.2 $";

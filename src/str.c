@@ -1,96 +1,117 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/str.doc,v 1.10 1996/06/26 23:02:01 drh Exp $";
 #include <string.h>
 #include <limits.h>
 #include "assert.h"
 #include "fmt.h"
 #include "str.h"
 #include "mem.h"
-#define idx(i, len) ((i) <= 0 ? (i) + (len) : (i) - 1)
-#define convert(s, i, j) do { int len; \
-	assert(s); len = strlen(s); \
-	i = idx(i, len); j = idx(j, len); \
-	if (i > j) { int t = i; i = j; j = t; } \
-	assert(i >= 0 && j <= len); } while (0)
+#define idx(i,len) ((i) <= 0 ? (i) + (len) : (i) - 1)
+	#define swap(i,j) do { \
+		int tt = (i); (i) = (j); (j) = tt; } while (0)
 char *Str_sub(const char *s, int i, int j) {
+	int len;
 	char *str, *p;
-	convert(s, i, j);
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	p = str = ALLOC(j - i + 1);
 	while (i < j)
 		*p++ = s[i++];
-	*p = '\0';
+	*p = 0;
 	return str;
 }
 char *Str_dup(const char *s, int i, int j, int n) {
-	int k;
+	int len, k;
 	char *str, *p;
+	assert(s);
 	assert(n >= 0);
-	convert(s, i, j);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	p = str = ALLOC(n*(j - i) + 1);
-	if (j - i > 0)
-		while (n-- > 0)
-			for (k = i; k < j; k++)
-				*p++ = s[k];
-	*p = '\0';
+	while (n-- > 0)
+		for (k = i; k < j; k++)
+			*p++ = s[k];
+	*p = 0;
 	return str;
 }
 char *Str_reverse(const char *s, int i, int j) {
+	int len;
 	char *str, *p;
-	convert(s, i, j);
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	p = str = ALLOC(j - i + 1);
 	while (j > i)
 		*p++ = s[--j];
-	*p = '\0';
+	*p = 0;
 	return str;
 }
 char *Str_cat(const char *s1, int i1, int j1,
-              const char *s2, int i2, int j2) {
-	char *str, *p;
-	convert(s1, i1, j1);
-	convert(s2, i2, j2);
-	p = str = ALLOC(j1 - i1 + j2 - i2 + 1);
-	while (i1 < j1)
-		*p++ = s1[i1++];
-	while (i2 < j2)
-		*p++ = s2[i2++];
-	*p = '\0';
-	return str;
+	const char *s2, int i2, int j2) {
+	assert(s1);
+	assert(s2);
+	return Str_catv(s1, i1, i2, s2, i2, j2, NULL);
 }
 char *Str_catv(const char *s, ...) {
 	char *str, *p;
-	const char *save = s;
-	int i, j, len = 0;
+	int i, j, len, newlen = 0;
 	va_list ap;
 	va_start(ap, s);
 	while (s) {
 		i = va_arg(ap, int);
 		j = va_arg(ap, int);
-		convert(s, i, j);
-		len += j - i;
-		s = va_arg(ap, const char *);
+		len = strlen(s);
+		i = idx(i, len);
+		j = idx(j, len);
+		if (i > j)
+			swap(i,j);
+		assert(i >= 0 && i <= len);
+		assert(j >= 0 && j <= len);
+		newlen += j - i;
+		s = va_arg(ap, char *);
 	}
 	va_end(ap);
-	p = str = ALLOC(len + 1);
-	s = save;
+	p = str = ALLOC(newlen + 1);
 	va_start(ap, s);
 	while (s) {
 		i = va_arg(ap, int);
 		j = va_arg(ap, int);
-		convert(s, i, j);
+		len = strlen(s);
+		i = idx(i, len);
+		j = idx(j, len);
+		if (i > j)
+			swap(i,j);
+		assert(i >= 0 && i <= len);
+		assert(j >= 0 && j <= len);
 		while (i < j)
 			*p++ = s[i++];
-		s = va_arg(ap, const char *);
+		s = va_arg(ap, char *);
 	}
 	va_end(ap);
-	*p = '\0';
+	*p = 0;
 	return str;
 }
 char *Str_map(const char *s, int i, int j,
 	const char *from, const char *to) {
 	static char map[256] = { 0 };
 	if (from && to) {
-		unsigned c;
-		for (c = 0; c < sizeof map; c++)
-			map[c] = c;
+		int k;
+		for (k = 0; k < (int)sizeof map; k++)
+			map[k] = k;
 		while (*from && *to)
 			map[(unsigned char)*from++] = *to++;
 		assert(*from == 0 && *to == 0);
@@ -100,11 +121,17 @@ char *Str_map(const char *s, int i, int j,
 	}
 	if (s) {
 		char *str, *p;
-		convert(s, i, j);
+		int len = strlen(s);
+i = idx(i, len);
+j = idx(j, len);
+if (i > j)
+	swap(i,j);
+assert(i >= 0 && i <= len);
+assert(j >= 0 && j <= len);
 		p = str = ALLOC(j - i + 1);
 		while (i < j)
 			*p++ = map[(unsigned char)s[i++]];
-		*p = '\0';
+		*p = 0;
 		return str;
 	} else
 		return NULL;
@@ -118,90 +145,158 @@ int Str_pos(const char *s, int i) {
 	return i + 1;
 }
 int Str_len(const char *s, int i, int j) {
-	convert(s, i, j);
+	int len;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	return j - i;
 }
 int Str_cmp(const char *s1, int i1, int j1,
 	const char *s2, int i2, int j2) {
-	convert(s1, i1, j1);
-	convert(s2, i2, j2);
+	int len;
+	assert(s1);
+	len = strlen(s1);
+	i1 = idx(i1, len);
+	j1 = idx(j1, len);
+	if (i1 > j1)
+		swap(i1, j1);
+	assert(i1 >= 0 && i1 <= len && j1 >= 0 && j1 <= len);
+	assert(s2);
+	len = strlen(s2);
+	i2 = idx(i2, len);
+	j2 = idx(j2, len);
+	if (i2 > j2)
+		swap(i2, j2);
+	assert(i2 >= 0 && i2 <= len && j2 >= 0 && j2 <= len);
+	if (j1 - i1 < j2 - i2)
+		len = j1 - i1;
+	else
+		len = j2 - i2;
 	s1 += i1;
 	s2 += i2;
-	if (j1 - i1 < j2 - i2) {
-		int cond = strncmp(s1, s2, j1 - i1);
-		return cond == 0 ? -1 : cond;
-	} else if (j1 - i1 > j2 - i2) {
-		int cond = strncmp(s1, s2, j2 - i2);
-		return cond == 0 ? +1 : cond;
-	} else
-		return strncmp(s1, s2, j1 - i1);
+	for ( ; len-- > 0; s1++, s2++)
+		if (*s1 != *s2)
+			return (unsigned char)*s1 - (unsigned char)*s2;
+	if (j1 - i1 < j2 - i2)
+		return -1;
+	else if (j1 - i1 < j2 - i2)
+		return +1;
+	else
+		return 0;
 }
 int Str_chr(const char *s, int i, int j, int c) {
-	convert(s, i, j);
+	int len;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	for ( ; i < j; i++)
 		if (s[i] == c)
 			return i + 1;
 	return 0;
 }
 int Str_rchr(const char *s, int i, int j, int c) {
-	convert(s, i, j);
+	int len;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	while (j > i)
 		if (s[--j] == c)
 			return j + 1;
 	return 0;
 }
-int Str_upto(const char *s, int i, int j,
-	const char *set) {
+int Str_upto(const char *s, int i, int j, const char *set) {
+	int len;
+	assert(s);
 	assert(set);
-	convert(s, i, j);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	for ( ; i < j; i++)
 		if (strchr(set, s[i]))
 			return i + 1;
 	return 0;
 }
-int Str_rupto(const char *s, int i, int j,
-	const char *set) {
+int Str_rupto(const char *s, int i, int j, const char *set) {
+	int len;
+	assert(s);
 	assert(set);
-	convert(s, i, j);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
 	while (j > i)
 		if (strchr(set, s[--j]))
 			return j + 1;
 	return 0;
 }
-int Str_find(const char *s, int i, int j,
-	const char *str) {
-	int len;
-	convert(s, i, j);
-	assert(str);
-	len = strlen(str);
-	if (len == 0)
+int Str_find(const char *s, int i, int j, const char *pat) {
+	int len, plen;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	assert(pat);
+	plen = strlen(pat);
+	if (plen == 0)
 		return i + 1;
-	else if (len == 1) {
+	else if (plen == 1) {
 		for ( ; i < j; i++)
-			if (s[i] == *str)
+			if (s[i] == *pat)
 				return i + 1;
 	} else
-		for ( ; i + len <= j; i++)
-			if ((strncmp(&s[i], str, len) == 0))
+		for ( ; i + plen <= j; i++)
+			if ((strncmp(&s[i], pat, plen) == 0))
 				return i + 1;
 	return 0;
 }
-int Str_rfind(const char *s, int i, int j,
-	const char *str) {
-	int len;
-	convert(s, i, j);
-	assert(str);
-	len = strlen(str);
-	if (len == 0)
-		return j + 1;
-	else if (len == 1) {
+int Str_rfind(const char *s, int i, int j, const char *pat) {
+	int len, plen;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	assert(pat);
+	plen = strlen(pat);
+	if (plen == 0)
+		return j;
+	else if (plen == 1) {
 		while (j > i)
-			if (s[--j] == *str)
+			if (s[--j] == *pat)
 				return j + 1;
 	} else
-		for ( ; j - len >= i; j--)
-			if (strncmp(&s[j-len], str, len) == 0)
-				return j - len + 1;
+		for ( ; j - plen >= i; j--)
+			if (strncmp(&s[j-plen], pat, plen) == 0)
+				return j - plen + 1;
 	return 0;
 }
 int Str_any(const char *s, int i, const char *set) {
@@ -211,15 +306,22 @@ int Str_any(const char *s, int i, const char *set) {
 	len = strlen(s);
 	i = idx(i, len);
 	assert(i >= 0 && i <= len);
-	if (i < len && strchr(set, s[i]))
+	if (strchr(set, s[i]))
 		return i + 2;
 	return 0;
 }
-int Str_many(const char *s, int i, int j,
-	const char *set) {
+int Str_many(const char *s, int i, int j, const char *set) {
+	int len;
+	assert(s);
 	assert(set);
-	convert(s, i, j);
-	if (i < j && strchr(set, s[i])) {
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	if (strchr(set, s[i])) {
 		do
 			i++;
 		while (i < j && strchr(set, s[i]));
@@ -227,59 +329,81 @@ int Str_many(const char *s, int i, int j,
 	}
 	return 0;
 }
-int Str_rmany(const char *s, int i, int j,
-	const char *set) {
+int Str_rmany(const char *s, int i, int j, const char *set) {
+	int len;
+	assert(s);
 	assert(set);
-	convert(s, i, j);
-	if (j > i && strchr(set, s[j-1])) {
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	if (strchr(set, s[j-1])) {
 		do
 			--j;
 		while (j >= i && strchr(set, s[j]));
-		return j + 2;
+		return j + 1;
 	}
 	return 0;
 }
-int Str_match(const char *s, int i, int j,
-	const char *str) {
-	int len;
-	convert(s, i, j);
-	assert(str);
-	len = strlen(str);
-	if (len == 0)
+int Str_match(const char *s, int i, int j, const char *pat) {
+	int len, plen;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	assert(pat);
+	plen = strlen(pat);
+	if (plen == 0)
 		return i + 1; 
-	else if (len == 1) {
-		if (i < j && s[i] == *str)
+	else if (plen == 1) {
+		if (s[i] == *pat)
 			return i + 2;
-	} else if (i + len <= j && (strncmp(&s[i], str, len) == 0))
-		return i + len + 1;
+	} else if (i + plen <= j && (strncmp(&s[i], pat, plen) == 0))
+		return i + plen + 1;
 	return 0;
 }
-int Str_rmatch(const char *s, int i, int j,
-	const char *str) {
-	int len;
-	convert(s, i, j);
-	assert(str);
-	len = strlen(str);
-	if (len == 0)
+int Str_rmatch(const char *s, int i, int j, const char *pat) {
+	int len, plen;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	assert(pat);
+	plen = strlen(pat);
+	if (plen == 0)
 		return j + 1;
-	else if (len == 1) {
-		if (j > i && s[j-1] == *str)
+	else if (plen == 1) {
+		if (s[j-1] == *pat)
 			return j;
-	} else if (j - len >= i
-	&& strncmp(&s[j-len], str, len) == 0)
-		return j - len + 1;
+	} else if (j - plen >= i
+	&& strncmp(&s[j-plen], pat, plen) == 0)
+		return j - plen + 1;
 	return 0;
 }
-void Str_fmt(int code, va_list *app,
+void Str_cvt(int code, va_list *app,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
-	char *s;
-	int i, j;
-	assert(app && flags);
-	s = va_arg(*app, char *);
-	i = va_arg(*app, int);
-	j = va_arg(*app, int);
-	convert(s, i, j);
-	Fmt_puts(s + i, j - i, put, cl, flags,
-		width, precision);
+	char *s = va_arg(*app, char *);
+	int i = va_arg(*app, int), j = va_arg(*app, int), len;
+	assert(s);
+	len = strlen(s);
+	i = idx(i, len);
+	j = idx(j, len);
+	if (i > j)
+		swap(i,j);
+	assert(i >= 0 && i <= len);
+	assert(j >= 0 && j <= len);
+	Fmt_puts(s + i, j - i, put, cl, flags, width, precision);
 }
+static char rcsid[] = "$RCSfile: RCS/str.doc,v $ $Revision: 1.2 $";

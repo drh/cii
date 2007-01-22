@@ -1,4 +1,3 @@
-static char rcsid[] = "$Id: H:/drh/idioms/book/RCS/inter.doc,v 1.11 1997/02/21 19:42:15 drh Exp $";
 #include "arith.h"
 int Arith_max(int x, int y) {
 	return x > y ? x : y;
@@ -26,3 +25,4 @@ int Arith_floor(int x, int y) {
 int Arith_ceiling(int x, int y) {
 	return Arith_div(x, y) + (x%y != 0);
 }
+static char rcsid[] = "$RCSfile: RCS/inter.doc,v $ $Revision: 1.2 $";
