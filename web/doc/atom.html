@@ -1,0 +1,447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+
+<head>
+<meta NAME="GENERATOR" CONTENT="Microsoft FrontPage 5.0">
+<link REV="made" HREF="http://drh.home.dyndns.org">
+<link REL="STYLESHEET" HREF="cii.css">
+<title>Chapter 3: Atoms</title>
+</head>
+
+<body>
+
+<p CLASS="Colophon">This page is an HTML rendition of Chapter 3 of <a href="http://www.cs.princeton.edu/software/cii/"><cite>C Interfaces and Implementations</cite></a>
+and thus only approximates the appearance of the printed chapter. This page uses cascading
+style sheets (CSS) and thus must be viewed using a CSS-aware browser, such as Netscape
+Navigator 4 or Microsoft Internet Explorer 3 or better. The <a href="atom.pdf">Acrobat PDF
+rendition of this chapter</a> is more faithful to the printed version.</p>
+
+<table style="text-align: center;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center" style="font-size: 500%; font-style: bold">3</td>
+  </tr>
+  <tr>
+    <td align="center"><img SRC="../images/dot_black.gif" WIDTH="50" HEIGHT="4" ALT="======"><br>
+    <img SRC="../images/dot_clear.gif" WIDTH="1" HEIGHT="2" ALT=" "><br>
+    <img SRC="../images/dot_black.gif" WIDTH="50" HEIGHT="2" ALT=" "></td>
+  </tr>
+  <tr>
+    <td align="center"><img SRC="../images/dot_clear.gif" WIDTH="1" HEIGHT="12" ALT=" "></td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size: 360%; font-style: bold; font-variant: small-caps">Atoms</td>
+  </tr>
+</table>
+
+<p CLASS="FirstBody">An <em CLASS="Emphasis">atom</em> is a pointer to a unique, immutable
+sequence of zero or more arbitrary bytes. Most atoms are pointers to null-terminated
+strings, but a pointer to any sequence of bytes can be an atom. There is only a single
+occurrence of any atom, which is why it's called an atom. Two atoms are identical if they
+point to the same location. Comparing two byte sequences for equality by simply comparing
+pointers is one of the advantages of atoms. Another advantage is that using atoms saves
+space because there's only one occurrence of each sequence.</p>
+
+<p>Atoms are often used as keys in data structures that are indexed by sequences of
+arbitrary bytes instead of by integers. The tables and sets described in Chapters 8 and 9
+are examples.</p>
+
+<h2 CLASS="Section">3.1 Interface</h2>
+
+<p CLASS="Noindent">The <em CLASS="Code">Atom</em> interface is simple:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;atom.h&gt;=</em>
+#ifndef ATOM_INCLUDED
+#define ATOM_INCLUDED
+
+extern int Atom_length(const char *str);
+extern const char *Atom_new   (const char *str, int len);
+extern const char *Atom_string(const char *str);
+extern const char *Atom_int   (long n);
+
+#endif</pre>
+
+<p CLASS="Noindent"><em CLASS="Code">Atom_new</em> accepts a pointer to a sequence of
+bytes and the number of bytes in that sequence. It adds a copy of the sequence to the
+table of atoms, if necessary, and returns the atom, which is a pointer to the copy of the
+sequence in the atom table. <em CLASS="Code">Atom_new</em> never returns the null pointer.
+Once an atom is created, it exists for the duration of the client's execution. An atom is
+always terminated with a null character, which <em CLASS="Code">Atom_new</em> adds when
+necessary.</p>
+
+<p><em CLASS="Code">Atom_string</em> is similar to <em CLASS="Code">Atom_new</em> ; it
+caters to the common use of character strings as atoms. It accepts a null-terminated
+string, adds a copy of that string to the atom table, if necessary, and returns the atom. <em CLASS="Code">Atom_int</em> returns the atom for the string representation of the long
+integer <em CLASS="Code">n</em>&#151;another common usage. Finally, <em CLASS="Code">Atom_length</em>
+returns the length of its atom argument.</p>
+
+<p>It is a checked runtime error to pass a null pointer to any function in this interface,
+to pass a negative <em CLASS="Code">len</em> to <em CLASS="Code">Atom_new</em>, or to pass
+a pointer that is not an atom to <em CLASS="Code">Atom_length</em>. It is an <em CLASS="Emphasis">unchecked</em> runtime error to modify the bytes pointed to by an atom. <em CLASS="Code">Atom_length</em> can take time to execute proportional to the number of
+atoms. <em CLASS="Code">Atom_new</em>, <em CLASS="Code">Atom_string</em>, and <em CLASS="Code">Atom_int</em> can each raise the exception <em CLASS="Code">Mem_Failed</em>.</p>
+
+<h2 CLASS="Section">3.2 Implementation</h2>
+
+<p CLASS="Noindent">The implementation of <em CLASS="Code">Atom</em> maintains the atom
+table. <em CLASS="Code">Atom_new</em>, <em CLASS="Code">Atom_string</em>, and <em CLASS="Code">Atom_int</em> search the atom table and possibly add new elements to it, and <em CLASS="Code">Atom_length</em> just searches it.</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;atom.c&gt;=</em>
+<em CLASS="Fragment">&lt;includes 34&gt;</em>
+<em CLASS="Fragment">&lt;macros 37&gt;</em>
+<em CLASS="Fragment">&lt;data 36&gt;</em>
+<em CLASS="Fragment">&lt;functions 35&gt;</em></pre>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;includes 34&gt;=</em>
+#include &quot;atom.h&quot;</pre>
+
+<p><em CLASS="Code">Atom_string</em> and <em CLASS="Code">Atom_int</em> can be implemented
+without knowing the representation details of the atom table. <em CLASS="Code">Atom_string</em>,
+for example, just calls <em CLASS="Code">Atom_new</em>:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;functions 35&gt;=</em>
+const char *Atom_string(const char *str) {
+	assert(str);
+	return Atom_new(str, strlen(str));
+}</pre>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;includes 34&gt;+=</em>
+#include &lt;string.h&gt;
+#include &quot;assert.h&quot;</pre>
+
+<p><em CLASS="Code">Atom_int</em> first converts its argument to a string, then calls <em CLASS="Code">Atom_new</em>:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;functions 35&gt;+=</em>
+const char *Atom_int(long n) {
+	char str[43];
+	char *s = str + sizeof str;
+	unsigned long m;
+
+	if (n == LONG_MIN)
+		m = LONG_MAX + 1UL;
+	else if (n &lt; 0)
+		m = -n;
+	else
+		m = n;
+	do
+		*--s = m%10 + '0';
+	while ((m /= 10) &gt; 0);
+	if (n &lt; 0)
+		*--s = '-';
+	return Atom_new(s, (str + sizeof str) - s);
+}</pre>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;includes 34&gt;+=</em>
+#include &lt;limits.h&gt;</pre>
+
+<p><em CLASS="Code">Atom_int</em> must cope with the asymmetrical range of
+two's-complement numbers and with the ambiguities of C's division and modulus operators.
+Unsigned division and modulus <em CLASS="Emphasis">are</em> well defined, so <em CLASS="Code">Atom_int</em> can avoid the ambiguities of the signed operators by using
+unsigned arithmetic.</p>
+
+<p>The absolute value of the most negative signed long integer cannot be represented,
+because there is one more negative number than positive number in two's-complement
+systems. <em CLASS="Code">Atom_new</em> thus starts by testing for this single anomaly
+before assigning the absolute value of its argument to the unsigned long integer <em CLASS="Code">m</em>. The value of <em CLASS="Code">LONG_MAX</em> resides in the standard
+header <em CLASS="Code">limits.h</em>.</p>
+
+<p>The loop forms the decimal string representation of <em CLASS="Code">m</em> from right
+to left; it computes the rightmost digit, divides <em CLASS="Code">m</em> by 10, and
+continues until <em CLASS="Code">m</em> is zero. As each digit is computed, it's stored at
+<em CLASS="Code">--s</em>, which marches <em CLASS="Code">s</em> backward in <em CLASS="Code">str</em> . If <em CLASS="Code">n</em> is negative, a minus sign is stored at
+the beginning of the string.</p>
+
+<p>When the conversion is done, <em CLASS="Code">s</em> points to the desired string, and
+this string has <em CLASS="Code">&amp;str[43]-s</em> characters. <em CLASS="Code">str</em>
+has 43 characters, which is enough to hold the decimal representation of any integer on
+any conceivable machine. Suppose, for example, that longs are 128 bits. The string
+representation of any 128-bit signed integer in octal&#151;base 8&#151;fits in
+128/3&nbsp;+&nbsp;1 = 43 characters. The decimal representation can take no more digits
+than the octal representation, so 43 characters are enough.</p>
+
+<p>The 43 in the definition of <em CLASS="Code">str</em> is an example of a &quot;magic
+number,&quot; and it's usually better style to define a symbolic name for such values to
+ensure that the same value is used everywhere. Here, however, the value appears only once,
+and <em CLASS="Code">sizeof</em> is used whenever the value is used. Defining a symbolic
+name might make the code easier to read, but it will also make the code longer and clutter
+the name space. In this book, a symbolic name is defined only when the value appears more
+than once, or when it is part of an interface. The length of the hash table <em CLASS="Code">buckets</em> below&#151;2,048&#151;is another example of this convention.</p>
+
+<p>A hash table is the obvious data structure for the atom table. The hash table is an
+array of pointers to lists of entries, each of which holds one atom:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;data 36&gt;=</em>
+static struct atom {
+	struct atom *link;
+	int len;
+	char *str;
+} *buckets[2048];</pre>
+
+<p CLASS="Noindent">The linked list emanating from <em CLASS="Code">buckets[i]</em> holds
+those atoms that hash to <em CLASS="Code">i</em>. An entry's <em CLASS="Code">link</em>
+field points to the next entry on the list, the <em CLASS="Code">len</em> field holds the
+length of the sequence, and the <em CLASS="Code">str</em> fields points to the sequence
+itself. For example, on a little endian computer with 32-bit words and 8-bit characters, <em CLASS="Code">Atom_string(&quot;an atom&quot;)</em> allocates the <em CLASS="Code">struct</em>
+<em CLASS="Code">atom</em> shown in Figure 3.1, where the underscore character (<em CLASS="Code">_</em>) denotes a space. Each entry is just large enough to hold its
+sequence. Figure 3.2 shows the overall structure of the hash table.</p>
+
+<table style="text-align: center;">
+  <tr>
+    <td align="center"><img SRC="atom-6.gif" ALT="Little endian layout" WIDTH="161" HEIGHT="108"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Figure 3.1</strong> Little endian layout of a <em CLASS="Code">struct
+    atom</em> for <em CLASS="Code">&quot; an atom&quot;</em></td>
+  </tr>
+</table>
+
+<table style="text-align: center;">
+  <tr>
+    <td align="center"><img SRC="atom-7.gif" ALT="Hash table structure" WIDTH="310" HEIGHT="340"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Figure 3.2</strong> Hash table structure</td>
+  </tr>
+</table>
+
+<p><em CLASS="Code">Atom_new</em> computes a hash number for the sequence given by <em CLASS="Code">str[0</em>..<em CLASS="Code">len-1]</em> (or the empty sequence, if <em CLASS="Code">len</em> is zero), reduces this hash number modulo the number of elements in <em CLASS="Code">buckets</em>, and searches the list pointed to by that element of <em CLASS="Code">buckets</em>. If it finds that <em CLASS="Code">str[0</em>..<em CLASS="Code">len-1]</em>
+is already in the table, it simply returns the atom:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;functions 35&gt;+=</em>
+const char *Atom_new(const char *str, int len) {
+	unsigned long h;
+	int i;
+	struct atom *p;
+
+	assert(str);
+	assert(len &gt;= 0);
+	<em CLASS="Fragment">&lt;</em><em CLASS="Code">h = </em><em CLASS="Fragment">hash </em><em CLASS="Code">str[0</em>..<em CLASS="Code">len-1]</em><em CLASS="Fragment"> 39&gt;</em>
+	h &amp;= NELEMS(buckets)-1;
+	for (p = buckets[h]; p; p = p-&gt;link)
+		if (len == p-&gt;len) {
+			for (i = 0; i &lt; len &amp;&amp; p-&gt;str[i] == str[i]; )
+				i++;
+			if (i == len)
+				return p-&gt;str;
+		}
+		<em CLASS="Fragment">&lt;allocate a new entry 39&gt;</em>
+		return p-&gt;str;
+}</pre>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;macros 37&gt;+=</em>
+#define NELEMS(x) ((sizeof (x))/(sizeof ((x)[0])))</pre>
+
+<p CLASS="Noindent">The definition of <em CLASS="Code">NELEMS</em> illustrates a common C
+idiom: The number of elements in an array is the size of the array divided by the size of
+each element. <em CLASS="Code">sizeof</em> is a compile-time operator, so this computation
+applies only to arrays whose size is known at compile time. As this definition
+illustrates, macro parameters are italicized to highlight where they are used in the macro
+body.</p>
+
+<p>If <em CLASS="Code">str[0</em>..<em CLASS="Code">len-1]</em> isn't in the table, <em CLASS="Code">Atom_new</em> adds it by allocating a <em CLASS="Code">struct atom</em> and
+enough additional space to hold the sequence, copying <em CLASS="Code">str[0</em>..<em CLASS="Code">len-1]</em> into the additional space and linking the new entry onto the
+beginning of the list emanating from em CLASS=&quot;Code&quot;&gt;buckets[h]. The entry
+could be appended to the end of the list, but adding it at the front of the list is
+simpler.</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;allocate a new entry 39&gt;=</em>
+p = ALLOC(sizeof (*p) + len + 1);
+p-&gt;len = len;
+p-&gt;str = (char *)(p + 1);
+if (len &gt; 0)
+	memcpy(p-&gt;str, str, len);
+p-&gt;str[len] = '\0';
+p-&gt;link = buckets[h];
+buckets[h] = p;</pre>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;includes 34&gt;+=</em>
+#include &quot;mem.h&quot;</pre>
+
+<p CLASS="Noindent"><em CLASS="Code">ALLOC</em> is <em CLASS="Code">Mem</em>'s primary
+allocation function, and it mimics the standard library function <em CLASS="Code">malloc</em>:
+its argument is the number of bytes needed. <em CLASS="Code">Atom_new</em> cannot use <em CLASS="Code">Mem</em>'s <em CLASS="Code">NEW</em>, which is illustrated in <em CLASS="Code">Stack_push</em>, because the number of bytes depends on <em CLASS="Code">len</em>;
+<em CLASS="Code">NEW</em> applies only when the number of bytes is known at compile time.
+The call to <em CLASS="Code">ALLOC</em> above allocates the space for both the <em CLASS="Code">atom</em> structure and for the sequence, and the sequence is stored in the
+immediately succeeding bytes.</p>
+
+<p>Hashing the sequence passed to <em CLASS="Code">Atom_new</em> involves computing an
+unsigned number to represent the sequence. Ideally, these hash numbers should be
+distributed uniformly over the range zero to <em CLASS="Code">NELEMS(buckets)</em>-1 for <em>N</em>
+sequences. If they are so distributed, each list in <em CLASS="Code">buckets</em> will
+have <em>N</em>/<em CLASS="Code">NELEMS(buckets)</em> elements, and the average time to
+search for a sequence will be <em>N</em>/2<em CLASS="Code">·NELEMS(buckets)</em>. If <em>N</em>
+is less than, say, 2<em CLASS="Code">·NELEMS(buckets)</em>, the search time is
+essentially a constant.</p>
+
+<p>Hashing is a well-studied subject, and there are many good hash functions. <em CLASS="Code">Atom_new</em> uses a simple table-lookup algorithm:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;</em><em CLASS="Code">h = </em><em CLASS="Fragment">hash </em><em CLASS="Code">str[0</em>..<em CLASS="Code">len-1]</em><em CLASS="Fragment"> 39&gt;=</em>
+for (h = 0, i = 0; i &lt; len; i++)
+	h = (h&lt;&lt;1) + scatter[(unsigned char)str[i]];</pre>
+
+<p CLASS="Noindent"><em CLASS="Code">scatter</em> is a 256-entry array that maps bytes to
+random numbers, which were generated by calling the standard library function <em CLASS="Code">rand</em>. Experience shows that this simple approach helps to more uniformly
+distribute the hash values. Casting <em CLASS="Code">str[i]</em> to an unsigned character
+avoids C's ambiguity about &quot;plain&quot; characters: they can be signed or unsigned.
+Without the cast, values of <em CLASS="Code">str[i]</em> that exceed 127 would yield
+negative indices on machines that use signed characters.</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;data 36&gt;+=</em>
+static unsigned long scatter[] = {
+2078917053, 143302914, 1027100827, 1953210302, 755253631, 2002600785,
+1405390230, 45248011, 1099951567, 433832350, 2018585307, 438263339,
+813528929, 1703199216, 618906479, 573714703, 766270699, 275680090,
+1510320440, 1583583926, 1723401032, 1965443329, 1098183682, 1636505764,
+980071615, 1011597961, 643279273, 1315461275, 157584038, 1069844923,
+471560540, 89017443, 1213147837, 1498661368, 2042227746, 1968401469,
+1353778505, 1300134328, 2013649480, 306246424, 1733966678, 1884751139,
+744509763, 400011959, 1440466707, 1363416242, 973726663, 59253759,
+1639096332, 336563455, 1642837685, 1215013716, 154523136, 593537720,
+704035832, 1134594751, 1605135681, 1347315106, 302572379, 1762719719,
+269676381, 774132919, 1851737163, 1482824219, 125310639, 1746481261,
+1303742040, 1479089144, 899131941, 1169907872, 1785335569, 485614972,
+907175364, 382361684, 885626931, 200158423, 1745777927, 1859353594,
+259412182, 1237390611, 48433401, 1902249868, 304920680, 202956538,
+348303940, 1008956512, 1337551289, 1953439621, 208787970, 1640123668,
+1568675693, 478464352, 266772940, 1272929208, 1961288571, 392083579,
+871926821, 1117546963, 1871172724, 1771058762, 139971187, 1509024645,
+109190086, 1047146551, 1891386329, 994817018, 1247304975, 1489680608,
+706686964, 1506717157, 579587572, 755120366, 1261483377, 884508252,
+958076904, 1609787317, 1893464764, 148144545, 1415743291, 2102252735,
+1788268214, 836935336, 433233439, 2055041154, 2109864544, 247038362,
+299641085, 834307717, 1364585325, 23330161, 457882831, 1504556512,
+1532354806, 567072918, 404219416, 1276257488, 1561889936, 1651524391,
+618454448, 121093252, 1010757900, 1198042020, 876213618, 124757630,
+2082550272, 1834290522, 1734544947, 1828531389, 1982435068, 1002804590,
+1783300476, 1623219634, 1839739926, 69050267, 1530777140, 1802120822,
+316088629, 1830418225, 488944891, 1680673954, 1853748387, 946827723,
+1037746818, 1238619545, 1513900641, 1441966234, 367393385, 928306929,
+946006977, 985847834, 1049400181, 1956764878, 36406206, 1925613800,
+2081522508, 2118956479, 1612420674, 1668583807, 1800004220, 1447372094,
+523904750, 1435821048, 923108080, 216161028, 1504871315, 306401572,
+2018281851, 1820959944, 2136819798, 359743094, 1354150250, 1843084537,
+1306570817, 244413420, 934220434, 672987810, 1686379655, 1301613820,
+1601294739, 484902984, 139978006, 503211273, 294184214, 176384212,
+281341425, 228223074, 147857043, 1893762099, 1896806882, 1947861263,
+1193650546, 273227984, 1236198663, 2116758626, 489389012, 593586330,
+275676551, 360187215, 267062626, 265012701, 719930310, 1621212876,
+2108097238, 2026501127, 1865626297, 894834024, 552005290, 1404522304,
+48964196, 5816381, 1889425288, 188942202, 509027654, 36125855,
+365326415, 790369079, 264348929, 513183458, 536647531, 13672163,
+313561074, 1730298077, 286900147, 1549759737, 1699573055, 776289160,
+2143346068, 1975249606, 1136476375, 262925046, 92778659, 1856406685,
+1884137923, 53392249, 1735424165, 1602280572
+};</pre>
+
+<p><em CLASS="Code">Atom_length</em> can't hash its argument because it doesn't know its
+length. But the argument must be an atom, so <em CLASS="Code">Atom_length</em> can simply
+scream through the lists in <em CLASS="Code">buckets</em> comparing pointers. If it finds
+the atom, it returns the atom's length:</p>
+
+<pre CLASS="Chunk"><em CLASS="Fragment">&lt;functions 35&gt;+=</em>
+int Atom_length(const char *str) {
+	struct atom *p;
+	int i;
+
+	assert(str);
+	for (i = 0; i &lt; NELEMS(buckets); i++)
+		for (p = buckets[i]; p; p = p-&gt;link)
+			if (p-&gt;str == str)
+				return p-&gt;len;
+	assert(0);
+	return 0;
+}</pre>
+
+<p CLASS="Noindent"><em CLASS="Code">assert(0)</em> implements the checked runtime error
+that <em CLASS="Code">Atom_length</em> must be called only with an atom, not just a
+pointer to a string. <em CLASS="Code">assert(0)</em> is also used to signal conditions
+that are not supposed to occur&#151;so-called &quot;can't-happen&quot; conditions.</p>
+
+<h2 CLASS="Section">Further Reading</h2>
+
+<p CLASS="Noindent">Atoms have long been used in LISP, which is the source of their name,
+and in string-manipulation languages, such as SNOBOL4, which implemented strings almost
+exactly as described in this chapter (Griswold 1972). The C compiler <a HREF="http://www.cs.princeton.edu/software/lcc/"><em CLASS="Code">lcc</em></a> (Fraser and
+Hanson 1995) has a module that is similar to <em CLASS="Code">Atom</em> and is the
+predecessor to <em CLASS="Code">Atom</em>'s implementation. <em CLASS="Code">lcc</em>
+stores the strings for <em>all</em> identifiers and constants that appear in the source
+program in a single table, and never deallocates them. Doing so never consumes too much
+storage because the number of distinct strings in C programs is remarkably small
+regardless of the size of the source programs.</p>
+
+<p>Sedgewick (1990) and Knuth (1973b) describe hashing in detail and give guidelines for
+writing good hash functions. The hash function used in <em CLASS="Code">Atom</em> (and in <em CLASS="Code">lcc</em>) was suggested by Hans Boehm.</p>
+
+<h2 CLASS="Section">Exercises</h2>
+
+<ol CLASS="Exercises">
+  <li CLASS="Exercise">Most texts recommend using a prime number for the size of <em CLASS="Code">buckets</em>. Using a prime and a good hash function usually gives a better
+    distribution of the lengths of the lists hanging off of <em CLASS="Code">buckets</em>. <em CLASS="Code">Atom</em> uses a power of two, which is sometimes explicitly cited as a bad
+    choice. Write a program to generate or read, say, 10,000 typical strings and measure <em CLASS="Code">Atom_new</em>'s speed and the distribution of the lengths of the lists. Then
+    change <em CLASS="Code">buckets</em> so that it has 2,039 entries (the largest prime less
+    than 2,048), change the statement <pre CLASS="ExerciseCode">h &amp;= NELEMS(buckets)-1;</pre>
+    <p CLASS="Exercise">to</p>
+    <pre CLASS="ExerciseCode">h %= NELEMS(buckets);</pre>
+    <p CLASS="Exercise">and repeat the measurements. Does using a prime help? How much does
+    your conclusion depend on your specific machine?</p>
+  </li>
+  <li CLASS="Exercise">Scour the literature for better hash functions; likely sources are
+    Knuth (1973b), similar texts on algorithms and data structures and the papers they cite,
+    and texts on compilers, such as Aho, Sethi, and Ullman (1986). Try these functions and
+    measure their benefits.</li>
+  <li CLASS="Exercise">Explain why <em CLASS="Code">Atom_new</em> doesn't use the standard C
+    library function <em CLASS="Code">strncmp</em> to compare sequences.</li>
+  <li CLASS="Exercise">Here's another way to declare the atom structure:<pre CLASS="ExerciseCode">struct atom {
+	struct atom *link;
+	int len;
+	char str[1];
+};</pre>
+    <p CLASS="Exercise">A <em CLASS="Code">struct</em> <em CLASS="Code">atom</em> for a string
+    of <em CLASS="Code">len</em> bytes is allocated by <em CLASS="Code">ALLOC(sizeof(*p)+len)</em>,
+    which allocates space for the <em CLASS="Code">link</em> and <em CLASS="Code">len</em>
+    fields, and a <em CLASS="Code">str</em> field long enough to hold <em CLASS="Code">len</em>+1
+    bytes. This approach avoids the time and space required for the extra indirection induced
+    by declaring <em CLASS="Code">str</em> to be a pointer. Unfortunately, this
+    &quot;trick&quot; violates the C standard, because clients access the bytes beyond <em CLASS="Code">str[0]</em>, and the effect of these accesses is undefined. Implement this
+    approach and measure the cost of the indirection. Are the savings worth violating the
+    standard?</p>
+  </li>
+  <li CLASS="Exercise"><em CLASS="Code">Atom_new</em> compares the <em CLASS="Code">len</em>
+    field of <em CLASS="Code">struct atom</em>s with the length of the incoming sequence to
+    avoid comparing sequences of different lengths. If the hash numbers (not the indices into <em CLASS="Code">buckets</em>) for each atom were also stored in <em CLASS="Code">struct</em> <em CLASS="Code">atom</em>s, they could be compared, too. Implement this
+    &quot;improvement&quot; and measure the benefits. Is it worthwhile?</li>
+  <li CLASS="Exercise"><em CLASS="Code">Atom_length</em> is slow. Revise <em CLASS="Code">Atom</em>'s
+    implementation so that <em CLASS="Code">Atom_length</em>'s running time is approximately
+    the same as that of <em CLASS="Code">Atom_new</em>.</li>
+  <li CLASS="Exercise">The <em CLASS="Code">Atom</em> interface evolved to its present form
+    because its functions were the ones that clients used most often. There are other
+    functions and designs that might be useful, which this exercise and those that follow
+    explore. Implement<pre CLASS="ExerciseCode">extern void Atom_init(int hint);</pre>
+    <p CLASS="Exercise">where <em CLASS="Code">hint</em> estimates the number of atoms the
+    client expects to create. What checked runtime errors would you add to constrain when <em CLASS="Code">Atom_init</em> could be called?</p>
+  </li>
+  <li CLASS="Exercise">There are several functions to deallocate atoms that extensions to the <em CLASS="Code">Atom</em> interface might provide. For example, the functions<pre CLASS="ExerciseCode">extern void Atom_free (char *str);
+extern void Atom_reset(void);</pre>
+    <p CLASS="Exercise">could deallocate the atom given by <em CLASS="Code">str</em> and
+    deallocate all atoms, respectively. Implement these functions. Don't forget to specify and
+    implement appropriate checked runtime errors.</p>
+  </li>
+  <li CLASS="Exercise">Some clients start execution by installing a bunch of strings as atoms
+    for later use. Implement<pre CLASS="ExerciseCode">extern void Atom_vload(const char *str, ...);
+extern void Atom_aload(const char *strs[]);</pre>
+    <p CLASS="Exercise"><em CLASS="Code">Atom_vload</em> installs the strings given in the
+    variable length argument list up to a null pointer, and <em CLASS="Code">Atom_aload</em>
+    does the same for a null-terminated array of pointers to strings.</p>
+  </li>
+  <li CLASS="Exercise">Copying the strings can be avoided if the client promises not to
+    deallocate them, which is trivially true for string constants. Implement<pre CLASS="ExerciseCode">extern const char *Atom_add(const char *str, int len);</pre>
+    <p CLASS="Exercise">which works like <em CLASS="Code">Atom_new</em> but doesn't make a
+    copy of the sequence. If you provide <em CLASS="Code">Atom_add</em> and <em CLASS="Code">Atom_free</em>
+    (and <em CLASS="Code">Atom_reset</em> from Exercise 3.8, what checked runtime errors must
+    be specified and implemented?</p>
+  </li>
+</ol>
+
+<address style="font-size: 7pt">
+  $Revision$ $Date$ 
+</address>
+</body>
+</html>
