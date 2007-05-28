@@ -189,7 +189,7 @@ commands shown assume the distribution directory is the current working director
     data type. Some CII functions use a union to determine this multiple (cf. <code>union</code>&nbsp;<code>align</code>
     on p. 80). Alignments are less restrictive on some platforms and, for these, <code>MAXALIGN</code>
     must be defined as the alignment required as shown above. <a
-    href="ftp://ftp.cs.princeton.edu/pub/packages/cii/contrib/maxalign.c"><code>maxalign.c</code></a>
+    href="misc/maxalign.c"><code>maxalign.c</code></a>
     is a C program that attempts to determine the correct value for <code>MAXALIGN</code>, if
     one is necessary, and echo the appropriate <code>-D</code> option. Unfortunately, the
     method used relies on the C compiler using the same alignments as <code>malloc</code>,
