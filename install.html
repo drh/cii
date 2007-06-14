@@ -130,29 +130,33 @@ directory</em>. On multi-platform systems supported by a central file server, it
 to store the build directory in a location specific to the platform and to the version of
 CII, as suggested above. For example, installation on a UNIX system involves the following
 steps. Below, the build directory is referred to as <code>BUILDDIR</code>, and the
-commands shown assume the distribution directory is the current working directory. 
+commands shown assume the distribution directory is the current working directory.
+If you want to build in the distribution directory, leave <code>BUILDDIR</code>
+undefined and start at step 3.
 
 <ol>
   <li>Create the build directory, using a version- and platform-specific naming convention as
     suggested above, and record the name of this directory in the <code>BUILDDIR</code>
     environment variable:<blockquote>
-      <pre>% setenv BUILDDIR /usr/local/lib/cii/1/alpha-osf
+      <pre>% setenv BUILDDIR /usr/local/lib/cii/1/alpha-osf/
 % mkdir -p $BUILDDIR</pre>
     </blockquote>
-    <p>Here and below, commands assume the C shell. Also, you'll need a version of <code>mkdir</code>
+    <p>The trailing slash is required, because <code>BUILDDIR</code> is concatenated
+            with file names in the <code>makefile</code>, e.g., <code>$(BUILDDIR)atom$O</code>.
+            Here and below, commands assume the C shell. Also, you'll need a version of <code>mkdir</code>
     that supports the <code>-p</code> option, which creates intermediate directories as
     necessary.</p>
   </li>
   <li>Create the include directory in the build directory, and copy the include files:<blockquote>
-      <pre>% mkdir $BUILDDIR/include
-% cp -p include/*.h $BUILDDIR/include</pre>
+      <pre>% mkdir ${BUILDDIR}include
+% cp -p include/*.h ${BUILDDIR}include</pre>
     </blockquote>
     <p>Some users create a symbolic link to the include directory in the distribution instead
     of making repeated copies of the include files. For example, at Princeton, the
     distributions are stored under <code>/proj/pkg/cii</code>, so the include files are
     &quot;installed&quot; by creating one symbolic link:</p>
     <blockquote>
-      <pre>% ln -s /proj/pkg/cii/1.1/include $BUILDDIR/include</pre>
+      <pre>% ln -s /proj/pkg/cii/1.1/include ${BUILDDIR}include</pre>
     </blockquote>
   </li>
   <li>Build everything using the appropriate make command for your environment:<blockquote>
@@ -174,7 +178,7 @@ commands shown assume the distribution directory is the current working director
           <td><code>% make -k CC='cc -DMAXALIGN=8' THREADS=</code></td>
         </tr>
         <tr>
-          <td>X86 Linux/Slackware 3.3</td>
+          <td>X86 Linux, Apple Intel Mac OS X 10.4.9</td>
           <td><code>% make CC='cc -DMAXALIGN=4' AS='cc -c -x assembler-with-cpp -traditional'</code></td>
         </tr>
       </table>
@@ -205,7 +209,7 @@ commands shown assume the distribution directory is the current working director
     your system, you can omit the CII versions by either editing <code>libcii.a</code>, or
     including the appropriate assignment to <code>EXTRAS</code>, e.g., </p>
     <blockquote>
-      <pre>% make EXTRAS=$BUILDDIR/memcmp.o</pre>
+      <pre>% make EXTRAS=${BUILDDIR}memcmp.o</pre>
     </blockquote>
   </li>
   <li>The <a HREF="makefile"><code>makefile</code></a> includes the file named by the <code>CUSTOM</code>
@@ -214,15 +218,15 @@ commands shown assume the distribution directory is the current working director
     define <code>CUSTOM</code> to the path of that file when invoking make in the previous
     step. For example, on the ALPHA, I use <code>osf.mk</code>:<blockquote>
       <pre>% cat osf.mk
-BUILDDIR=/usr/local/lib/cii/1/alpha-osf
+BUILDDIR=/usr/local/lib/cii/1/alpha-osf/
 CC=cc -std1 -Dalpha
 AS=as -Dalpha
 % make CUSTOM=osf.mk</pre>
     </blockquote>
   </li>
   <li>Run a few of the test programs, e.g., <blockquote>
-      <pre>% $BUILDDIR/wf &lt;makefile
-% $BUILDDIR/sieve</pre>
+      <pre>% ${BUILDDIR}wf &lt;makefile
+% ${BUILDDIR}sieve</pre>
     </blockquote>
     <p>and then clean up:</p>
     <blockquote>
@@ -231,20 +235,20 @@ AS=as -Dalpha
     <p>This command removes everything except <code>include</code> and <code>libcii.a</code>.
     If you want to leave <code>memchk.o</code> installed, rebuild it, e.g.,</p>
     <blockquote>
-      <pre>% make $BUILDDIR/memchk.o</pre>
+      <pre>% make ${BUILDDIR}memchk.o</pre>
     </blockquote>
     <p><code>memchk.c</code> uses <code>MAXALIGN</code>, so if you defined <code>MAXALIGN</code>
     when building <code>libcii.a</code>, include it when rebuilding <code>memchk.o</code>,
     e.g.,</p>
     <blockquote>
-      <pre>% make CC='cc -DMAXALIGN=8' $BUILDDIR/memchk.o</pre>
+      <pre>% make CC='cc -DMAXALIGN=8' ${BUILDDIR}memchk.o</pre>
     </blockquote>
     <p><code>make clobber</code> removes everything from <code>BUILDDIR</code>.</p>
   </li>
   <li>If desired, plant release-independent symbolic links to the include directory and to the
     installed library, e.g., <blockquote>
-      <pre>% ln -s $BUILDDIR/include /usr/local/include/cii
-% ln -s $BUILDDIR/libcii.a /usr/local/lib/libcii.a</pre>
+      <pre>% ln -s ${BUILDDIR}include /usr/local/include/cii
+% ln -s ${BUILDDIR}libcii.a /usr/local/lib/libcii.a</pre>
     </blockquote>
   </li>
 </ol>
@@ -253,14 +257,15 @@ AS=as -Dalpha
 
 <p>On Windows NT or Windows 95, you can use a directory organization similar to the one
 described above for UNIX as follows. The commands below assume the distribution is rooted
-at <code>C:\dist</code> and that the C compiler is Microsoft Visual C/C++ 5.0. 
+at <code>C:\dist</code> and that the C compiler is Microsoft Visual C/C++ 5.0.
 
 <ol>
   <li>Create the build directory and set <code>BUILDDIR</code>:<blockquote>
       <pre>C:\dist&gt;set BUILDDIR=\lib\cii\1
 C:\dist&gt;mkdir %BUILDDIR%</pre>
     </blockquote>
-    <p>Change the assignment to <code>BUILDDIR</code> to suit your local conventions.</p>
+    <p>Change the assignment to <code>BUILDDIR</code> to suit your local conventions.
+            On Windows, <code>BUILDDIR</code> must <em>not</em> include the trailing backslash.</p>
   </li>
   <li>Create the include directory in the build directory, and copy the include files:<blockquote>
       <pre>C:\dist&gt;mkdir %BUILDDIR%\include
