@@ -145,9 +145,9 @@ int Thread_init(int preempt, ...) {
 		{
 			struct itimerval it;
 			it.it_value.tv_sec     =  0;
-			it.it_value.tv_usec    = 50;
+			it.it_value.tv_usec    = 10;
 			it.it_interval.tv_sec  =  0;
-			it.it_interval.tv_usec = 50;
+			it.it_interval.tv_usec = 10;
 			if (setitimer(ITIMER_VIRTUAL, &it, NULL) < 0)
 				return 0;
 		}
@@ -236,9 +236,7 @@ T Thread_new(int apply(void *), void *args,
 		critical--; } while (0);
 		if (t == NULL)
 			RAISE(Thread_Failed);
-		t->sp = (void *)((char *)t + stacksize);
-		while (((unsigned long)t->sp)&15)
-                       t->sp = (void *)((unsigned long)t->sp - 1);
+		t->sp = (void *)(((unsigned long)t + stacksize)&~15U);
 	}
 	t->handle = t;
 	if (nbytes > 0) {
