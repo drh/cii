@@ -18,7 +18,6 @@ THREADS=$(BUILDDIR)/thread$O $(BUILDDIR)/swtch$O
 include $(CUSTOM)
 B=$(BUILDDIR)/
 
-# $Id$
 OBJS=	$Bap$O \
 	$Barena$O \
 	$Barith$O \

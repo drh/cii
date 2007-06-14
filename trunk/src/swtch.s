@@ -136,12 +136,15 @@ _start:	move	$4,$23	# register 23 holds args
 .end	_swtch
 .globl	_ENDMONITOR
 _ENDMONITOR:
-#elif linux && i386
+#elif (linux || __APPLE__) && i386
 .align	4
+#if __APPLE__
 .globl	__swtch
-.globl	_swtch
 __swtch:
+#else
+.globl	_swtch
 _swtch:
+#endif
 	subl	$16,%esp
 	movl	%ebx,0(%esp)
 	movl	%esi,4(%esp)
@@ -155,17 +158,22 @@ _swtch:
 	movl	4(%esp),%esi
 	movl	8(%esp),%edi
 	movl	12(%esp),%ebp
-	addl	$16, %esp
+	addl	$16,%esp
 	ret
 .align	4
 .globl	__thrstart
 .globl	_thrstart
 __thrstart:
 _thrstart:
-	pushl	%edi
+	pushl	%edi		# stack is 16-byte aligned after this push
 	call	*%esi
+	subl	$12,%esp	# ensure stack is 16-byte aligned before the call
 	pushl	%eax
+#if __APPLE__
+	call	_Thread_exit
+#else
 	call	Thread_exit
+#endif
 .globl	__ENDMONITOR
 .globl	_ENDMONITOR
 __ENDMONITOR:

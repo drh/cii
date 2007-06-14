@@ -98,7 +98,7 @@ static void release(void) {
 }
 #if linux
 #include <asm/sigcontext.h>
-static int interrupt(int sig, struct sigcontext_struct sc) {
+static int interrupt(int sig, struct sigcontext sc) {
 	if (critical ||
 	   sc.eip >= (unsigned long)_MONITOR
 	&& sc.eip <= (unsigned long)_ENDMONITOR)
@@ -111,6 +111,9 @@ static int interrupt(int sig, struct sigcontext_struct sc) {
 	return 0;
 }
 #else
+#if __APPLE__
+#define sc_pc sc_eip
+#endif
 static int interrupt(int sig, int code,
 	struct sigcontext *scp) {
 	if (critical ||
@@ -118,7 +121,9 @@ static int interrupt(int sig, int code,
 	&& scp->sc_pc <= (unsigned long)_ENDMONITOR)
 		return 0;
 	put(current, &ready);
-	sigsetmask(scp->sc_mask);
+        do { critical++;
+        sigsetmask(scp->sc_mask);
+        critical--; } while (0);
 	run();
 	return 0;
 }
@@ -233,7 +238,7 @@ T Thread_new(int apply(void *), void *args,
 			RAISE(Thread_Failed);
 		t->sp = (void *)((char *)t + stacksize);
 		while (((unsigned long)t->sp)&15)
-			t->sp--;
+                       t->sp = (void *)((unsigned long)t->sp - 1);
 	}
 	t->handle = t;
 	if (nbytes > 0) {
@@ -269,9 +274,9 @@ T Thread_new(int apply(void *), void *args,
 	  	*--t->sp = (unsigned long)_start - 8;
 	  	*--t->sp = (unsigned long)fp;
 	  	t->sp -= 64/4; }
-#elif linux && i386
+#elif (linux || __APPLE__) && i386
 	{ extern void _thrstart(void);
-	  t->sp -= 4/4;
+	  t->sp -= 16/4;	/* keep stack aligned to 16-byte boundaries */
 	  *t->sp = (unsigned long)_thrstart;
 	  t->sp -= 16/4;
 	  t->sp[4/4]  = (unsigned long)apply;
