@@ -384,12 +384,12 @@ int Text_rmatch(T s, int i, int j, T str) {
 		return j - str.len + 1;
 	return 0;
 }
-void Text_fmt(int code, va_list *app,
+void Text_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	T *s;
-	assert(app && flags);
-	s = va_arg(*app, T*);
+	assert(box && flags);
+	s = va_arg(box->ap, T*);
 	assert(s && s->len >= 0 && s->str);
 	Fmt_puts(s->str, s->len, put, cl, flags,
 		width, precision);

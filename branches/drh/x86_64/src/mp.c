@@ -642,29 +642,29 @@ char *MP_tostr(char *str, int size, int base, T x) {
 	XP_tostr(str, size, base, nbytes, tmp[1]);
 	return str;
 }
-void MP_fmtu(int code, va_list *app,
+void MP_fmtu(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	T x;
 	char *buf;
-	assert(app && flags);
-	x = va_arg(*app, T);
+	assert(box && flags);
+	x = va_arg(box->ap, T);
 	assert(x);
-	buf = MP_tostr(NULL, 0, va_arg(*app, int), x);
+	buf = MP_tostr(NULL, 0, va_arg(box->ap, int), x);
 	Fmt_putd(buf, strlen(buf), put, cl, flags,
 		width, precision);
 	FREE(buf);
 }
-void MP_fmt(int code, va_list *app,
+void MP_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	T x;
 	int base, size, sx;
 	char *buf;
-	assert(app && flags);
-	x = va_arg(*app, T);
+	assert(box && flags);
+	x = va_arg(box->ap, T);
 	assert(x);
-	base = va_arg(*app, int);
+	base = va_arg(box->ap, int);
 	assert(base >= 2 && base <= 36);
 	sx = sign(x);
 	if (sx) {

@@ -39,14 +39,14 @@ int Integer_cmp(T i1, T i2) {
 
 }
 
-void Integer_fmt(int code, va_list *app,
+void Integer_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	char buf[44];
 	T integer;
 
-	assert(app && flags);
-	integer = va_arg(*app, T);
+	assert(box && flags);
+	integer = va_arg(box->ap, T);
 	assert(integer);
  	Fmt_putd(buf, Fmt_sfmt(buf, sizeof buf, "%d", *integer),
 		put, cl, flags, width, precision);

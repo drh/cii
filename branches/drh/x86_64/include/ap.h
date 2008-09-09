@@ -2,6 +2,7 @@
 #ifndef AP_INCLUDED
 #define AP_INCLUDED
 #include <stdarg.h>
+#include "fmt.h"
 #define T AP_T
 typedef struct T *T;
 extern T AP_new    (long int n);
@@ -10,7 +11,7 @@ extern T AP_fromstr(const char *str, int base,
 extern long int AP_toint(T x);
 extern char    *AP_tostr(char *str, int size,
 	int base, T x);
-extern void     AP_fmt(int code, va_list *app,
+extern void     AP_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision);
 extern void AP_free(T *z);
