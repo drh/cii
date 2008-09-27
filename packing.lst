@@ -50,8 +50,6 @@ makefile
 makefile.nt
 misc/maxalign.c
 packing.lst
-packinglist.new
-packinglist.old
 src/ap.c
 src/arena.c
 src/arith.c
