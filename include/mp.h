@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include "except.h"
+#include "fmt.h"
 #define T MP_T
 typedef unsigned char *T;
 extern const Except_T MP_Overflow;
@@ -57,10 +58,10 @@ extern T     MP_fromstr(T z, const char *str,
 	int base, char **end);
 extern char *MP_tostr  (char *str, int size,
 	int base, T x);
-extern void  MP_fmt    (int code, va_list *app,
+extern void  MP_fmt    (int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision);
-extern void  MP_fmtu   (int code, va_list *app,
+extern void  MP_fmtu   (int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision);
 #undef T

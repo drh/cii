@@ -16,11 +16,11 @@ int cutoff = 10000;
 
 static void outs(const char *fmt, ...) {
 	char *buf;
-	va_list ap;
+	va_list_box box;
 
-	va_start(ap, fmt);
-	buf = Fmt_vstring(fmt, ap);
-	va_end(ap);
+	va_start(box.ap, fmt);
+	buf = Fmt_vstring(fmt, &box);
+	va_end(box.ap);
 	printf("%s", buf);
 	FREE(buf);
 }

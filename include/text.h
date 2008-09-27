@@ -2,6 +2,7 @@
 #ifndef TEXT_INCLUDED
 #define TEXT_INCLUDED
 #include <stdarg.h>
+#include "fmt.h"
 #define T Text_T
 typedef struct T {
 	int len;
@@ -35,7 +36,7 @@ extern int Text_find  (T s, int i, int j, T str);
 extern int Text_rfind (T s, int i, int j, T str);
 extern int Text_match (T s, int i, int j, T str);
 extern int Text_rmatch(T s, int i, int j, T str);
-extern void Text_fmt(int code, va_list *app,
+extern void Text_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision);
 extern Text_save_T Text_save(void);

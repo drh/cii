@@ -391,13 +391,13 @@ char *AP_tostr(char *str, int size, int base, T x) {
 	FREE(q);
 	return str;
 }
-void AP_fmt(int code, va_list *app,
+void AP_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	T x;
 	char *buf;
-	assert(app && flags);
-	x = va_arg(*app, T);
+	assert(box && flags);
+	x = va_arg(box->ap, T);
 	assert(x);
 	buf = AP_tostr(NULL, 0, 10, x);
 	Fmt_putd(buf, strlen(buf), put, cl, flags,

@@ -270,15 +270,15 @@ int Str_rmatch(const char *s, int i, int j,
 		return j - len + 1;
 	return 0;
 }
-void Str_fmt(int code, va_list *app,
+void Str_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision) {
 	char *s;
 	int i, j;
-	assert(app && flags);
-	s = va_arg(*app, char *);
-	i = va_arg(*app, int);
-	j = va_arg(*app, int);
+	assert(box && flags);
+	s = va_arg(box->ap, char *);
+	i = va_arg(box->ap, int);
+	j = va_arg(box->ap, int);
 	convert(s, i, j);
 	Fmt_puts(s + i, j - i, put, cl, flags,
 		width, precision);
