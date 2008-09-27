@@ -2,6 +2,7 @@
 #ifndef STR_INCLUDED
 #define STR_INCLUDED
 #include <stdarg.h>
+#include "fmt.h"
 extern char *Str_sub(const char *s, int i, int j);
 extern char *Str_dup(const char *s, int i, int j, int n);
 extern char *Str_cat(const char *s1, int i1, int j1,
@@ -34,7 +35,7 @@ extern int Str_match (const char *s, int i, int j,
 	const char *str);
 extern int Str_rmatch(const char *s, int i, int j,
 	const char *str);
-extern void Str_fmt(int code, va_list *app,
+extern void Str_fmt(int code, va_list_box *box,
 	int put(int c, void *cl), void *cl,
 	unsigned char flags[], int width, int precision);
 #undef T
