@@ -46,3 +46,5 @@ void Str_fmt(int code, va_list_box *box,
 	...
 }
 }}}
+
+Thanks to [http://swtch.com/~rsc/ Russ Cox] and [http://www.cs.tufts.edu/~nr Norman Ramsey] for contributing this solution.
