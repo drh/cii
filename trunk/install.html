@@ -38,11 +38,6 @@ files and directories.</p>
     <td>distribution identification</td>
   </tr>
   <tr>
-    <td><code><a HREF="packing.lst">packing.lst</a></code></td>
-    <td></td>
-    <td>a list of the files in the distribution</td>
-  </tr>
-  <tr>
     <td><code><a HREF="install.html">install.html</a></code></td>
     <td></td>
     <td>this file</td>
@@ -50,7 +45,8 @@ files and directories.</p>
   <tr>
     <td><code><a HREF="history.html">history.html</a></code></td>
     <td></td>
-    <td>describes the distribution's revision history</td>
+    <td>describes the revision history through version 1.1; for later versions,
+      see <a href="http://code.google.com/p/cii/w/list">http://code.google.com/p/cii/w/list</a></td>
   </tr>
   <tr>
     <td><code><a HREF="makefile">makefile</a></code></td>
@@ -63,19 +59,24 @@ files and directories.</p>
     <td>Windows 95/NT makefile</td>
   </tr>
   <tr>
-    <td><code><a HREF="include">include</a>/*.h</code></td>
+    <td><code><a HREF="include">include</a>/</code></td>
     <td></td>
     <td>interfaces (<code>.h</code> files) for the CII library</td>
   </tr>
   <tr>
-    <td><code><a HREF="src">src</a>/*.c</code></td>
+    <td><code><a HREF="src">src</a>/</code></td>
     <td></td>
     <td>implementations (<code>.c</code> files) for the CII library</td>
   </tr>
   <tr>
-    <td><code><a HREF="examples">examples</a>/*.[ch]</code></td>
+    <td><code><a HREF="examples">examples</a>/</code></td>
     <td></td>
     <td>example clients, including those from the book</td>
+  </tr>
+  <tr>
+    <td><code><a HREF="misc">misc</a>/</code></td>
+    <td></td>
+    <td>miscellaneous tools, e.g., <a href="misc/maxalign.c"><code>maxalign.c</code></a></td>
   </tr>
 </table>
 
@@ -162,15 +163,15 @@ undefined and start at step 3.
   <li>Build everything using the appropriate make command for your environment:<blockquote>
       <table BORDER="0" WIDTH="100%" CELLPADDING="0" CELLSPACING="2">
         <tr>
-          <td>ALPHA OSF/1 V3.2A:</td>
+          <td>ALPHA OSF/1 V3.2A</td>
           <td><code>% make CC='cc -std1 -Dalpha' AS='as -Dalpha'</code></td>
         </tr>
         <tr>
-          <td>MIPS IRIX 6.2:</td>
+          <td>MIPS IRIX 6.2</td>
           <td><code>% make</code></td>
         </tr>
         <tr>
-          <td>MIPS Ultrix 4.3:</td>
+          <td>MIPS Ultrix 4.3</td>
           <td><code>% gmake CC=gcc LD=gcc</code></td>
         </tr>
         <tr>
@@ -329,8 +330,7 @@ reports semi-automatically.</p>
 <hr>
 
 <address>
-  <a HREF="http://drh.home.dyndns.org/">David Hanson</a><br>
-  $Id$ 
+  <a HREF="http://drh.home.dyndns.org/">David Hanson</a>
 </address>
 </body>
 </html>
