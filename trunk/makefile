@@ -131,6 +131,12 @@ $Bsort$E:	$Bsort$O $Blibcii$A;		$(LD) $(LDFLAGS) -o $@ $Bsort$O $Blibcii$A
 $Bspin$E:	$Bspin$O $Blibcii$A;		$(LD) $(LDFLAGS) -o $@ $Bspin$O $Blibcii$A
 $Bsieve$E:	$Bsieve$O $Blibcii$A;		$(LD) $(LDFLAGS) -o $@ $Bsieve$O $Blibcii$A
 
+maxalign:	$Bmaxalign$E
+		$Bmaxalign$E
+
+$Bmaxalign$E:	misc/maxalign.c
+		$(CC) -o $@ misc/maxalign.c
+
 clean::
 		$(RM) $B*$O
 		$(RM) $(EXAMPLES)
