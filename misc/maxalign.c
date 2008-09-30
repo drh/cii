@@ -17,9 +17,8 @@ The method used relies on the C compiler using the same alignments as
 malloc, which is not required. malloc is the final authority: If it
 returns addresses that are multiples of sizeof (union align), then
 MAXALIGN is unnecessary; otherwise, MAXALIGN must provide the
-alignment. malloc is called for each basic datatype to determine
-if the addresses it returns have an alignment less strict than that
-used by the C compiler.
+alignment. malloc(1) is called to determine if the address it returns
+has an alignment less strict than that used by the C compiler.
 
 Incorrect values of MAXALIGN can cause crashes and assertion failures.
 */
@@ -60,12 +59,14 @@ int main(int argc, char *argv[]) {
 	if (verbose)
 		fprintf(stderr, "sizeof (union align) = %u\n", sizeof (union align));
 	assert(max);
-#define xx(t,v) { \
-	t *p = malloc(sizeof (t)); \
-	if (verbose) fprintf(stderr, #t " %p\n", p); \
-	while (max > 0 && ((unsigned)p)%max != 0) max /= 2; }
-	yy
+
+	char *ptr = malloc(1);
+	if (verbose)
+		fprintf(stderr, "malloc(1) = %p\n", ptr);
+	while (max > 0 && ((unsigned)ptr)%max != 0)
+		max /= 2;
 	assert(max);
+
 	if (max != sizeof (union align))
 		printf("-DMAXALIGN=%u\n", max);
 	return EXIT_SUCCESS;

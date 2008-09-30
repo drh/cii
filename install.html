@@ -146,7 +146,7 @@ undefined and start at step 3.
             with file names in the <code>makefile</code>, e.g., <code>$(BUILDDIR)atom$O</code>.
             Here and below, commands assume the C shell. Also, you'll need a version of <code>mkdir</code>
     that supports the <code>-p</code> option, which creates intermediate directories as
-    necessary.</p>
+    necessary, or create them with individual <code>mkdir</code> commands.</p>
   </li>
   <li>Create the include directory in the build directory, and copy the include files:<blockquote>
       <pre>% mkdir ${BUILDDIR}include
@@ -179,8 +179,12 @@ undefined and start at step 3.
           <td><code>% make -k CC='cc -DMAXALIGN=8' THREADS=</code></td>
         </tr>
         <tr>
-          <td>X86 Linux, Apple Intel Mac OS X 10.4.9</td>
+          <td>X86_32 Linux</td>
           <td><code>% make CC='cc -DMAXALIGN=4' AS='cc -c -x assembler-with-cpp -traditional'</code></td>
+        </tr>        
+        <tr>
+          <td>X86_64 Linux, Apple Intel Mac OS X 10.5.x</td>
+          <td><code>% make -k THREADS=</code></td>
         </tr>
       </table>
     </blockquote>
@@ -196,19 +200,25 @@ undefined and start at step 3.
     must be defined as the alignment required as shown above. <a
     href="misc/maxalign.c"><code>maxalign.c</code></a>
     is a C program that attempts to determine the correct value for <code>MAXALIGN</code>, if
-    one is necessary, and echo the appropriate <code>-D</code> option. Unfortunately, the
+    one is necessary, and echo the appropriate <code>-D</code> option. The
     method used relies on the C compiler using the same alignments as <code>malloc</code>,
     which is not required. <code>malloc</code> is the final authority: If it returns addresses
     that are multiples of <code>sizeof</code>&nbsp;<code>(union</code>&nbsp;<code>align)</code>,
     then <code>MAXALIGN</code> is unnecessary; otherwise, <code>MAXALIGN</code> must provide
-    the alignment. Incorrect values of <code>MAXALIGN</code> can cause crashes and assertion
+    the alignment.
+    So, <code>maxalign.c</code> calls <code>malloc(1)</code> to determine if the address it returns
+    has an alignment less strict than that used by the C compiler.</p>
+    <p>The command <code>make maxalign</code>
+    compiles and executes <code>maxalign.c</code>; the output shows the appropriate <code>-D</code> option,
+    if one is needed.
+    Incorrect values of <code>MAXALIGN</code> can cause crashes and assertion
     failures.</p>
     <p><code>src/{memcmp,memmove,strncmp}.c</code> are implementations of the similarly named
     ANSI library functions. These are included in the distribution because some of them are
     implemented incorrectly on some UNIX platforms. The corresponding object files are
     assigned to <code>EXTRAS</code>; if some of these functions are implemented correctly on
     your system, you can omit the CII versions by either editing <code>libcii.a</code>, or
-    including the appropriate assignment to <code>EXTRAS</code>, e.g., </p>
+    including the appropriate assignment to <code>EXTRAS</code>, e.g.,</p>
     <blockquote>
       <pre>% make EXTRAS=${BUILDDIR}memcmp.o</pre>
     </blockquote>
@@ -227,7 +237,7 @@ AS=as -Dalpha
   </li>
   <li>Run a few of the test programs, e.g., <blockquote>
       <pre>% ${BUILDDIR}wf &lt;makefile
-% ${BUILDDIR}sieve</pre>
+% ${BUILDDIR}cref src/fmt.c src/str.c</pre>
     </blockquote>
     <p>and then clean up:</p>
     <blockquote>
