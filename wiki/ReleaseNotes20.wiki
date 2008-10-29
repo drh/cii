@@ -1,7 +1,9 @@
-#summary Changes in version 2.0
+#summary Changes in Version 2.0
 
 Below are the Subversion log entries summarizing the changes in version 2.0.
 For changes in versions before 1.2, click [http://cii.googlecode.com/svn/tags/v12/history.html here].
+
+For the technical details about the interface change in Fmt, see InterfaceChanges2.
 
 {{{
 ------------------------------------------------------------------------
