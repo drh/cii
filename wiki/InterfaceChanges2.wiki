@@ -3,7 +3,7 @@
 = Introduction =
 
 Subversion revision 197 changes the [http://cii.googlecode.com/svn/trunk/include/fmt.h Fmt] interface,
-and this change affects any interface that uses `Fmt_T` or defines a formating function, e.g., `Str_fmt`.
+and this change affects any interface that uses `Fmt_T` or defines a formatting function, e.g., `Str_fmt`.
 
 = Details =
 
