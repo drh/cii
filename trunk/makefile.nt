@@ -9,7 +9,7 @@ B=$(BUILDDIR)^\
 CFLAGS=-Zi -MTd -I$I
 LD=cl -nologo
 LDFLAGS=-Zi -MTd
-THREADS=$Bthread-nt$O
+THREADS=$Bthread-nt$O $Bchan$O
 EXTRAS=
 
 # $Id$
@@ -20,7 +20,6 @@ OBJS=	$Bap$O \
 	$Bassert$O \
 	$Batom$O \
 	$Bbit$O \
-	$Bchan$O \
 	$Bexcept$O \
 	$Bfmt$O \
 	$Blist$O \
