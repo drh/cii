@@ -1,6 +1,8 @@
 # $Id$
+MAJORVERSION=2
 A=.a
 O=.o
+SO=.so
 E=
 CC=cc
 I=include
@@ -14,7 +16,7 @@ DIFF=diff
 RM=rm -f
 CUSTOM=custom.mk
 EXTRAS=$(BUILDDIR)memcmp$O $(BUILDDIR)memmove$O $(BUILDDIR)strncmp$O
-THREADS=$(BUILDDIR)thread$O $(BUILDDIR)swtch$O
+THREADS=$(BUILDDIR)thread$O $(BUILDDIR)swtch$O $(BUILDDIR)chan$O
 include $(CUSTOM)
 B=$(BUILDDIR)
 
@@ -25,7 +27,6 @@ OBJS=	$Bap$O \
 	$Bassert$O \
 	$Batom$O \
 	$Bbit$O \
-	$Bchan$O \
 	$Bexcept$O \
 	$Bfmt$O \
 	$Blist$O \
@@ -62,6 +63,10 @@ all::		$Blibcii$A $(EXAMPLES) $Bmemchk$O
 
 $Blibcii$A::	$(OBJS) $(EXTRAS)
 		$(AR) $@ $(OBJS) $(EXTRAS); $(RANLIB) $@ || true
+
+# Linux-specific rule for building a shared library
+$Blibcii$(SO).$(MAJORVERSION): $(OBJS) $(EXTRAS)
+		$(CC) -shared -Wl,-soname,libcii$(SO).$(MAJORVERSION) -o $@ $(OBJS) $(EXTRAS)
 
 $Bap$O:		src/ap.c;	$(CC) $(CFLAGS) -c -o $@ src/ap.c
 $Barena$O:	src/arena.c;	$(CC) $(CFLAGS) -c -o $@ src/arena.c
