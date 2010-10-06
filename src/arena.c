@@ -6,9 +6,9 @@ static char rcsid[] = "$Id$";
 #include "arena.h"
 #define T Arena_T
 const Except_T Arena_NewFailed =
-	{ "Arena Creation Failed" };
+	{ "Arena creation failed" };
 const Except_T Arena_Failed    =
-	{ "Arena Allocation Failed" };
+	{ "Arena allocation failed" };
 #define THRESHOLD 10
 struct T {
 	T prev;

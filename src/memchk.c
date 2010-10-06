@@ -23,7 +23,7 @@ union align {
 #define NDESCRIPTORS 512
 #define NALLOC ((4096 + sizeof (union align) - 1)/ \
 	(sizeof (union align)))*(sizeof (union align))
-const Except_T Mem_Failed = { "Allocation Failed" };
+const Except_T Mem_Failed = { "Allocation failed" };
 static struct descriptor {
 	struct descriptor *free;
 	struct descriptor *link;

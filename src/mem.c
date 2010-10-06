@@ -4,7 +4,7 @@ static char rcsid[] = "$Id$";
 #include "assert.h"
 #include "except.h"
 #include "mem.h"
-const Except_T Mem_Failed = { "Allocation Failed" };
+const Except_T Mem_Failed = { "Allocation failed" };
 void *Mem_alloc(long nbytes, const char *file, int line){
 	void *ptr;
 	assert(nbytes > 0);
