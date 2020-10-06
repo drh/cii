@@ -4,8 +4,10 @@ static char rcsid[] = "$Id$";
 #include "mem.h"
 #include "assert.h"
 #include "table.h"
-#define T Table_T
-struct T {
+
+#define T struct Table_T*
+
+struct Table_T {
 	int size;
 	int (*cmp)(const void *x, const void *y);
 	unsigned (*hash)(const void *key);
@@ -17,6 +19,7 @@ struct T {
 		void *value;
 	} **buckets;
 };
+
 static int cmpatom(const void *x, const void *y) {
 	return x != y;
 }
@@ -143,3 +146,5 @@ void Table_free(T *table) {
 	}
 	FREE(*table);
 }
+
+#undef T

@@ -15,7 +15,7 @@ if (BUILD_SHARED_LIBS)
     add_definitions(-DCII_BUILD_AS_DLL)
 endif (BUILD_SHARED_LIBS)
 
-add_library(cii SHARED ${CII_SOURCES})
+add_library(cii STATIC ${CII_SOURCES})
 
 target_link_libraries(cii)
 
