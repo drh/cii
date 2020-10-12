@@ -22,6 +22,8 @@ extern void   Table_map    (T table,
 	void *cl);
 extern void **Table_toArray(T table, void *end);
 
+
+
 #undef T
 
 #ifdef __cplusplus
