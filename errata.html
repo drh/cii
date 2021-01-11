@@ -1,0 +1,171 @@
+<!doctype html>
+<html><!-- InstanceBegin template="/Templates/Page.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta charset="UTF-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>C Interfaces and Implementations</title>
+<!-- InstanceEndEditable -->
+<link href="style.css" rel="stylesheet" type="text/css">
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<div>
+<h2>C Interfaces and Implementations</h2>
+	<p class="top-menu"><a href="index.html">Home</a> &middot;
+		<a href="https://github.com/drh/cii">Code</a> &middot;
+		<a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/drh/cii/master/install.html">Installation</a> &middot;
+		<a href="https://github.com/drh/cii/releases">Releases</a> &middot;
+		<a href="http://cii.s3.amazonaws.com/book/pdf/quickref.pdf">Quick Reference</a></p>
+	</div>
+<!-- InstanceBeginEditable name="body" -->
+        <h3>Errata</h3>
+	<h4>1st Printing</h4>
+
+<p>Corrections to the first printing (Aug. 1996) of <cite>C Interfaces and Implementations: Techniques
+for Creating Reusable Software</cite> (Addison-Wesley Professional Computing Series, 1997,
+ISBN 0-201-49841-3). In the list below, line +<em>n</em> and line -<em>n</em> refer to the
+<em>n</em>th line from the top and bottom of the indicated page.</p>
+
+<p><strong>Page xi, line +5:</strong> disemminate
+&rarr; disseminate</p>
+
+<p><strong>Page xvii, line +3:</strong> project 
+&rarr; projects</p>
+
+<p><strong>Page 6, line -2:</strong> instead at 
+&rarr; instead of at</p>
+
+<p><strong>Page 10, line +14:</strong> <code>src</code> 
+&rarr; <code>dst</code></p>
+
+<p><strong>Page 28, line +10:</strong> Many the 
+&rarr; Many of the</p>
+
+<p><strong>Page 44, line -5:</strong> <code>extern Atom_add</code> 
+&rarr; <code>extern const char
+*Atom_add</code></p>
+
+<p><strong>Page 46, line -12:</strong> <code>Allocated_Failed</code> 
+&rarr; <code>Allocate_Failed</code></p>
+
+<p><strong>Page 60, line -16:</strong> <code>if (</code><em>e</em><sub>1</sub><code>)</code>
+<em>e</em><sub>2</sub>; &rarr; <code>if (!(</code><em>e</em><sub>1</sub><code>))</code> <em>e</em><sub>2</sub>;</p>
+
+<p><strong>Page 63, line -14:</strong> ADA 
+&rarr; Ada</p>
+
+<p><strong>Page 89, line -2:</strong> in a arena 
+&rarr; in an arena</p>
+
+<p><strong>Page 94, line -8:</strong> Change to</p>
+
+<blockquote>
+  <pre>while (nbytes &gt; arena-&gt;limit - arena-&gt;avail) {</pre>
+</blockquote>
+
+<p><strong>Page 106, line +7:</strong> All the 
+&rarr; Most of the</p>
+
+<p><strong>Page 161, line +3:</strong> homogenous 
+&rarr; homogeneous</p>
+
+<p><strong>Page 168, line -11:</strong> Change to</p>
+
+<blockquote>
+  <pre>if (array-&gt;length == 0)
+	array-&gt;array = ALLOC(length*array-&gt;size);
+else if (length &gt; 0)</pre>
+</blockquote>
+
+<p><strong>Page 169, line +7:</strong> Change to</p>
+
+<blockquote>
+  <pre>if (copy-&gt;length &gt;= array-&gt;length</pre>
+</blockquote>
+
+<p><strong>Page 183, line +7:</strong> Unlike to 
+&rarr; Unlike</p>
+
+<p><strong>Page 181, lines -11 and -10:</strong>  <code>Seq-&gt;remlo</code> and <code>Seq-&gt;remhi</code> 
+&rarr;  <code>Seq_remlo</code> and
+<code>Seq_remhi</code> </p>
+
+<p><strong>Page 184, line +16:</strong> <code>Ring_seq</code> 
+&rarr; <code>Ring_ring</code></p>
+
+<p><strong>Page 193, line +16:</strong> incidently 
+&rarr; incidentally</p>
+
+<p><strong>Page 442, line +9:</strong> <code>current</code> 
+&rarr; <code>current
+&amp;&amp; t != current</code></p>
+
+<p><strong>Page 497, lines +7 and 8:</strong> Move to just before line -11.</p>
+
+<h4>2nd and 3rd Printings</h4>
+
+		<p>Corrections to second (Jan. 1997) and third (June 2001) printings of <cite>C Interfaces and Implementations: Techniques for Creating Reusable Software</cite> (Addison-Wesley Professional Computing Series, 1997, ISBN 0-201-49841-3). In the list below, line +<em>n</em> and line -<em>n</em> refer to the <em>n</em>th line from the top and bottom of the indicated page.</p>
+		<p><strong>Page 168, lines -13..-8:</strong> Change to</p>
+		<blockquote>
+			<pre>if (length == 0)
+	FREE(array-&gt;array);
+else if (array-&gt;length == 0)
+	array-&gt;array = ALLOC(length*array-&gt;size);
+else
+	RESIZE(array-&gt;array, length*array-&gt;size);</pre>
+		</blockquote>
+		<p>(This change should also be applied to page 168, lines -11..-8 in the first printing.)</p>
+		<p>The errors below also appear in the first printing.</p>
+		<p><strong>Page 48, line 5:</strong> <code>char *reason;</code> &rarr; <code>const char *reason;</code></p>
+		<p><strong>Page 49, line -11..-10:</strong> Change &quot;next EXCEPT, ELSE, FINALLY or END_TRY&quot; to &quot;corresponding END_TRY&quot;.</p>
+		<p><strong>Page 61, line 6:</strong> <u>=</u> &rarr; +<u>=</u></p>
+		<p><strong>Page 68, line -12:</strong> <code>&gt;=</code> &rarr; <code>&gt;</code></p>
+		<p><strong>Page 84, line -10:</strong> Change to</p>
+		<blockquote>
+			<pre>#define NALLOC ((4096 + sizeof (union align) - 1)/ \
+	(sizeof (union align)))*(sizeof (union align))</pre>
+		</blockquote>
+		<p><strong>Page 169, lines 9 and 12:</strong> Change to</p>
+		<blockquote>
+			<pre>memcpy(copy-&gt;array, array-&gt;array, array-&gt;length*array-&gt;size);
+memcpy(copy-&gt;array, array-&gt;array, copy-&gt;length*array-&gt;size);</pre>
+		</blockquote>
+		<p><strong>Page 241, line -8:</strong> Incidently &rarr; Incidentally</p>
+		<p><strong>Page 249, line 1:</strong> <code>char *suffix</code> &rarr; <code>const char *suffix</code></p>
+		<p><strong>Page 274, line 12:</strong> 127 &rarr; 128</p>
+		<p><strong>Page 277, line -2:</strong> <code>127</code> &rarr; <code>128</code></p>
+		<p><strong>Page 284, lines 5 and -7:</strong> Change to</p>
+		<blockquote>
+			<pre>map[(unsigned char)from-&gt;str[k]] = to-&gt;str[k];
+*p++ = map[(unsigned char)s.str[i]];</pre>
+		</blockquote>
+		<p><strong>Page 352, line -11:</strong> <code>x-&gt;sign == 1</code> &rarr; <code>x-&gt;sign == -1</code></p>
+		<p><strong>Page 358, line -2:</strong> initalized &rarr; initialized</p>
+		<p><strong>Page 366, line 2:</strong> Add</p>
+		<blockquote>
+			<code><b>f</b></code><img src="images/dot_clear.gif" height="1" width="18">print all the values on the stack from the top down</pre></blockquote>
+		<p><strong>Page 367, line -6:</strong> <code>MP_T</code> &rarr; <code>volatile MP_T</code></p>
+		<p><strong>Page 370, line -11:</strong> <code>char *fmt;</code> &rarr; <code>const char *fmt;</code></p>
+		<p><strong>Page 372, line 3:</strong> <code>--n &gt; 0</code> &rarr; <code>--n &gt;= 0</code></p>
+		<p><strong>Page 416, lines 15 and 16:</strong> Change to</p>
+		<blockquote>
+			<pre>Sem_wait(&amp;mutex);
+TRY</pre>
+		</blockquote>
+		<p><strong>Page 417, lines 11 and 12:</strong> Change to</p>
+		<blockquote>
+			<pre>Sem_wait(&amp;tab.mutex);
+TRY</pre>
+		</blockquote>
+		<p><strong>Page 420, line -7:</strong> Change to</p>
+		<blockquote>
+			<pre>i++; while (i &lt; j &amp;&amp; a[i] &lt; v) i++;</pre>
+		</blockquote>
+		<p><strong>Page 493, line -11:</strong> returns <code>preempt</code> or zero &rarr; returns one or zero</p>
+
+<!-- InstanceEndEditable -->
+	<hr>
+<p style="margin: 0;"><a href="http://drh.webhop.net"><em>David Hanson</em></a></p>
+</body>
+<!-- InstanceEnd --></html>
