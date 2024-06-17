@@ -1,28 +1,22 @@
-<!doctype html>
-<html><!-- InstanceBegin template="/Templates/Page.dwt" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>C Interfaces and Implementations</title>
-<!-- InstanceEndEditable -->
-<link href="style.css" rel="stylesheet" type="text/css">
-<!-- InstanceBeginEditable name="head" -->
-<style>
-        dl { margin-left: 3ex; margin-top: 0; margin-bottom: 0;}
-        dt { font-style: italic; }        
-</style>
-<!-- InstanceEndEditable -->
+    <meta charset="UTF-8">
+    <title>C Interfaces and Implementations</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div>
-<h2>C Interfaces and Implementations</h2>
-	<p class="top-menu"><a href="index.html">Home</a> &middot;
-		<a href="https://github.com/drh/cii">Code</a> &middot;
-		<a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/drh/cii/master/install.html">Installation</a> &middot;
-		<a href="https://github.com/drh/cii/releases">Releases</a> &middot;
-		<a href="http://cii.s3.amazonaws.com/book/pdf/quickref.pdf">Quick Reference</a></p>
-	</div>
-<!-- InstanceBeginEditable name="body" -->
+    <header>
+        <h2>C Interfaces and Implementations</h2>
+        <nav class="top-menu">
+            <p><a href="index.html">Home</a> &middot;
+            <a href="https://github.com/drh/cii">Code</a> &middot;
+            <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/drh/cii/master/install.html">Installation</a>
+            &middot;
+            <a href="https://cii.s3.amazonaws.com/book/pdf/quickref.pdf">Quick Reference</a></p>
+        </nav>
+    </header>
+<main>
 <h3>Preface</h3>
 <p>Programmers are inundated with information about application programming interfaces, or APIs. Yet,
 while most programmers use APIs and the libraries that implement them in almost every application they
@@ -30,8 +24,8 @@ write, relatively few create and disseminate new, widely applicable, APIs. Indee
 prefer to &ldquo;roll their own&rdquo; instead of searching for a library that might meet their needs,
 perhaps because it is easier to write application-specific code than to craft well-designed APIs. </p>
 
-<p>I<a href="http://www.cs.princeton.edu/%7ers/">&rsquo;</a>m as guilty as the next programmer: <a
-href="http://www.cs.princeton.edu/software/lcc/">lcc</a>, a compiler for ANSI/ISO C written by Chris
+<p>I<a href="https://www.cs.princeton.edu/%7ers/">&rsquo;</a>m as guilty as the next programmer: <a
+href="https://www.cs.princeton.edu/software/lcc/">lcc</a>, a compiler for ANSI/ISO C written by Chris
 Fraser and myself, was built from the ground up. (<code>lcc</code> is described in C.W. Fraser and D. R.
 Hanson, <cite>A Retargetable C Compiler: Design and Implementation</cite>, Addison-Wesley, 1995.) A
 compiler exemplifies the kind of application for which it possible to use standard interfaces and to
@@ -43,7 +37,7 @@ library, and almost none of its code can be used directly in other applications.
 illustrates this methodology by describing 24 interfaces and their implementations in detail. These
 interfaces span a large part of the computing spectrum and include data structures, arithmetic, string
 processing, and concurrent programming. The implementations aren<a
-href="http://www.cs.princeton.edu/%7ers/">&rsquo;</a>t toys&#151;they&rsquo;re designed for use in
+href="https://www.cs.princeton.edu/%7ers/">&rsquo;</a>t toys&#151;they&rsquo;re designed for use in
 production code. As described below, the source code is freely available.</p>
 
 <p>There&rsquo;s little
@@ -129,7 +123,7 @@ later chapters refer to their predecessors.</p>
 motivates and describes the interface-based design methodology, defines the relevant terminology, and
 tours two simple interfaces and their implementations. Chapter 3 describes the prototypical <code>Atom</code>
 interface, which is the simplest production-quality interface in this book.
-[<a href="http://ciibook.webhop.net/pdf/atom.pdf">Download/view Chapter 3</a>, an Adobe Acrobat PDF file
+[<a href="https://ciibook.webhop.net/pdf/atom.pdf">Download/view Chapter 3</a>, an Adobe Acrobat PDF file
 (52K).] Chapter 4 introduces exceptions and assertions, which are used in every interface. Chapters 5 and
 6 describe the memory management interfaces used by almost all the implementations. The rest of the
 chapters each describe an interface and its implementation.</p>
@@ -209,8 +203,10 @@ support during the summer of 1994 and during my 1995&#150;96 sabbatical. The CCR
 at which to plan and complete this book.</p>
 
 <p>Technical interactions with colleagues and students have contributed to this book in many ways. Even seemingly unrelated discussions have provoked improvements in my code and in its explanation. Thanks to Andrew Appel, Greg Astfalk, Jack Davidson, John Ellis, Mary Fern&aacute;ndez, Chris Fraser, Alex Gounares, Kai Li, Jacob Navia, Maylee Noah, Rob Pike, Bill Plauger, John Reppy, Anne Rogers, and Richard Stevens. Careful readings of my code and prose by Rex Jaeschke, Brian Kernighan, Taj Khattra, Richard O&rsquo;Keefe, Norman Ramsey, and David Spuler made a significant contribution to the quality of both.</p>
-<!-- InstanceEndEditable -->
-	<hr>
-<p style="margin: 0;"><a href="http://drh.webhop.net"><em>David Hanson</em></a></p>
+</main>
+<footer>
+    <hr>
+    <p style="margin: 0;"><a href="https://drhanson.net/pro"><em>David Hanson</em></a></p>
+</footer>
 </body>
-<!-- InstanceEnd --></html>
+</html>
